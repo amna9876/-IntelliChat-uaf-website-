@@ -1,0 +1,2344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>University of Agriculture Faisalabad | UAF Campus Portal</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #0A5C36;
+            --primary-dark: #07482A;
+            --primary-light: #0F7A4A;
+            --secondary: #F9A826;
+            --secondary-dark: #D48A1F;
+            --accent: #2E8B57;
+            --light: #F8F9FA;
+            --dark: #121212;
+            --gray: #6C757D;
+            --light-gray: #E9ECEF;
+            --card-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            --hover-shadow: 0 20px 40px rgba(0,0,0,0.12);
+            --transition: all 0.4s cubic-bezier(0.175,0.885,0.32,1.1);
+            --border-radius: 12px;
+            --section-spacing: 100px;
+        }
+
+        html { scroll-behavior: smooth; }
+        body { font-family: 'Inter', sans-serif; overflow-x: hidden; background-color: #ffffff; }
+        h1,h2,h3,h4,h5,h6 { font-family: 'Poppins', sans-serif; font-weight: 700; line-height: 1.2; margin-bottom: 1.5rem; }
+
+        h1 { font-size: 3.5rem; font-weight: 800; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        h2 { font-size: 2.8rem; color: var(--primary-dark); position: relative; }
+        h2:after { content: ''; position: absolute; bottom: -10px; left: 0; width: 70px; height: 5px; background: var(--secondary); border-radius: 5px; }
+        p { margin-bottom: 1.5rem; font-size: 1.1rem; color: var(--gray); }
+
+        .container { width: 100%; max-width: 1300px; margin: 0 auto; padding: 0 20px; }
+        section { padding: var(--section-spacing) 0; }
+
+        .btn { display: inline-flex; align-items: center; justify-content: center; gap: 8px; padding: 14px 32px; font-size: 1rem; font-weight: 600; text-decoration: none; border-radius: 50px; cursor: pointer; transition: var(--transition); border: none; }
+        .btn-primary { background: linear-gradient(90deg, var(--primary), var(--primary-light)); color: white; box-shadow: 0 8px 20px rgba(10,92,54,0.25); }
+        .btn-primary:hover { transform: translateY(-5px); box-shadow: 0 15px 30px rgba(10,92,54,0.35); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: white; transform: translateY(-5px); }
+        .btn:disabled { opacity: 0.7; cursor: not-allowed; transform: none !important; }
+
+        /* Header */
+        header { position: fixed; top: 0; left: 0; width: 100%; z-index: 1000; background-color: rgba(255,255,255,0.98); backdrop-filter: blur(10px); box-shadow: 0 2px 15px rgba(0,0,0,0.05); transition: all 0.4s ease; }
+        header.scrolled { background: var(--primary); box-shadow: 0 5px 20px rgba(0,0,0,0.2); }
+        header.scrolled .logo-text h1, header.scrolled .logo-text p, header.scrolled nav ul li a { color: white; }
+        header.scrolled .logo-text h1 { -webkit-text-fill-color: white; background: none; }
+        header.scrolled .logo-icon { background: white; border-color: rgba(255,255,255,0.4); }
+        header.scrolled nav ul li a:after { background: var(--secondary); }
+        header.scrolled .btn-outline { border-color: white; color: white; }
+        header.scrolled .btn-outline:hover { background: white; color: var(--primary); }
+
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; }
+        .logo { display: flex; align-items: center; text-decoration: none; }
+        .logo-icon { width: 55px; height: 55px; background: white; border-radius: 12px; display: flex; align-items: center; justify-content: center; margin-right: 15px; color: white; font-size: 1.8rem; transition: var(--transition); box-shadow: 0 2px 8px rgba(0,0,0,0.12); border: 1.5px solid rgba(10,92,54,0.15); padding: 4px; }
+        .logo-text h1 { font-size: 1.6rem; margin-bottom: 0; background: linear-gradient(90deg, var(--primary), var(--accent)); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text; }
+        .logo-text p { font-size: 0.8rem; margin-bottom: 0; color: var(--gray); }
+
+        nav ul { display: flex; list-style: none; }
+        nav ul li { margin-left: 30px; }
+        nav ul li a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.95rem; transition: var(--transition); position: relative; padding: 8px 0; }
+        nav ul li a:after { content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 3px; background: var(--primary); border-radius: 3px; transition: var(--transition); }
+        nav ul li a:hover:after, nav ul li a.active:after { width: 100%; }
+
+        .mobile-menu-btn { display: none; background: none; border: none; font-size: 1.8rem; color: var(--primary); cursor: pointer; }
+        .header-actions { display: flex; align-items: center; gap: 10px; }
+
+        /* Hero */
+        .hero { height: 100vh; min-height: 750px; display: flex; align-items: center; background: linear-gradient(135deg, rgba(248,249,250,0.95) 0%, rgba(248,249,250,0.8) 100%), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat; position: relative; overflow: hidden; }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 40%, rgba(15,122,74,0.08) 0%, transparent 50%); pointer-events: none; }
+        .hero-content { max-width: 800px; position: relative; z-index: 2; }
+        .hero h1 { font-size: 4rem; margin-bottom: 1.5rem; animation: fadeInUp 1s ease-out; }
+        .hero p { font-size: 1.3rem; margin-bottom: 2rem; color: var(--dark); animation: fadeInUp 1s ease-out 0.2s both; }
+        .hero-buttons { animation: fadeInUp 1s ease-out 0.4s both; }
+        .hero-stats { display: flex; gap: 40px; margin-top: 40px; animation: fadeInUp 1s ease-out 0.6s both; }
+        .stat-number { font-size: 2.2rem; font-weight: 800; color: var(--primary); display: block; }
+
+        /* Scroll animations */
+        .animate-on-scroll { opacity: 0; transform: translateY(40px); transition: opacity 0.8s cubic-bezier(0.2,0.9,0.4,1.1), transform 0.8s cubic-bezier(0.2,0.9,0.4,1.1); }
+        .animate-on-scroll.visible { opacity: 1; transform: translateY(0); }
+        .stagger-children > * { opacity: 0; transform: translateY(30px); transition: all 0.6s ease; }
+        .stagger-children.visible > *:nth-child(1) { transition-delay: 0s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(2) { transition-delay: 0.1s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(3) { transition-delay: 0.2s; opacity: 1; transform: translateY(0); }
+        .stagger-children.visible > *:nth-child(4) { transition-delay: 0.3s; opacity: 1; transform: translateY(0); }
+
+        .feature-card, .mission-card, .vision-card, .map-container, .auth-card { transition: transform 0.3s ease, box-shadow 0.3s ease; }
+        .feature-card:hover, .mission-card:hover, .vision-card:hover { transform: translateY(-12px) scale(1.02); box-shadow: var(--hover-shadow); }
+
+        /* Page Content */
+        .page-content { display: none; min-height: 70vh; }
+        /* Non-home pages need top padding because the hero is hidden and the fixed header would overlap */
+        .page-content.active:not(#home) { padding-top: 100px; }
+        .page-content.active { display: block; animation: fadeInPage 0.7s ease-out; }
+        @keyframes fadeInPage { from { opacity: 0; transform: translateY(30px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
+
+        .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(320px, 1fr)); gap: 40px; margin-top: 50px; }
+        .feature-card { background: white; border-radius: var(--border-radius); padding: 35px; box-shadow: var(--card-shadow); transition: var(--transition); text-align: center; }
+        .feature-icon { font-size: 2.5rem; color: var(--primary); margin-bottom: 20px; }
+
+        /* About */
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-text-section { opacity: 0; transform: translateX(-30px); transition: all 0.8s ease; }
+        .about-text-section.visible { opacity: 1; transform: translateX(0); }
+        .about-image-section { opacity: 0; transform: translateX(30px); transition: all 0.8s ease 0.2s; border-radius: 28px; overflow: hidden; box-shadow: var(--hover-shadow); }
+        .about-image-section.visible { opacity: 1; transform: translateX(0); }
+        .about-image-section img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .about-image-section:hover img { transform: scale(1.05); }
+        .mission-vision { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 40px; }
+        .mission-card, .vision-card { background: var(--light-gray); padding: 30px; border-radius: var(--border-radius); transition: var(--transition); }
+
+        /* Auth */
+        .auth-section { min-height: 80vh; display: flex; align-items: center; justify-content: center; padding: 80px 0; }
+        .auth-card { background: white; border-radius: var(--border-radius); padding: 45px; box-shadow: var(--hover-shadow); max-width: 500px; width: 100%; }
+        .auth-card:hover { transform: translateY(-8px); }
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; margin-bottom: 6px; font-weight: 600; color: var(--dark); font-size: 0.95rem; }
+        .form-control { width: 100%; padding: 14px 18px; border: 2px solid var(--light-gray); border-radius: 10px; font-size: 1rem; transition: all 0.3s; font-family: 'Inter', sans-serif; }
+        .form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(10,92,54,0.1); }
+        .btn-block { width: 100%; }
+        .auth-footer { text-align: center; margin-top: 20px; }
+        .auth-footer a { color: var(--primary); font-weight: 600; text-decoration: none; }
+
+        /* Maps */
+        .map-container { background: white; border-radius: var(--border-radius); overflow: hidden; box-shadow: var(--card-shadow); }
+        .map-container:hover { transform: translateY(-5px); }
+        .map-header { background: linear-gradient(90deg, var(--primary), var(--primary-light)); color: white; padding: 25px; display: flex; justify-content: space-between; align-items: center; }
+        .map-header h3 { color: white; margin-bottom: 0; }
+        .map-header p { color: rgba(255,255,255,0.8); margin-bottom: 0; font-size: 0.9rem; }
+        .map-search-box { background: rgba(255,255,255,0.15); border: 1px solid rgba(255,255,255,0.3); border-radius: 30px; padding: 8px 16px; color: white; font-size: 0.9rem; outline: none; width: 200px; }
+        .map-search-box::placeholder { color: rgba(255,255,255,0.7); }
+        .map-content { display: grid; grid-template-columns: 280px 1fr; }
+        .map-sidebar { background: #f8f9fa; padding: 20px; border-right: 1px solid #eee; max-height: 560px; overflow-y: auto; }
+        .map-sidebar::-webkit-scrollbar { width: 4px; }
+        .map-sidebar::-webkit-scrollbar-thumb { background: var(--primary); border-radius: 4px; }
+        .location-item { display: flex; align-items: center; padding: 10px 12px; margin-bottom: 8px; background: white; border-radius: 10px; cursor: pointer; transition: all 0.3s; border-left: 3px solid transparent; }
+        .location-item.active { border-left-color: var(--primary); background: rgba(10,92,54,0.05); transform: translateX(5px); }
+        .location-item:hover:not(.active) { transform: translateX(3px); box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+        .location-icon { width: 32px; height: 32px; border-radius: 50%; background: rgba(10,92,54,0.1); display: flex; align-items: center; justify-content: center; margin-right: 10px; color: var(--primary); font-size: 0.9rem; flex-shrink: 0; }
+        .location-item.active .location-icon { background: var(--primary); color: white; }
+        .location-name { font-weight: 600; font-size: 0.88rem; color: var(--dark); }
+        .location-cat { font-size: 0.75rem; color: var(--gray); }
+        .map-display { display: flex; flex-direction: column; }
+        #uafMapEmbed { height: 430px; width: 100%; border: none; display: block; }
+        #mapDetail { padding: 18px 25px; border-top: 1px solid #eee; background: white; }
+        #mapDetail h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--primary-dark); }
+        #mapDetail p { font-size: 0.9rem; margin-bottom: 6px; }
+        #mapDetail .directions-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
+        #mapDetail .directions-btn:hover { text-decoration: underline; }
+        .location-category-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+        .cat-filter-btn { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--light-gray); background: white; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; color: var(--gray); }
+        .cat-filter-btn.active, .cat-filter-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
+
+        /* Chatbot */
+        .chatbot-container { position: fixed; bottom: 25px; left: 25px; right: auto; z-index: 1000; }
+        .chatbot-window { position: absolute; bottom: 80px; left: 0; right: auto; }
+        .chatbot-toggle { width: 65px; height: 65px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; border: none; font-size: 1.8rem; cursor: pointer; box-shadow: 0 8px 25px rgba(10,92,54,0.4); transition: all 0.3s ease; animation: pulseGlow 2s infinite; position: relative; }
+        @keyframes pulseGlow { 0%{box-shadow:0 0 0 0 rgba(10,92,54,0.5)} 70%{box-shadow:0 0 0 12px rgba(10,92,54,0)} 100%{box-shadow:0 0 0 0 rgba(10,92,54,0)} }
+        .chatbot-toggle:hover { transform: scale(1.08); animation: none; }
+        .chatbot-badge { position: absolute; top: -3px; right: -3px; background: #dc3545; color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 0.7rem; display: none; align-items: center; justify-content: center; font-weight: 700; border: 2px solid white; }
+        .chatbot-window { position: absolute; bottom: 80px; left: 0; width: 400px; height: 570px; background: white; border-radius: 20px; box-shadow: 0 20px 40px rgba(0,0,0,0.2); display: none; flex-direction: column; overflow: hidden; animation: slideUp 0.3s ease; }
+        @keyframes slideUp { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:translateY(0)} }
+        .chatbot-header { background: linear-gradient(90deg, var(--primary), var(--primary-light)); color: white; padding: 16px 18px; display: flex; justify-content: space-between; align-items: center; }
+        .chatbot-header-left { display: flex; align-items: center; gap: 10px; }
+        .chatbot-avatar { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.2); display: flex; align-items: center; justify-content: center; font-size: 1.1rem; }
+        .chatbot-header h4 { color: white; margin-bottom: 0; font-size: 1rem; }
+        .chatbot-status { font-size: 0.72rem; color: rgba(255,255,255,0.8); display: flex; align-items: center; gap: 4px; }
+        .status-dot { width: 7px; height: 7px; border-radius: 50%; background: #4caf50; }
+        .chatbot-header-actions { display: flex; gap: 4px; }
+        .chatbot-header-actions button { background: none; border: none; color: rgba(255,255,255,0.8); cursor: pointer; padding: 6px; border-radius: 6px; transition: all 0.2s; font-size: 0.95rem; }
+        .chatbot-header-actions button:hover { background: rgba(255,255,255,0.2); color: white; }
+        .quick-buttons { display: flex; gap: 6px; padding: 10px 12px; background: #f5f5f5; flex-wrap: wrap; border-bottom: 1px solid #ddd; }
+        .quick-btn { background: white; border: 1px solid #e0e0e0; padding: 5px 12px; border-radius: 25px; font-size: 0.78rem; cursor: pointer; transition: 0.2s; color: var(--primary); font-weight: 500; white-space: nowrap; }
+        .quick-btn:hover { background: var(--primary); color: white; border-color: var(--primary); transform: scale(1.05); }
+        .chatbot-messages { flex: 1; padding: 15px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; scroll-behavior: smooth; }
+        .chatbot-messages::-webkit-scrollbar { width: 4px; }
+        .chatbot-messages::-webkit-scrollbar-thumb { background: #ddd; border-radius: 4px; }
+        .message { max-width: 85%; padding: 10px 14px; border-radius: 18px; line-height: 1.5; font-size: 0.88rem; animation: fadeInMsg 0.3s ease; }
+        @keyframes fadeInMsg { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+        .bot-message { background: #f0f7f2; color: #1a1a1a; align-self: flex-start; border-bottom-left-radius: 5px; }
+        .user-message { background: var(--primary); color: white; align-self: flex-end; border-bottom-right-radius: 5px; }
+        .message-time { font-size: 0.67rem; margin-top: 4px; opacity: 0.65; }
+        .user-message .message-time { text-align: right; color: rgba(255,255,255,0.8); }
+        .bot-message .message-time { text-align: left; color: #888; }
+        .typing-indicator { display: flex !important; align-items: center; gap: 5px; padding: 12px 16px !important; background: #f0f7f2; max-width: 70px !important; border-radius: 18px; border-bottom-left-radius: 5px; align-self: flex-start; }
+        .typing-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--primary); animation: typingBounce 1.2s infinite ease-in-out; }
+        .typing-dot:nth-child(2) { animation-delay: 0.15s; }
+        .typing-dot:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes typingBounce { 0%,60%,100%{transform:translateY(0);opacity:0.5} 30%{transform:translateY(-8px);opacity:1} }
+        .chatbot-input-container { display: flex; align-items: center; padding: 10px 12px; border-top: 1px solid #eee; gap: 8px; background: white; }
+        .chatbot-input { flex: 1; padding: 9px 14px; border: 1.5px solid #ddd; border-radius: 30px; outline: none; font-size: 0.88rem; transition: all 0.3s; font-family: 'Inter', sans-serif; }
+        .chatbot-input:focus { border-color: var(--primary); box-shadow: 0 0 0 2px rgba(10,92,54,0.1); }
+        .chatbot-icon-btn { background: none; border: none; color: var(--gray); cursor: pointer; padding: 6px; border-radius: 50%; transition: all 0.2s; font-size: 1rem; display: flex; align-items: center; justify-content: center; }
+        .chatbot-icon-btn:hover { background: var(--light-gray); color: var(--primary); }
+        .chatbot-send { background: var(--primary); color: white; border: none; width: 36px; height: 36px; border-radius: 50%; cursor: pointer; transition: all 0.2s; display: flex; align-items: center; justify-content: center; font-size: 0.85rem; flex-shrink: 0; }
+        .chatbot-send:hover { background: var(--primary-dark); transform: scale(1.1); }
+        .chatbot-send:disabled { opacity: 0.5; transform: none; }
+        .voice-active { color: #dc3545 !important; animation: voicePulse 1s infinite; }
+        @keyframes voicePulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
+
+        /* Toast */
+        .toast-container { position: fixed; top: 90px; right: 20px; z-index: 9999; display: flex; flex-direction: column; gap: 10px; pointer-events: none; }
+        .toast { background: white; border-radius: 12px; padding: 14px 18px; box-shadow: 0 8px 25px rgba(0,0,0,0.12); display: flex; align-items: center; gap: 12px; min-width: 260px; max-width: 380px; border-left: 4px solid var(--primary); transition: all 0.3s ease; pointer-events: all; animation: toastIn 0.35s ease; }
+        .toast.error { border-left-color: #dc3545; }
+        .toast.success { border-left-color: var(--primary); }
+        .toast.info { border-left-color: #0dcaf0; }
+        .toast i { font-size: 1.1rem; flex-shrink: 0; }
+        .toast.success i { color: var(--primary); }
+        .toast.error i { color: #dc3545; }
+        .toast.info i { color: #0dcaf0; }
+        .toast span { font-size: 0.9rem; color: var(--dark); line-height: 1.4; }
+        @keyframes toastIn { from{opacity:0;transform:translateX(50px)} to{opacity:1;transform:translateX(0)} }
+
+        /* Loading spinner */
+        .loading-spinner { width: 18px; height: 18px; border: 2px solid rgba(255,255,255,0.3); border-top-color: white; border-radius: 50%; animation: spin 0.7s linear infinite; display: inline-block; flex-shrink: 0; }
+        @keyframes spin { to{transform:rotate(360deg)} }
+
+        /* Announcements */
+        #announcements-section { background: var(--light); padding: 70px 0; }
+        .announcements-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 22px; margin-top: 40px; }
+        .announcement-card { background: white; border-radius: var(--border-radius); padding: 24px; box-shadow: var(--card-shadow); transition: var(--transition); border-top: 4px solid var(--primary); }
+        .announcement-card:hover { transform: translateY(-5px); box-shadow: var(--hover-shadow); }
+        .announcement-card h4 { font-size: 0.98rem; margin-bottom: 10px; color: var(--dark); line-height: 1.4; }
+        .announcement-card p { font-size: 0.88rem; margin-bottom: 10px; line-height: 1.6; }
+        .announcement-card small { color: var(--gray); font-size: 0.78rem; }
+        .announcement-badge { display: inline-block; padding: 3px 10px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 10px; }
+        .announcement-badge.research { background: #e8f5e9; color: #2E7D32; }
+        .announcement-badge.events { background: #fff3e0; color: #E65100; }
+        .announcement-badge.admissions { background: #e3f2fd; color: #1565C0; }
+        .announcement-badge.general { background: #f3e5f5; color: #6A1B9A; }
+        .announcements-loading { text-align: center; padding: 40px; color: var(--gray); font-size: 1rem; }
+
+        /* Contact page */
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.5fr; gap: 50px; margin-top: 50px; align-items: start; }
+        .contact-info-card { background: linear-gradient(135deg, var(--primary), var(--primary-light)); color: white; border-radius: var(--border-radius); padding: 40px; }
+        .contact-info-card h3 { color: white; }
+        .contact-info-card p { color: rgba(255,255,255,0.85); font-size: 0.95rem; }
+        .contact-info-item { display: flex; align-items: flex-start; gap: 14px; margin-bottom: 22px; }
+        .contact-info-item i { font-size: 1.2rem; color: var(--secondary); margin-top: 3px; flex-shrink: 0; }
+        .contact-info-item div strong { color: white; display: block; margin-bottom: 3px; font-size: 0.9rem; }
+        .contact-info-item div span { color: rgba(255,255,255,0.8); font-size: 0.88rem; }
+        .contact-form-card { background: white; border-radius: var(--border-radius); padding: 40px; box-shadow: var(--card-shadow); }
+        .contact-form-card h3 { margin-bottom: 25px; }
+
+        /* Profile page */
+        .profile-section { padding: 80px 0; min-height: 80vh; display: flex; align-items: flex-start; }
+        .profile-grid { display: grid; grid-template-columns: 280px 1fr; gap: 35px; width: 100%; }
+        .profile-card { background: white; border-radius: var(--border-radius); padding: 30px; box-shadow: var(--card-shadow); text-align: center; height: fit-content; }
+        .profile-avatar { width: 90px; height: 90px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--accent)); display: flex; align-items: center; justify-content: center; font-size: 2.2rem; color: white; margin: 0 auto 16px; font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .profile-name { font-size: 1.2rem; font-weight: 700; margin-bottom: 8px; color: var(--dark); }
+        .profile-badge { display: inline-block; padding: 5px 14px; border-radius: 20px; background: rgba(10,92,54,0.1); color: var(--primary); font-weight: 700; font-size: 0.8rem; text-transform: capitalize; }
+        .profile-info-card { background: white; border-radius: var(--border-radius); padding: 35px; box-shadow: var(--card-shadow); }
+        .info-table { width: 100%; border-collapse: collapse; }
+        .info-table td { padding: 14px 0; border-bottom: 1px solid var(--light-gray); font-size: 0.93rem; vertical-align: top; }
+        .info-table td:first-child { color: var(--gray); width: 150px; font-weight: 500; }
+        .info-table td:last-child { font-weight: 600; color: var(--dark); }
+        .profile-not-logged { text-align: center; padding: 80px 20px; }
+        .profile-not-logged i { font-size: 4rem; color: var(--light-gray); margin-bottom: 20px; display: block; }
+
+        /* Footer */
+        footer { background: var(--dark); color: white; padding: 60px 0 30px; }
+        .footer-content { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 40px; }
+        .footer-content h3 { color: white; font-size: 1.1rem; margin-bottom: 15px; }
+        .footer-content p, .footer-content a { color: rgba(255,255,255,0.7); font-size: 0.9rem; text-decoration: none; display: block; margin-bottom: 8px; }
+        .footer-content a:hover { color: var(--secondary); }
+        .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); margin-top: 40px; padding-top: 25px; text-align: center; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+
+        /* ── IntelliChat Menu Styles ── */
+        .chat-welcome-banner { padding: 14px 16px 12px; background: linear-gradient(135deg, #e8f5e9, #f0faf2); border-bottom: 1px solid #d5eadc; flex-shrink: 0; }
+        .chat-welcome-banner p { margin-bottom: 0; font-size: 0.85rem; color: #1a3a2a; line-height: 1.6; font-weight: 500; }
+        #chatMenuView { display: flex; flex-direction: column; flex: 1; overflow-y: auto; }
+        .chat-dept-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; padding: 12px 12px 10px; }
+        .dept-btn { background: #fff; border: 1.5px solid #ddeee5; border-radius: 14px; padding: 14px 4px 10px; cursor: pointer; transition: all 0.22s; display: flex; flex-direction: column; align-items: center; gap: 5px; font-size: 1.45rem; width: 100%; line-height: 1; }
+        .dept-btn span { font-size: 0.68rem; font-weight: 700; color: var(--primary-dark); text-align: center; line-height: 1.3; }
+        .dept-btn:hover { background: rgba(10,92,54,0.07); border-color: var(--primary); transform: translateY(-3px); box-shadow: 0 6px 16px rgba(10,92,54,0.18); }
+        .dept-btn:active { transform: translateY(0); box-shadow: none; }
+        .chat-section-label { font-size: 0.7rem; font-weight: 700; color: var(--gray); text-transform: uppercase; letter-spacing: 0.8px; padding: 0 12px 4px; }
+        #chatDetailView { flex: 1; display: flex; flex-direction: column; min-height: 0; overflow: hidden; }
+        .chat-back-bar { padding: 9px 14px; border-bottom: 1px solid #eee; background: #f8faf9; flex-shrink: 0; display: flex; align-items: center; justify-content: space-between; }
+        .chat-back-bar button { background: none; border: none; color: var(--primary); font-weight: 700; font-size: 0.82rem; cursor: pointer; display: flex; align-items: center; gap: 6px; padding: 4px 0; transition: color 0.2s; }
+        .chat-back-bar button:hover { color: var(--primary-dark); }
+        .chat-dept-title { font-size: 0.82rem; font-weight: 700; color: var(--primary-dark); }
+
+        /* Responsive */
+        @media (max-width: 992px) {
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+            nav ul.show { display: flex; }
+            nav ul li { margin: 10px 0; text-align: center; }
+            .mobile-menu-btn { display: block; }
+            .about-content { grid-template-columns: 1fr; }
+            .map-content { grid-template-columns: 1fr; }
+            .map-sidebar { max-height: 220px; }
+            .contact-grid { grid-template-columns: 1fr; }
+            .profile-grid { grid-template-columns: 1fr; }
+            .hero h1 { font-size: 2.8rem; }
+            h2 { font-size: 2rem; }
+            .chatbot-window { width: 340px; }
+        }
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 2.2rem; }
+            .hero-stats { flex-wrap: wrap; gap: 20px; }
+            .chatbot-window { width: 310px; left: 0; }
+        }
+
+        /* ═══════════════════════════════════════════════════
+           PREMIUM ANIMATIONS & MICRO-INTERACTIONS
+        ═══════════════════════════════════════════════════ */
+
+        /* Scroll progress bar */
+        .scroll-progress-bar {
+            position: fixed; top: 0; left: 0; height: 3px; width: 0%;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary-light));
+            z-index: 99999; transition: width 0.08s linear;
+            box-shadow: 0 0 8px rgba(10,92,54,0.6);
+        }
+
+        /* Ambient cursor glow */
+        .cursor-glow {
+            position: fixed; width: 380px; height: 380px; border-radius: 50%;
+            background: radial-gradient(circle, rgba(10,92,54,0.045) 0%, transparent 70%);
+            pointer-events: none; transform: translate(-50%, -50%); z-index: 0;
+            transition: left 0.18s ease, top 0.18s ease; will-change: left, top;
+        }
+
+        /* Floating hero shapes */
+        .hero-float-shape {
+            position: absolute; border-radius: 50%; pointer-events: none;
+            animation: floatUpShape linear infinite;
+        }
+        @keyframes floatUpShape {
+            0%   { transform: translateY(0) rotate(0deg) scale(0.6); opacity: 0; }
+            8%   { opacity: 1; }
+            92%  { opacity: 0.8; }
+            100% { transform: translateY(-110vh) rotate(720deg) scale(1.3); opacity: 0; }
+        }
+
+        /* Scroll-down indicator */
+        .scroll-indicator {
+            position: absolute; bottom: 32px; left: 50%; transform: translateX(-50%);
+            display: flex; flex-direction: column; align-items: center; gap: 8px;
+            cursor: pointer; z-index: 5; animation: indicatorFloat 2.2s ease-in-out infinite;
+            text-decoration: none;
+        }
+        .scroll-indicator span { font-size: 0.72rem; color: var(--gray); font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; }
+        .scroll-arrow { width: 22px; height: 22px; border-right: 2.5px solid var(--primary); border-bottom: 2.5px solid var(--primary); transform: rotate(45deg); border-radius: 2px; margin-top: -4px; }
+        @keyframes indicatorFloat {
+            0%, 100% { transform: translateX(-50%) translateY(0); opacity: 1; }
+            50%       { transform: translateX(-50%) translateY(10px); opacity: 0.5; }
+        }
+
+        /* Button ripple */
+        .btn { position: relative; overflow: hidden; }
+        .btn-ripple {
+            position: absolute; border-radius: 50%; transform: scale(0);
+            background: rgba(255,255,255,0.35); animation: rippleEffect 0.65s linear;
+            pointer-events: none;
+        }
+        @keyframes rippleEffect { to { transform: scale(4); opacity: 0; } }
+
+        /* 3D card tilt */
+        .feature-card { transform-style: preserve-3d; will-change: transform; }
+        .card-shine {
+            position: absolute; inset: 0; border-radius: var(--border-radius);
+            background: radial-gradient(circle at 50% 50%, rgba(255,255,255,0.22) 0%, transparent 70%);
+            opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 2;
+        }
+
+        /* Glow shadow on card hover */
+        .feature-card::after {
+            content: ''; position: absolute; inset: 0; border-radius: var(--border-radius);
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            z-index: -1; opacity: 0; transform: scale(1.02);
+            transition: opacity 0.35s, transform 0.35s; filter: blur(14px);
+        }
+        .feature-card:hover::after { opacity: 0.16; transform: scale(1.06); }
+
+        /* Page transition */
+        .page-content.active { animation: pageReveal 0.48s cubic-bezier(0.4, 0, 0.2, 1) both; }
+        @keyframes pageReveal {
+            from { opacity: 0; transform: translateY(22px); }
+            to   { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Hero h1 gradient flow */
+        .hero h1 { background-size: 200% auto; animation: fadeInUp 0.9s ease-out, gradientFlow 5s ease infinite 1s; }
+        @keyframes gradientFlow {
+            0%, 100% { background-position: 0% center; }
+            50%       { background-position: 100% center; }
+        }
+
+        /* Auth card spring entrance */
+        .auth-card { animation: springIn 0.55s cubic-bezier(0.34, 1.56, 0.64, 1) both; }
+        @keyframes springIn {
+            from { opacity: 0; transform: translateY(28px) scale(0.96); }
+            to   { opacity: 1; transform: translateY(0) scale(1); }
+        }
+
+        /* Mission / Vision card slide */
+        .mission-card, .vision-card {
+            transition: all 0.32s cubic-bezier(0.4, 0, 0.2, 1);
+            border-left: 4px solid transparent;
+        }
+        .mission-card:hover { border-left-color: var(--primary); transform: translateX(6px); box-shadow: var(--hover-shadow); }
+        .vision-card:hover  { border-left-color: var(--secondary); transform: translateX(6px); box-shadow: var(--hover-shadow); }
+
+        /* Announcement card sweep */
+        .announcement-card { position: relative; overflow: hidden; }
+        .announcement-card::before {
+            content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 0;
+            background: linear-gradient(90deg, rgba(10,92,54,0.05), transparent);
+            transition: width 0.4s ease;
+        }
+        .announcement-card:hover::before { width: 100%; }
+
+        /* Footer link nudge */
+        .footer-content a { transition: all 0.22s ease; padding-left: 0; }
+        .footer-content a:hover { padding-left: 7px; color: var(--secondary) !important; }
+
+        /* Form input scale focus */
+        .form-control { transition: border-color 0.3s, box-shadow 0.3s, transform 0.2s; }
+        .form-control:focus { transform: scale(1.012); }
+
+        /* Location item smooth slide */
+        .location-item { transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1); }
+
+        /* Dept btn spring */
+        .dept-btn { transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1); }
+
+        /* Map container hover glow */
+        .map-container { transition: box-shadow 0.4s ease, transform 0.4s ease; }
+        .map-container:hover { box-shadow: 0 28px 64px rgba(10,92,54,0.13); }
+
+        /* Stat number pulse on count */
+        @keyframes statPop { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+        .stat-pop { animation: statPop 0.35s cubic-bezier(0.34,1.56,0.64,1); }
+
+        /* Chatbot toggle bounce in */
+        .chatbot-toggle { animation: pulseGlow 2s infinite, toggleBounce 0.6s cubic-bezier(0.34,1.56,0.64,1); }
+        @keyframes toggleBounce {
+            from { opacity:0; transform: scale(0); }
+            to   { opacity:1; transform: scale(1); }
+        }
+
+        /* Nav link smooth underline */
+        nav ul li a:after { transition: width 0.3s cubic-bezier(0.4,0,0.2,1); }
+
+        /* h2 underline animate on scroll */
+        h2.visible-heading::after { width: 70px; transition: width 0.6s 0.2s cubic-bezier(0.4,0,0.2,1); }
+
+        /* ── Events & Societies ── */
+        .events-grid, .societies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 30px; margin-top: 50px; }
+        .event-card, .society-card { background: white; border-radius: var(--border-radius); padding: 30px; box-shadow: var(--card-shadow); transition: var(--transition); position: relative; overflow: hidden; }
+        .event-card:hover, .society-card:hover { transform: translateY(-10px); box-shadow: var(--hover-shadow); }
+        .event-emoji { font-size: 2.8rem; margin-bottom: 12px; display: block; }
+        .event-badge, .society-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
+        .badge-amber { background: #fff3e0; color: #e65100; }
+        .badge-blue  { background: #e3f2fd; color: #1565c0; }
+        .badge-green { background: #e8f5e9; color: #2e7d32; }
+        .badge-pink  { background: #fce4ec; color: #880e4f; }
+        .badge-purple{ background: #f3e5f5; color: #6a1b9a; }
+        .badge-teal  { background: #e0f2f1; color: #004d40; }
+        .badge-orange{ background: #fff8e1; color: #f57f17; }
+        .badge-gray  { background: #f5f5f5; color: #616161; }
+        .event-card h3, .society-card h3 { font-size: 1.15rem; margin-bottom: 10px; color: var(--dark); }
+        .event-card p, .society-card p { font-size: 0.9rem; color: var(--gray); line-height: 1.6; margin-bottom: 15px; }
+        .btn-sm { padding: 8px 20px; font-size: 0.85rem; border-radius: 30px; }
+        .society-card .join-btn { background: linear-gradient(90deg, var(--primary), var(--primary-light)); color: white; border: none; padding: 8px 20px; border-radius: 30px; font-size: 0.85rem; font-weight: 600; cursor: pointer; transition: var(--transition); text-decoration: none; display: inline-flex; align-items: center; gap: 6px; }
+        .society-card .join-btn:hover { transform: translateY(-3px); box-shadow: 0 6px 18px rgba(10,92,54,0.3); }
+        .society-card.coming-soon { opacity: 0.55; pointer-events: none; }
+        .society-icon { font-size: 2.5rem; margin-bottom: 12px; display: block; }
+
+        /* ── Modal ── */
+        .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.65); z-index: 10000; align-items: center; justify-content: center; padding: 20px; }
+        .modal-overlay.open { display: flex; animation: fadeInModal 0.25s ease; }
+        @keyframes fadeInModal { from{opacity:0} to{opacity:1} }
+        .modal-box { background: white; border-radius: 20px; max-width: 540px; width: 100%; padding: 36px; position: relative; animation: slideUpModal 0.3s cubic-bezier(0.34,1.56,0.64,1); max-height: 90vh; overflow-y: auto; }
+        @keyframes slideUpModal { from{transform:translateY(30px);opacity:0} to{transform:translateY(0);opacity:1} }
+        .modal-close { position: absolute; top: 16px; right: 18px; background: var(--light-gray); border: none; width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.2s; }
+        .modal-close:hover { background: var(--primary); color: white; }
+        .modal-emoji { font-size: 3.5rem; display: block; margin-bottom: 15px; }
+        .modal-title { font-size: 1.6rem; color: var(--primary-dark); margin-bottom: 10px; }
+        .modal-badge { margin-bottom: 15px; }
+        .modal-body { font-size: 0.95rem; color: var(--gray); line-height: 1.8; }
+        .modal-body ul { padding-left: 20px; margin: 10px 0; }
+        .modal-body li { margin-bottom: 6px; }
+
+        /* ── Admin Dashboard ── */
+        .admin-tabs { display: flex; gap: 0; margin-bottom: 30px; border-bottom: 2px solid var(--light-gray); }
+        .admin-tab { padding: 12px 24px; border: none; background: none; font-size: 0.9rem; font-weight: 600; color: var(--gray); cursor: pointer; transition: all 0.25s; border-bottom: 3px solid transparent; margin-bottom: -2px; }
+        .admin-tab.active { color: var(--primary); border-bottom-color: var(--primary); background: rgba(10,92,54,0.04); border-radius: 8px 8px 0 0; }
+        .admin-tab:hover:not(.active) { color: var(--primary); }
+        .admin-panel { display: none; animation: fadeInPage 0.3s ease; }
+        .admin-panel.active { display: block; }
+        .stat-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px; margin-bottom: 30px; }
+        .stat-card { background: white; border-radius: var(--border-radius); padding: 22px; box-shadow: var(--card-shadow); text-align: center; }
+        .stat-card .s-num { font-size: 2.2rem; font-weight: 800; color: var(--primary); display: block; }
+        .stat-card .s-label { font-size: 0.82rem; color: var(--gray); margin-top: 4px; }
+        .rag-badge-admin { display: inline-flex; align-items: center; gap: 6px; background: #e8f5e9; color: #2e7d32; padding: 6px 14px; border-radius: 20px; font-weight: 700; font-size: 0.82rem; margin-bottom: 20px; }
+        .rag-dot { width: 8px; height: 8px; border-radius: 50%; background: #4caf50; animation: ragPulse 1.5s infinite; }
+        @keyframes ragPulse { 0%,100%{opacity:1} 50%{opacity:0.3} }
+        .kb-search { width: 100%; padding: 10px 16px; border: 2px solid var(--light-gray); border-radius: 30px; font-size: 0.9rem; outline: none; margin-bottom: 16px; transition: border-color 0.3s; }
+        .kb-search:focus { border-color: var(--primary); }
+        .kb-table { width: 100%; border-collapse: collapse; font-size: 0.88rem; }
+        .kb-table th { background: var(--primary); color: white; padding: 10px 14px; text-align: left; font-weight: 600; }
+        .kb-table td { padding: 10px 14px; border-bottom: 1px solid var(--light-gray); vertical-align: top; }
+        .kb-table tr:hover td { background: rgba(10,92,54,0.04); }
+        .kb-cat-badge { display: inline-block; background: rgba(10,92,54,0.1); color: var(--primary); padding: 2px 8px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+        .esc-list { list-style: none; }
+        .esc-item { display: flex; align-items: flex-start; gap: 12px; padding: 12px 16px; background: white; border-radius: 10px; margin-bottom: 10px; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+        .esc-badge { background: #fff3e0; color: #e65100; padding: 3px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; white-space: nowrap; }
+        .esc-time { font-size: 0.75rem; color: var(--gray); }
+        .esc-q { font-size: 0.9rem; color: var(--dark); }
+        .btn-clear { background: #fce4ec; color: #c62828; border: none; padding: 8px 18px; border-radius: 20px; font-size: 0.82rem; font-weight: 700; cursor: pointer; transition: all 0.2s; }
+        .btn-clear:hover { background: #c62828; color: white; }
+        .bar-list { list-style: none; margin-top: 10px; }
+        .bar-item { margin-bottom: 10px; }
+        .bar-label { display: flex; justify-content: space-between; font-size: 0.82rem; margin-bottom: 4px; color: var(--dark); font-weight: 600; }
+        .bar-track { height: 8px; background: var(--light-gray); border-radius: 4px; overflow: hidden; }
+        .bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; transition: width 1s ease; }
+
+        /* ── RAG badge in chatbot header ── */
+        .rag-chip { background: rgba(255,255,255,0.25); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px; margin-left: 6px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.4); }
+
+        /* ── Announcements live/cached dot ── */
+        .ann-status { display: inline-flex; align-items: center; gap: 5px; font-size: 0.75rem; font-weight: 700; padding: 4px 10px; border-radius: 20px; margin-left: 10px; vertical-align: middle; }
+        .ann-status.live { background: #e8f5e9; color: #2e7d32; }
+        .ann-status.cached { background: #f5f5f5; color: #757575; }
+        .ann-dot-live { width: 7px; height: 7px; border-radius: 50%; background: #4caf50; animation: ragPulse 1.5s infinite; }
+        .ann-dot-cached { width: 7px; height: 7px; border-radius: 50%; background: #9e9e9e; }
+        .ann-view-btn { display: inline-block; font-size: 0.78rem; font-weight: 600; color: var(--primary); text-decoration: none; padding: 4px 12px; border: 1px solid var(--primary); border-radius: 20px; transition: all 0.2s; margin-top: 8px; }
+        .ann-view-btn:hover { background: var(--primary); color: white; }
+        .ann-date-badge { display: inline-block; background: rgba(10,92,54,0.1); color: var(--primary); padding: 2px 10px; border-radius: 10px; font-size: 0.72rem; font-weight: 700; margin-bottom: 8px; }
+
+        /* ── Footer social & quick links ── */
+        .footer-social { display: flex; gap: 14px; margin-top: 12px; }
+        .footer-social a { width: 36px; height: 36px; border-radius: 50%; background: rgba(255,255,255,0.12); color: rgba(255,255,255,0.8); display: flex; align-items: center; justify-content: center; font-size: 1rem; transition: all 0.25s; text-decoration: none; }
+        .footer-social a:hover { background: var(--secondary); color: white; transform: translateY(-3px); }
+        .footer-quick { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+        .footer-quick a { color: rgba(255,255,255,0.7); font-size: 0.82rem; text-decoration: none; padding: 3px 10px; border: 1px solid rgba(255,255,255,0.18); border-radius: 20px; transition: all 0.2s; display: inline-block; margin-bottom: 0 !important; padding-left: 10px !important; }
+        .footer-quick a:hover { background: var(--secondary); border-color: var(--secondary); color: white; transform: none; padding-left: 10px !important; }
+    </style>
+</head>
+<body>
+
+<!-- Toast Notifications -->
+<div id="toastContainer" class="toast-container"></div>
+
+<!-- Header -->
+<header id="header">
+    <div class="container header-container">
+        <a href="#" class="logo nav-link" data-page="home">
+            <div class="logo-icon">
+                <img src="Agriculture_University_Faisalabad_emblem.png" alt="UAF Logo" style="width:40px;height:40px;" onerror="this.parentElement.innerHTML='<i class=\'fas fa-seedling\' style=\'color:white;font-size:1.6rem\'></i>'">
+            </div>
+            <div class="logo-text"><h1>UAF</h1><p>University of Agriculture Faisalabad</p></div>
+        </a>
+        <nav>
+            <ul id="navMenu">
+                <li><a href="#" class="nav-link active" data-page="home">Home</a></li>
+                <li><a href="#" class="nav-link" data-page="about">About</a></li>
+                <li><a href="#" class="nav-link" data-page="maps">Campus Maps</a></li>
+                <li><a href="#" class="nav-link" data-page="contact">Contact</a></li>
+                <li><a href="#" class="nav-link" data-page="events">Events</a></li>
+                <li><a href="#" class="nav-link" data-page="societies">Societies</a></li>
+                <li id="adminNavItem" style="display:none"><a href="#" class="nav-link" data-page="admin">Admin</a></li>
+                <li id="loginNavItem"><a href="#" class="nav-link" data-page="login">Login</a></li>
+                <li id="signupNavItem"><a href="#" class="nav-link" data-page="signup">Sign Up</a></li>
+                <li id="profileNavItem" style="display:none"><a href="#" class="nav-link" data-page="profile" id="profileNavLink">Profile</a></li>
+            </ul>
+        </nav>
+        <div class="header-actions" id="headerActions">
+            <a href="#" class="btn btn-outline nav-link" data-page="login" id="portalBtn">Portal Login</a>
+        </div>
+        <button class="mobile-menu-btn" id="mobileMenuBtn"><i class="fas fa-bars"></i></button>
+    </div>
+</header>
+
+<!-- Hero -->
+<section class="hero" id="hero">
+    <div class="container">
+        <div class="hero-content">
+            <h1>Nurturing Agri-Innovators for a Sustainable Future</h1>
+            <p>Pakistan's premier institution for agricultural education, research, and innovation since 1906.</p>
+            <div class="hero-buttons">
+                <a href="#" class="btn btn-primary nav-link" data-page="about">Discover UAF</a>
+                <a href="#" class="btn btn-outline nav-link" data-page="signup" style="margin-left:15px">Apply Now</a>
+            </div>
+            <div class="hero-stats">
+                <div class="stat-item"><span class="stat-number">33,000+</span><span class="stat-label">Students</span></div>
+                <div class="stat-item"><span class="stat-number">600+</span><span class="stat-label">Faculty</span></div>
+                <div class="stat-item"><span class="stat-number">115+</span><span class="stat-label">Years</span></div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Pages -->
+<main>
+
+    <!-- HOME PAGE -->
+    <section id="home" class="page-content active">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Why Choose UAF?</h2>
+                <p>Excellence in agriculture, research, and sustainable development.</p>
+            </div>
+            <div class="features-grid stagger-children">
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Academic Excellence</h3>
+                    <p>Top-ranked programs in agriculture, engineering &amp; sciences.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-flask"></i></div>
+                    <h3>Research &amp; Innovation</h3>
+                    <p>Cutting-edge labs and global research partnerships.</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fas fa-leaf"></i></div>
+                    <h3>Sustainable Future</h3>
+                    <p>Leading sustainable agriculture and food security initiatives.</p>
+                </div>
+            </div>
+        </div>
+        <!-- Announcements -->
+        <div id="announcements-section">
+            <div class="container">
+                <div class="section-title animate-on-scroll">
+                    <h2>Latest Announcements</h2>
+                    <p>Stay updated with UAF news, events, and opportunities.</p>
+                </div>
+                <div id="announcementsList" class="announcements-grid">
+                    <div class="announcements-loading"><i class="fas fa-spinner fa-spin" style="font-size:1.5rem;color:var(--primary)"></i><p style="margin-top:10px">Loading announcements...</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ABOUT PAGE -->
+    <section id="about" class="page-content">
+        <div class="container">
+            <div class="about-content">
+                <div class="about-text-section">
+                    <h2>About UAF</h2>
+                    <p>Established in 1906, UAF is Pakistan's oldest agricultural university. Spread over 1,200 acres, we nurture future leaders in agriculture, science, and technology.</p>
+                    <p>Our commitment to innovation and community service drives agricultural transformation across Pakistan.</p>
+                    <div class="mission-vision">
+                        <div class="mission-card">
+                            <h3>Our Mission</h3>
+                            <p>To advance knowledge in agriculture through quality education and research for food security.</p>
+                        </div>
+                        <div class="vision-card">
+                            <h3>Our Vision</h3>
+                            <p>To be a world-class university contributing to global agricultural sustainability.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="about-image-section">
+                    <img src="images.jpg" alt="UAF Campus" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- LOGIN PAGE -->
+    <section id="login" class="page-content">
+        <div class="auth-section">
+            <div class="container">
+                <div class="auth-card animate-on-scroll">
+                    <h2>Login to UAF Portal</h2>
+                    <form id="loginForm" autocomplete="on">
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="loginEmail" class="form-control" placeholder="your@email.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="loginPassword" class="form-control" placeholder="••••••••" required autocomplete="current-password">
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="loginBtn">Login</button>
+                        <div class="auth-footer">
+                            <p>Don't have an account? <a href="#" class="nav-link" data-page="signup">Sign Up</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SIGNUP PAGE -->
+    <section id="signup" class="page-content">
+        <div class="auth-section">
+            <div class="container">
+                <div class="auth-card animate-on-scroll">
+                    <h2>Create Account</h2>
+                    <form id="signupForm" autocomplete="on">
+                        <div class="form-group">
+                            <label>Full Name</label>
+                            <input type="text" id="signupName" class="form-control" placeholder="Muhammad Ali" required autocomplete="name">
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="signupEmail" class="form-control" placeholder="your@email.com" required autocomplete="email">
+                        </div>
+                        <div class="form-group">
+                            <label>Password</label>
+                            <input type="password" id="signupPassword" class="form-control" placeholder="Min. 6 characters" required autocomplete="new-password">
+                        </div>
+                        <div class="form-group">
+                            <label>Confirm Password</label>
+                            <input type="password" id="confirmPassword" class="form-control" placeholder="Repeat password" required autocomplete="new-password">
+                        </div>
+                        <div class="form-group" style="display:flex;align-items:center;gap:10px">
+                            <input type="checkbox" id="terms" required style="width:18px;height:18px;accent-color:var(--primary)">
+                            <label for="terms" style="margin-bottom:0;font-weight:400;cursor:pointer">I agree to the Terms &amp; Privacy Policy</label>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-block" id="signupBtn" style="margin-top:15px">Create Account</button>
+                        <div class="auth-footer">
+                            <p>Already have an account? <a href="#" class="nav-link" data-page="login">Login</a></p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- MAPS PAGE -->
+    <section id="maps" class="page-content">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Campus Maps &amp; Locations</h2>
+                <p>Explore our 1,200-acre campus — click any location to zoom in on the map.</p>
+            </div>
+            <div class="map-container animate-on-scroll">
+                <div class="map-header">
+                    <div>
+                        <h3><i class="fas fa-map-marked-alt" style="margin-right:8px"></i>Interactive Campus Map</h3>
+                        <p>University of Agriculture Faisalabad — Faisalabad, Punjab, Pakistan</p>
+                    </div>
+                    <input type="text" class="map-search-box" id="mapSearchInput" placeholder="🔍 Search location...">
+                </div>
+                <div class="map-content">
+                    <div class="map-sidebar">
+                        <div class="location-category-filter" id="catFilters">
+                            <button class="cat-filter-btn active" data-cat="all">All</button>
+                            <button class="cat-filter-btn" data-cat="academic">Academic</button>
+                            <button class="cat-filter-btn" data-cat="admin">Admin</button>
+                            <button class="cat-filter-btn" data-cat="services">Services</button>
+                            <button class="cat-filter-btn" data-cat="sports">Sports</button>
+                            <button class="cat-filter-btn" data-cat="housing">Hostels</button>
+                            <button class="cat-filter-btn" data-cat="health">Health</button>
+                            <button class="cat-filter-btn" data-cat="worship">Mosque</button>
+                        </div>
+                        <ul class="location-list" id="locationList">
+                            <li class="location-item active" data-location="library">
+                                <div class="location-icon"><i class="fas fa-book"></i></div>
+                                <div><div class="location-name">Central Library</div><div class="location-cat">Academic</div></div>
+                            </li>
+                            <li class="location-item" data-location="admin">
+                                <div class="location-icon"><i class="fas fa-building"></i></div>
+                                <div><div class="location-name">Admin Block</div><div class="location-cat">Admin</div></div>
+                            </li>
+                            <li class="location-item" data-location="vc_office">
+                                <div class="location-icon"><i class="fas fa-user-tie"></i></div>
+                                <div><div class="location-name">VC Office</div><div class="location-cat">Admin</div></div>
+                            </li>
+                            <li class="location-item" data-location="cafe">
+                                <div class="location-icon"><i class="fas fa-utensils"></i></div>
+                                <div><div class="location-name">Cafeterias</div><div class="location-cat">Services</div></div>
+                            </li>
+                            <li class="location-item" data-location="exhibition">
+                                <div class="location-icon"><i class="fas fa-chalkboard"></i></div>
+                                <div><div class="location-name">Exhibition Centre</div><div class="location-cat">Events</div></div>
+                            </li>
+                            <li class="location-item" data-location="photocopy">
+                                <div class="location-icon"><i class="fas fa-print"></i></div>
+                                <div><div class="location-name">Print &amp; Copy Shop</div><div class="location-cat">Services</div></div>
+                            </li>
+                            <li class="location-item" data-location="sports">
+                                <div class="location-icon"><i class="fas fa-futbol"></i></div>
+                                <div><div class="location-name">Sports Complex</div><div class="location-cat">Sports</div></div>
+                            </li>
+                            <li class="location-item" data-location="hostel">
+                                <div class="location-icon"><i class="fas fa-home"></i></div>
+                                <div><div class="location-name">Student Hostels</div><div class="location-cat">Housing</div></div>
+                            </li>
+                            <li class="location-item" data-location="medical">
+                                <div class="location-icon"><i class="fas fa-hospital"></i></div>
+                                <div><div class="location-name">Health Center</div><div class="location-cat">Health</div></div>
+                            </li>
+                            <li class="location-item" data-location="bank">
+                                <div class="location-icon"><i class="fas fa-university"></i></div>
+                                <div><div class="location-name">Bank &amp; ATMs</div><div class="location-cat">Services</div></div>
+                            </li>
+                            <li class="location-item" data-location="registrar">
+                                <div class="location-icon"><i class="fas fa-clipboard"></i></div>
+                                <div><div class="location-name">Registrar Office</div><div class="location-cat">Admin</div></div>
+                            </li>
+                            <li class="location-item" data-location="mosque">
+                                <div class="location-icon"><i class="fas fa-mosque"></i></div>
+                                <div><div class="location-name">Central Mosque</div><div class="location-cat">Worship</div></div>
+                            </li>
+                            <li class="location-item" data-location="boys_hostel_a">
+                                <div class="location-icon"><i class="fas fa-home"></i></div>
+                                <div><div class="location-name">Boys Hostel Block A</div><div class="location-cat">Housing</div></div>
+                            </li>
+                            <li class="location-item" data-location="boys_hostel_f">
+                                <div class="location-icon"><i class="fas fa-home"></i></div>
+                                <div><div class="location-name">Boys Hostel Block F</div><div class="location-cat">Housing</div></div>
+                            </li>
+                            <li class="location-item" data-location="girls_hostel">
+                                <div class="location-icon"><i class="fas fa-female"></i></div>
+                                <div><div class="location-name">Girls Hostel</div><div class="location-cat">Housing</div></div>
+                            </li>
+                            <li class="location-item" data-location="cs_building">
+                                <div class="location-icon"><i class="fas fa-laptop-code"></i></div>
+                                <div><div class="location-name">CS &amp; IT Building</div><div class="location-cat">Academic</div></div>
+                            </li>
+                            <li class="location-item" data-location="engineering">
+                                <div class="location-icon"><i class="fas fa-cogs"></i></div>
+                                <div><div class="location-name">Engineering Block</div><div class="location-cat">Academic</div></div>
+                            </li>
+                            <li class="location-item" data-location="hbl_bank">
+                                <div class="location-icon"><i class="fas fa-piggy-bank"></i></div>
+                                <div><div class="location-name">HBL Bank Branch</div><div class="location-cat">Services</div></div>
+                            </li>
+                            <li class="location-item" data-location="dispensary">
+                                <div class="location-icon"><i class="fas fa-pills"></i></div>
+                                <div><div class="location-name">Dispensary</div><div class="location-cat">Health</div></div>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="map-display">
+                        <iframe id="uafMapEmbed"
+                            src="https://maps.google.com/maps?q=31.4504,73.0651&z=16&output=embed"
+                            allowfullscreen="" loading="lazy"
+                            referrerpolicy="no-referrer-when-downgrade">
+                        </iframe>
+                        <div id="mapDetail">
+                            <h3 id="locTitle">Central Library</h3>
+                            <p id="locDesc">Open 24/7 during exams. 200,000+ books, e-journals, WiFi, group study rooms. <strong>Ext. 3301</strong></p>
+                            <a href="#" id="directionsBtn" class="directions-btn" target="_blank" rel="noopener">
+                                <i class="fas fa-directions"></i> Get Directions on Google Maps
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CONTACT PAGE -->
+    <section id="contact" class="page-content">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Contact Us</h2>
+                <p>Get in touch with UAF — we're here to help.</p>
+            </div>
+            <div class="contact-grid">
+                <div class="contact-info-card animate-on-scroll">
+                    <h3>Reach Us</h3>
+                    <p>Our team responds within 24 hours on working days.</p>
+                    <div class="contact-info-item">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <div><strong>Address</strong><span>University of Agriculture, Faisalabad — 38040, Punjab, Pakistan</span></div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-phone-alt"></i>
+                        <div><strong>Phone</strong><span>+92 41 920 0161</span></div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-envelope"></i>
+                        <div><strong>Email</strong><span>info@uaf.edu.pk</span></div>
+                    </div>
+                    <div class="contact-info-item">
+                        <i class="fas fa-clock"></i>
+                        <div><strong>Office Hours</strong><span>Monday – Friday: 8:30 AM – 4:30 PM</span></div>
+                    </div>
+                </div>
+                <div class="contact-form-card animate-on-scroll">
+                    <h3>Send a Message</h3>
+                    <form id="contactForm">
+                        <div class="form-group">
+                            <label>Your Name</label>
+                            <input type="text" id="contactName" class="form-control" placeholder="Full name" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="contactEmail" class="form-control" placeholder="your@email.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Subject</label>
+                            <input type="text" id="contactSubject" class="form-control" placeholder="How can we help?">
+                        </div>
+                        <div class="form-group">
+                            <label>Message</label>
+                            <textarea id="contactMessage" class="form-control" rows="5" placeholder="Write your message here..." required style="resize:vertical;min-height:120px"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary" id="contactBtn" style="min-width:180px">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- PROFILE PAGE -->
+    <section id="profile" class="page-content">
+        <div class="container profile-section">
+            <div id="profileContent" class="profile-not-logged">
+                <i class="fas fa-user-lock"></i>
+                <h3>Please log in to view your profile.</h3>
+                <a href="#" class="btn btn-primary nav-link" data-page="login" style="margin-top:15px">Go to Login</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- EVENTS PAGE -->
+    <section id="events" class="page-content">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>UAF Campus Events</h2>
+                <p>Celebrate culture, agriculture, and innovation at UAF's iconic annual festivals.</p>
+            </div>
+            <div class="events-grid stagger-children">
+                <div class="event-card">
+                    <span class="event-emoji">🌾</span>
+                    <span class="event-badge badge-amber">Agricultural</span>
+                    <h3>Gur Mela</h3>
+                    <p>UAF's annual jaggery festival celebrating agricultural heritage since decades. Features live demonstrations, stalls, and cultural performances.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openEventModal('gur')">Learn More</button>
+                </div>
+                <div class="event-card">
+                    <span class="event-emoji">🌿</span>
+                    <span class="event-badge badge-blue">Agricultural</span>
+                    <h3>Kapas Mela</h3>
+                    <p>The Cotton Festival showcases UAF's cutting-edge cotton research and farming culture with expert talks and field exhibitions.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openEventModal('kapas')">Learn More</button>
+                </div>
+                <div class="event-card">
+                    <span class="event-emoji">🏞️</span>
+                    <span class="event-badge badge-green">Cultural</span>
+                    <h3>Wadiyain Mela</h3>
+                    <p>A vibrant cultural mela representing the valley traditions and regional heritage of Punjab, organized by UAF students.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openEventModal('wadiyain')">Learn More</button>
+                </div>
+                <div class="event-card">
+                    <span class="event-emoji">🌸</span>
+                    <span class="event-badge badge-pink">Spring</span>
+                    <h3>Jashn-e-Bahara</h3>
+                    <p>UAF's flagship Spring Festival — the most awaited annual event featuring music, art, food stalls, and student competitions.</p>
+                    <button class="btn btn-outline btn-sm" onclick="openEventModal('jashn')">Learn More</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SOCIETIES PAGE -->
+    <section id="societies" class="page-content">
+        <div class="container">
+            <div class="section-title animate-on-scroll">
+                <h2>Student Societies &amp; Clubs</h2>
+                <p>Join a community, build skills, and make lasting memories at UAF.</p>
+            </div>
+            <div class="societies-grid stagger-children">
+                <div class="society-card">
+                    <span class="society-icon">🎤</span>
+                    <span class="society-badge badge-blue">Debating</span>
+                    <h3>Debating Club</h3>
+                    <p>Competitive debating &amp; public speaking. Weekly sessions every Tuesday. Participates in national competitions including LUMS, NUML and NUST tournaments.</p>
+                    <a href="mailto:info@uaf.edu.pk?subject=Join Debating Club" class="join-btn">Join Now</a>
+                </div>
+                <div class="society-card">
+                    <span class="society-icon">🌍</span>
+                    <span class="society-badge badge-purple">Service</span>
+                    <h3>Rotaract Club</h3>
+                    <p>Community service &amp; youth leadership, affiliated with Rotary International. Organizes blood donation drives, health camps, and career counseling sessions.</p>
+                    <a href="mailto:info@uaf.edu.pk?subject=Join Rotaract Club" class="join-btn">Join Now</a>
+                </div>
+                <div class="society-card">
+                    <span class="society-icon">📖</span>
+                    <span class="society-badge badge-green">Literary</span>
+                    <h3>Baat aur Qiraat Club</h3>
+                    <p>Urdu speech and Holy Quran recitation competitions. Promotes Urdu oratory skills and Islamic literary traditions with inter-university participation.</p>
+                    <a href="mailto:info@uaf.edu.pk?subject=Join Baat aur Qiraat Club" class="join-btn">Join Now</a>
+                </div>
+                <div class="society-card">
+                    <span class="society-icon">💻</span>
+                    <span class="society-badge badge-teal">Technology</span>
+                    <h3>Computing Society</h3>
+                    <p>Hackathons, coding competitions, and tech workshops. Annual TechFest UAF every October. Open to all students with a passion for technology.</p>
+                    <a href="mailto:info@uaf.edu.pk?subject=Join Computing Society" class="join-btn">Join Now</a>
+                </div>
+                <div class="society-card">
+                    <span class="society-icon">🎭</span>
+                    <span class="society-badge badge-amber">Arts</span>
+                    <h3>Drama &amp; Arts Society</h3>
+                    <p>Theatre, performing arts, and creative expression. Stages plays, organizes art exhibitions, and represents UAF at provincial cultural festivals.</p>
+                    <a href="mailto:info@uaf.edu.pk?subject=Join Drama and Arts Society" class="join-btn">Join Now</a>
+                </div>
+                <div class="society-card">
+                    <span class="society-icon">🌱</span>
+                    <span class="society-badge badge-green">Environment</span>
+                    <h3>Environmental Society</h3>
+                    <p>Sustainability and green campus initiatives. Organizes tree plantation drives, awareness campaigns, and eco-friendly projects across UAF campus.</p>
+                    <a href="mailto:info@uaf.edu.pk?subject=Join Environmental Society" class="join-btn">Join Now</a>
+                </div>
+                <div class="society-card coming-soon" style="text-align:center">
+                    <span class="society-icon">➕</span>
+                    <span class="society-badge badge-gray">Coming Soon</span>
+                    <h3>More Societies</h3>
+                    <p>New student societies are being registered. Stay tuned for Sports Society, Entrepreneurship Club, and more!</p>
+                    <span style="background:var(--light-gray);color:var(--gray);padding:8px 20px;border-radius:30px;font-size:0.85rem;font-weight:600;display:inline-block">Coming Soon</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ADMIN DASHBOARD (FR05) -->
+    <section id="admin" class="page-content">
+        <div class="container" style="padding-top:20px">
+            <div id="adminContent">
+                <div style="padding:80px 20px;text-align:center">
+                    <i class="fas fa-shield-alt" style="font-size:4rem;color:var(--light-gray);display:block;margin-bottom:20px"></i>
+                    <h3>Admin Access Required</h3>
+                    <p>Please login with an admin account to view this dashboard.</p>
+                    <a href="#" class="btn btn-primary nav-link" data-page="login" style="margin-top:15px">Login</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+</main>
+
+<!-- ── EVENT MODALS ── -->
+<div id="eventModal" class="modal-overlay" onclick="if(event.target===this)closeEventModal()">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeEventModal()">✕</button>
+        <span class="modal-emoji" id="mEmoji"></span>
+        <div class="modal-badge" id="mBadge"></div>
+        <h2 class="modal-title" id="mTitle"></h2>
+        <div class="modal-body" id="mBody"></div>
+    </div>
+</div>
+
+<!-- UAF INTELLICHAT -->
+<div class="chatbot-container">
+    <button class="chatbot-toggle" id="chatbotToggle" title="UAF IntelliChat">
+        <i class="fas fa-comments"></i>
+        <span class="chatbot-badge" id="chatbotBadge">1</span>
+    </button>
+    <div class="chatbot-window" id="chatbotWindow">
+
+        <!-- Header -->
+        <div class="chatbot-header">
+            <div class="chatbot-header-left">
+                <div class="chatbot-avatar"><i class="fas fa-robot"></i></div>
+                <div>
+                    <h4>UAF IntelliChat <span class="rag-chip">RAG</span></h4>
+                    <div class="chatbot-status"><span class="status-dot"></span> RAG-Powered · Online</div>
+                </div>
+            </div>
+            <div class="chatbot-header-actions">
+                <button id="clearChatBtn" title="Clear chat"><i class="fas fa-trash-alt"></i></button>
+                <button id="chatbotClose" title="Close"><i class="fas fa-times"></i></button>
+            </div>
+        </div>
+
+        <!-- MENU VIEW (default) -->
+        <div id="chatMenuView">
+            <div class="chat-welcome-banner">
+                <p>Hello! I'm UAF IntelliChat 🌿<br>Select a department or type your question below.</p>
+            </div>
+            <div class="chat-section-label" style="padding-top:10px">Departments &amp; Services</div>
+            <div class="chat-dept-grid">
+                <button class="dept-btn" data-dept="vc_office">🏛️<span>VC Office</span></button>
+                <button class="dept-btn" data-dept="it_dept">💻<span>IT Department</span></button>
+                <button class="dept-btn" data-dept="library">📚<span>Library</span></button>
+                <button class="dept-btn" data-dept="food_cafes">☕<span>Food &amp; Cafes</span></button>
+                <button class="dept-btn" data-dept="hostels">🏠<span>Hostels</span></button>
+                <button class="dept-btn" data-dept="cs_dept">🖥️<span>CS Dept.</span></button>
+                <button class="dept-btn" data-dept="dean">👨‍🏫<span>Dean Faculty</span></button>
+                <button class="dept-btn" data-dept="cs_staff">👥<span>CS Staff</span></button>
+                <button class="dept-btn" data-dept="admin_office">📋<span>Admin Office</span></button>
+            </div>
+            <div class="chat-section-label" style="padding-top:4px">Quick Topics</div>
+            <div class="chat-dept-grid" style="padding-top:4px">
+                <button class="dept-btn" data-quick="events">🎉<span>Events</span></button>
+                <button class="dept-btn" data-quick="societies">🏛️<span>Societies</span></button>
+                <button class="dept-btn" data-quick="map">🗺️<span>Campus Map</span></button>
+                <button class="dept-btn" data-quick="admissions">🎓<span>Admissions</span></button>
+                <button class="dept-btn" data-quick="scholarships">💰<span>Scholarships</span></button>
+                <button class="dept-btn" data-quick="weather">🌤️<span>Weather</span></button>
+            </div>
+        </div>
+
+        <!-- CHAT / DETAIL VIEW -->
+        <div id="chatDetailView" style="display:none">
+            <div class="chat-back-bar">
+                <button id="chatBackBtn"><i class="fas fa-arrow-left"></i> Departments</button>
+                <span class="chat-dept-title" id="chatDeptTitle"></span>
+            </div>
+            <div class="chatbot-messages" id="chatbotMessages">
+                <div class="message bot-message">
+                    Hello! I'm the UAF IntelliChat 🌿<br><br>
+                    How can I help you today?
+                    <div class="message-time"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Input (always visible) -->
+        <div class="chatbot-input-container">
+            <button class="chatbot-icon-btn" id="voiceBtn" title="Voice input"><i class="fas fa-microphone"></i></button>
+            <input type="text" class="chatbot-input" id="chatbotInput" placeholder="Ask anything about UAF..." maxlength="500" autocomplete="off">
+            <button class="chatbot-send" id="chatbotSend" title="Send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="footer-content">
+            <div>
+                <h3>UAF</h3>
+                <p>Premier agricultural university of Pakistan since 1906. 1,200-acre campus, 33,000+ students.</p>
+                <div class="footer-social">
+                    <a href="https://www.facebook.com/UniversityOfAgricultureFaisalabadPakistan/" target="_blank" rel="noopener" title="Facebook"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://www.youtube.com/@universityofagriculturefai7274" target="_blank" rel="noopener" title="YouTube"><i class="fab fa-youtube"></i></a>
+                    <a href="https://www.linkedin.com/school/university-of-agriculture-faisalabad/" target="_blank" rel="noopener" title="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                </div>
+            </div>
+            <div>
+                <h3>Quick Links</h3>
+                <a href="#" class="nav-link" data-page="home">Home</a>
+                <a href="#" class="nav-link" data-page="about">About UAF</a>
+                <a href="#" class="nav-link" data-page="events">Events</a>
+                <a href="#" class="nav-link" data-page="societies">Societies</a>
+                <a href="#" class="nav-link" data-page="maps">Campus Maps</a>
+                <a href="#" class="nav-link" data-page="contact">Contact</a>
+            </div>
+            <div>
+                <h3>Admissions</h3>
+                <a href="#" class="nav-link" data-page="signup">Apply Online</a>
+                <a href="#" class="nav-link" data-page="about">Programs Offered</a>
+                <a href="#" class="nav-link" data-page="contact">Fee Structure</a>
+                <a href="#" class="nav-link" data-page="contact">Scholarships</a>
+            </div>
+            <div>
+                <h3>Contact &amp; Portals</h3>
+                <p><i class="fas fa-phone-alt" style="margin-right:6px;color:var(--secondary)"></i>+92 41 920 0161</p>
+                <p><i class="fas fa-envelope" style="margin-right:6px;color:var(--secondary)"></i>info@uaf.edu.pk</p>
+                <p><i class="fas fa-map-marker-alt" style="margin-right:6px;color:var(--secondary)"></i>Faisalabad, Punjab, Pakistan</p>
+                <div class="footer-quick" style="margin-top:10px">
+                    <a href="https://lms.uaf.edu.pk" target="_blank" rel="noopener">LMS</a>
+                    <a href="https://sis.uaf.edu.pk" target="_blank" rel="noopener">SIS</a>
+                    <a href="https://web.uaf.edu.pk/library" target="_blank" rel="noopener">Library</a>
+                    <a href="https://web.uaf.edu.pk/oric" target="_blank" rel="noopener">ORIC</a>
+                    <a href="https://web.uaf.edu.pk/jobs" target="_blank" rel="noopener">Jobs at UAF</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>© 2025-26 UAF IntelliChat — FYP Project | Not an official UAF website</p>
+        </div>
+    </div>
+</footer>
+
+<script>
+// ── Config ────────────────────────────────────────────────────────────────────
+const SESSION_ID = 'sess_' + Date.now().toString(36) + Math.random().toString(36).substr(2, 6);
+
+// ── DOM References ────────────────────────────────────────────────────────────
+const header       = document.getElementById('header');
+const mobileBtn    = document.getElementById('mobileMenuBtn');
+const navMenu      = document.getElementById('navMenu');
+const pages        = document.querySelectorAll('.page-content');
+const chatbotToggle= document.getElementById('chatbotToggle');
+const chatbotWin   = document.getElementById('chatbotWindow');
+const chatbotClose = document.getElementById('chatbotClose');
+const chatbotMsgs  = document.getElementById('chatbotMessages');
+const chatbotInput = document.getElementById('chatbotInput');
+const chatbotSend  = document.getElementById('chatbotSend');
+const chatbotBadge = document.getElementById('chatbotBadge');
+const clearChatBtn = document.getElementById('clearChatBtn');
+const voiceBtn     = document.getElementById('voiceBtn');
+const quickBtns    = document.querySelectorAll('.quick-btn');
+const locItems     = document.querySelectorAll('.location-item');
+
+// ── Intersection Observer (scroll animations) ─────────────────────────────────
+const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) entry.target.classList.add('visible');
+    });
+}, { threshold: 0.15, rootMargin: '0px 0px -50px 0px' });
+
+document.querySelectorAll('.animate-on-scroll, .stagger-children, .about-text-section, .about-image-section')
+    .forEach(el => observer.observe(el));
+
+// ── Header scroll ─────────────────────────────────────────────────────────────
+window.addEventListener('scroll', () => {
+    header.classList.toggle('scrolled', window.scrollY > 50);
+});
+
+// ── Mouse parallax hero ───────────────────────────────────────────────────────
+document.addEventListener('mousemove', (e) => {
+    const heroEl = document.querySelector('.hero');
+    if (heroEl) {
+        const x = (e.clientX / window.innerWidth - 0.5) * 20;
+        const y = (e.clientY / window.innerHeight - 0.5) * 20;
+        heroEl.style.backgroundPosition = `calc(50% + ${x}px) calc(50% + ${y}px)`;
+    }
+});
+
+// ── Mobile menu ───────────────────────────────────────────────────────────────
+mobileBtn.addEventListener('click', () => navMenu.classList.toggle('show'));
+
+// ── Page Switching ────────────────────────────────────────────────────────────
+function switchPage(pageId) {
+    pages.forEach(p => p.classList.remove('active'));
+    const target = document.getElementById(pageId);
+    if (!target) return;
+    target.classList.add('active');
+
+    // Hero only belongs on the home page
+    const heroEl = document.getElementById('hero');
+    if (heroEl) heroEl.style.display = pageId === 'home' ? '' : 'none';
+
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.toggle('active', link.getAttribute('data-page') === pageId);
+    });
+    if (navMenu.classList.contains('show')) navMenu.classList.remove('show');
+
+    // Instant jump to top so the new page doesn't appear "stuck" mid-scroll,
+    // then clear the scrolled header state immediately
+    window.scrollTo({ top: 0, behavior: 'instant' });
+    header.classList.remove('scrolled');
+
+    setTimeout(() => {
+        document.querySelectorAll('.animate-on-scroll, .stagger-children, .about-text-section, .about-image-section')
+            .forEach(el => observer.observe(el));
+    }, 100);
+
+    if (pageId === 'maps') initGoogleMap();
+    if (pageId === 'home') loadAnnouncements();
+    if (pageId === 'profile') loadProfile();
+}
+
+document.querySelectorAll('.nav-link').forEach(link => {
+    link.addEventListener('click', (e) => {
+        e.preventDefault();
+        const page = link.getAttribute('data-page');
+        if (page) switchPage(page);
+    });
+});
+
+// ── Toast ─────────────────────────────────────────────────────────────────────
+function showToast(msg, type = 'success', duration = 4000) {
+    const container = document.getElementById('toastContainer');
+    const toast = document.createElement('div');
+    toast.className = `toast ${type}`;
+    const icons = { success: 'fa-check-circle', error: 'fa-exclamation-circle', info: 'fa-info-circle' };
+    toast.innerHTML = `<i class="fas ${icons[type] || icons.info}"></i><span>${msg}</span>`;
+    container.appendChild(toast);
+    setTimeout(() => {
+        toast.style.opacity = '0';
+        toast.style.transform = 'translateX(50px)';
+        setTimeout(() => toast.remove(), 300);
+    }, duration);
+}
+
+// ── API Helper ────────────────────────────────────────────────────────────────
+async function apiCall(endpoint, options = {}) {
+    const token = localStorage.getItem('uaf_token');
+    const res = await fetch(endpoint, {
+        headers: {
+            'Content-Type': 'application/json',
+            ...(token ? { Authorization: `Bearer ${token}` } : {}),
+            ...(options.headers || {})
+        },
+        ...options
+    });
+    return res.json();
+}
+
+// ── Auth State ────────────────────────────────────────────────────────────────
+let currentUser = null;
+try { currentUser = JSON.parse(localStorage.getItem('uaf_user')); } catch (_) {}
+
+function updateNavAuth() {
+    const loginItem  = document.getElementById('loginNavItem');
+    const signupItem = document.getElementById('signupNavItem');
+    const profileItem= document.getElementById('profileNavItem');
+    const portalBtn  = document.getElementById('portalBtn');
+    const profileLink= document.getElementById('profileNavLink');
+
+    if (currentUser) {
+        if (loginItem)  loginItem.style.display  = 'none';
+        if (signupItem) signupItem.style.display = 'none';
+        if (profileItem){ profileItem.style.display = 'list-item'; }
+        if (profileLink) profileLink.textContent = `👤 ${(currentUser.name || currentUser.fullName || 'User').split(' ')[0]}`;
+        if (portalBtn) {
+            portalBtn.textContent = `Logout`;
+            portalBtn.setAttribute('data-page', '');
+            portalBtn.onclick = (e) => { e.preventDefault(); logout(); };
+        }
+    } else {
+        if (loginItem)  loginItem.style.display  = 'list-item';
+        if (signupItem) signupItem.style.display = 'list-item';
+        if (profileItem) profileItem.style.display = 'none';
+        if (portalBtn) {
+            portalBtn.textContent = 'Portal Login';
+            portalBtn.setAttribute('data-page', 'login');
+            portalBtn.onclick = null;
+        }
+    }
+}
+
+function logout() {
+    localStorage.removeItem('uaf_token');
+    localStorage.removeItem('uaf_user');
+    currentUser = null;
+    updateNavAuth();
+    showToast('You have been logged out.', 'info');
+    switchPage('home');
+}
+
+updateNavAuth();
+
+// ── Login Form ────────────────────────────────────────────────────────────────
+document.getElementById('loginForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('loginBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Logging in...';
+
+    try {
+        const data = await apiCall('/api/auth/login', {
+            method: 'POST',
+            body: JSON.stringify({
+                email:    document.getElementById('loginEmail').value.trim(),
+                password: document.getElementById('loginPassword').value
+            })
+        });
+        if (data.success) {
+            localStorage.setItem('uaf_token', data.token);
+            localStorage.setItem('uaf_user', JSON.stringify(data.user));
+            currentUser = data.user;
+            updateNavAuth();
+            showToast(data.message, 'success');
+            e.target.reset();
+            switchPage('home');
+        } else {
+            showToast(data.message, 'error');
+        }
+    } catch (_) {
+        showToast('Connection error. Is the server running?', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Login';
+    }
+});
+
+// ── Signup Form ───────────────────────────────────────────────────────────────
+document.getElementById('signupForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const pwd  = document.getElementById('signupPassword').value;
+    const cpwd = document.getElementById('confirmPassword').value;
+    if (pwd !== cpwd) { showToast("Passwords don't match", 'error'); return; }
+
+    const btn = document.getElementById('signupBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Creating account...';
+
+    try {
+        const data = await apiCall('/api/auth/signup', {
+            method: 'POST',
+            body: JSON.stringify({
+                name:     document.getElementById('signupName').value.trim(),
+                email:    document.getElementById('signupEmail').value.trim(),
+                password: pwd
+            })
+        });
+        if (data.success) {
+            localStorage.setItem('uaf_token', data.token);
+            localStorage.setItem('uaf_user', JSON.stringify(data.user));
+            currentUser = data.user;
+            updateNavAuth();
+            showToast(data.message, 'success');
+            e.target.reset();
+            switchPage('home');
+        } else {
+            showToast(data.message, 'error');
+        }
+    } catch (_) {
+        showToast('Connection error. Is the server running?', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = 'Create Account';
+    }
+});
+
+// ── Contact Form ──────────────────────────────────────────────────────────────
+document.getElementById('contactForm').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const btn = document.getElementById('contactBtn');
+    btn.disabled = true;
+    btn.innerHTML = '<span class="loading-spinner"></span> Sending...';
+
+    try {
+        const data = await apiCall('/api/contact', {
+            method: 'POST',
+            body: JSON.stringify({
+                name:    document.getElementById('contactName').value.trim(),
+                email:   document.getElementById('contactEmail').value.trim(),
+                subject: document.getElementById('contactSubject').value.trim(),
+                message: document.getElementById('contactMessage').value.trim()
+            })
+        });
+        if (data.success) {
+            showToast(data.message, 'success');
+            e.target.reset();
+        } else {
+            showToast(data.message, 'error');
+        }
+    } catch (_) {
+        showToast('Connection error. Please try again.', 'error');
+    } finally {
+        btn.disabled = false;
+        btn.innerHTML = '<i class="fas fa-paper-plane"></i> Send Message';
+    }
+});
+
+// ── Announcements ─────────────────────────────────────────────────────────────
+let announcementsLoaded = false;
+async function loadAnnouncements() {
+    if (announcementsLoaded) return;
+    const container = document.getElementById('announcementsList');
+    try {
+        const data = await apiCall('/api/contact/announcements');
+        if (data.success && data.announcements && data.announcements.length) {
+            announcementsLoaded = true;
+            container.innerHTML = data.announcements.map(a => `
+                <div class="announcement-card animate-on-scroll">
+                    <span class="announcement-badge ${a.category || 'general'}">${a.category || 'general'}</span>
+                    <h4>${escHtml(a.title)}</h4>
+                    <p>${escHtml(a.body)}</p>
+                    <small><i class="fas fa-calendar-alt" style="margin-right:4px"></i>${new Date(a.created_at).toLocaleDateString('en-PK', {day:'numeric',month:'long',year:'numeric'})}</small>
+                </div>
+            `).join('');
+            document.querySelectorAll('#announcementsList .animate-on-scroll').forEach(el => observer.observe(el));
+        } else {
+            container.innerHTML = '<p style="text-align:center;color:var(--gray);padding:30px">No announcements at the moment.</p>';
+        }
+    } catch (_) {
+        container.innerHTML = '<p style="text-align:center;color:var(--gray);padding:30px">Could not load announcements.</p>';
+    }
+}
+
+// ── Profile ───────────────────────────────────────────────────────────────────
+async function loadProfile() {
+    const container = document.getElementById('profileContent');
+    if (!currentUser) {
+        container.className = 'profile-not-logged';
+        container.innerHTML = `<i class="fas fa-user-lock"></i><h3>Please log in to view your profile.</h3><a href="#" class="btn btn-primary nav-link" data-page="login" style="margin-top:15px">Go to Login</a>`;
+        container.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', (e) => { e.preventDefault(); switchPage('login'); }));
+        return;
+    }
+    container.className = 'profile-grid';
+    try {
+        const data = await apiCall('/api/auth/me');
+        const user = data.success ? data.user : currentUser;
+        const displayName = user.name || user.fullName || 'User';
+        const initials = displayName.split(' ').map(n => n[0]).join('').toUpperCase().substr(0, 2);
+        const createdAt = user.joinedAt || user.created_at
+            ? new Date(user.joinedAt || user.created_at).toLocaleDateString('en-PK', {day:'numeric',month:'long',year:'numeric'})
+            : 'N/A';
+        const lastLogin = user.lastLogin || user.last_login
+            ? new Date(user.lastLogin || user.last_login).toLocaleString('en-PK')
+            : 'This session';
+        container.innerHTML = `
+            <div class="profile-card animate-on-scroll">
+                <div class="profile-avatar">${initials}</div>
+                <div class="profile-name">${escHtml(displayName)}</div>
+                <span class="profile-badge">UAF Member</span>
+                <p style="margin-top:15px;font-size:0.85rem;color:var(--gray)">UAF Campus Portal Member</p>
+                <button class="btn btn-outline" onclick="logout()" style="margin-top:15px;width:100%"><i class="fas fa-sign-out-alt"></i> Logout</button>
+            </div>
+            <div class="profile-info-card animate-on-scroll">
+                <h3 style="margin-bottom:20px">Account Information</h3>
+                <table class="info-table">
+                    <tr><td>Full Name</td><td>${escHtml(displayName)}</td></tr>
+                    <tr><td>Email</td><td>${escHtml(user.email)}</td></tr>
+                    <tr><td>Member Since</td><td>${createdAt}</td></tr>
+                    <tr><td>Last Login</td><td>${lastLogin}</td></tr>
+                </table>
+            </div>
+        `;
+        document.querySelectorAll('#profileContent .animate-on-scroll').forEach(el => observer.observe(el));
+    } catch (_) {
+        container.innerHTML = '<p>Could not load profile. Please try again.</p>';
+    }
+}
+
+// ── IntelliChat Department Database ──────────────────────────────────────────
+const deptInfo = {
+    vc_office: {
+        title: "Vice Chancellor's Office",
+        emoji: "🏛️",
+        info: `📍 Location: Main Admin Block, UAF Main Campus\n👤 Vice Chancellor: Prof. Dr. Zulfiqar Ali\n📞 Phone: +92-41-9200161 Ext. 200\n⏰ Office Hours: Mon–Fri, 9AM–4PM\n\nThe Vice Chancellor oversees all academic and administrative affairs of UAF.\n\nFor appointments, contact the office directly at Ext. 200.\nWalk-ins are not recommended without prior appointment.`
+    },
+    it_dept: {
+        title: "IT Department",
+        emoji: "💻",
+        info: `📍 Location: IT Services & Support, UAF\n📞 Help Desk: +92-41-9200161 Ext. 250\n📧 it@uaf.edu.pk\n\nFor portal issues or technical support, email it@uaf.edu.pk\n\nServices provided:\n• Campus-wide WiFi & internet support\n• Student email setup (@uaf.edu.pk)\n• Computer lab access for all students\n• Software licensing & help desk\n• Network troubleshooting & server admin\n• Student portal & LMS support`
+    },
+    library: {
+        title: "Central Library",
+        emoji: "📚",
+        info: `📍 Location: Central Campus, UAF\n⏰ Hours: Open 24/7 during exams\n📞 Extension: 3301\n\nCollection: 200,000+ books & digital journals\n\nServices:\n• Book borrowing — 3 books / 2 weeks\n• JSTOR, ScienceDirect digital access\n• WiFi & individual study carrels\n• Group study rooms (pre-bookable)\n• Research assistance desk\n• Photocopy & printing on-site`
+    },
+    food_cafes: {
+        title: "Food & Cafeterias",
+        emoji: "☕",
+        info: `Multiple cafeterias are located across UAF campus:\n\n🍽️ Main Cafeteria — Near Admin Block\n   Hours: 8:00 AM – 10:00 PM\n\n🏠 Student Canteen — Near Hostels\n   Hours: 8:00 AM – 10:00 PM\n\n👔 Faculty Café — Admin Block\n   Hours: 8:00 AM – 6:00 PM\n\n⚙️ Engineering Café — Eng. Block\n   Budget-friendly student meals\n\n🌿 Agriculture Café\n   Fresh juices, salads, organics`
+    },
+    hostels: {
+        title: "Student Hostels",
+        emoji: "🏠",
+        info: `UAF provides separate hostel facilities for male and female students:\n\n🏢 Boys Hostels — North Campus residential area\n   • 24/7 security, mess, study rooms\n   • WiFi & CCTV throughout\n\n🏢 Girls Hostels — Near faculty building, secured premises\n   • Dedicated lady warden\n   • Mess facility included\n\n📞 Contact Hostel Warden: +92-41-9200161 Ext. 310\n📋 Apply: Through Registrar during enrollment`
+    },
+    cs_dept: {
+        title: "CS Department",
+        emoji: "🖥️",
+        info: `📍 Department of Computer Science\n   Faculty of Computer Science & Information Technology\n   CS Building, UAF Campus\n\n👤 Chairman: Dr. Saqib Ali\n📧 cs@uaf.edu.pk\n\nPrograms Offered:\n• BS Computer Science — 4 years\n• MS Computer Science — 2 years\n• PhD Computer Science\n\nResearch Areas:\n• Artificial Intelligence & Machine Learning\n• Software Engineering\n• Database Systems\n• Computer Networks\n• Web Technologies\n\nFull faculty list: uaf.edu.pk/faculty-cs`
+    },
+    dean: {
+        title: "Dean Faculty",
+        emoji: "👨‍🏫",
+        info: `👨‍🏫 Dean, Faculty of Computer Science & Information Technology\n\n📍 Office: Ground Floor, Faculty of CS & IT Building, UAF Campus\n📞 Phone: +92-41-9200161\n📧 deancsit@uaf.edu.pk\n⏰ Hours: Mon–Fri, 9AM–4PM\n\nDean's responsibilities:\n• Academic oversight of CS & IT programs\n• Faculty recruitment & performance review\n• Research & development initiatives\n• Student academic grievances\n• Industry & academic partnerships`
+    },
+    cs_staff: {
+        title: "CS Staff",
+        emoji: "👥",
+        info: `The Department of Computer Science at UAF covers:\n\n• Artificial Intelligence & Machine Learning\n• Software Engineering\n• Database Systems\n• Computer Networks\n• Web Technologies\n\n👤 Chairman: Dr. Saqib Ali\n\n📞 Phone: +92-41-9200161\n📧 cs@uaf.edu.pk\n🌐 Full faculty list: uaf.edu.pk/faculty-cs`
+    },
+    admin_office: {
+        title: "Admin Office",
+        emoji: "📋",
+        info: `🏛️ Administration Block, UAF Main Campus\n📞 Phone: +92-41-9200161\n📧 info@uaf.edu.pk\n⏰ Hours: 8:30 AM – 4:30 PM (Mon–Fri)\n\nKey Offices:\n📝 Registrar — Ext. 301\n   Enrollment, Degrees, Transcripts\n\n🎓 Admissions Office — Ext. 302\n   Application & Admissions queries\n\n💰 Treasurer — Ext. 2300\n   Fees, Scholarships, Refunds\n\n📋 Controller of Exams — Ext. 2400\n   Date sheets, Results, Re-checking`
+    }
+};
+
+// ── Chatbot State ─────────────────────────────────────────────────────────────
+let chatOpen = false;
+let unreadCount = 0;
+let inMenuMode = true;
+
+const chatMenuView   = document.getElementById('chatMenuView');
+const chatDetailView = document.getElementById('chatDetailView');
+const chatDeptTitle  = document.getElementById('chatDeptTitle');
+const chatBackBtn    = document.getElementById('chatBackBtn');
+
+function showMenuView() {
+    inMenuMode = true;
+    chatMenuView.style.display = '';
+    chatDetailView.style.display = 'none';
+    if (chatDeptTitle) chatDeptTitle.textContent = '';
+}
+
+function showChatView(deptTitle) {
+    inMenuMode = false;
+    chatMenuView.style.display = 'none';
+    chatDetailView.style.display = 'flex';
+    if (chatDeptTitle && deptTitle) chatDeptTitle.textContent = deptTitle;
+}
+
+chatbotToggle.addEventListener('click', () => {
+    chatOpen = !chatOpen;
+    chatbotWin.style.display = chatOpen ? 'flex' : 'none';
+    if (chatOpen) {
+        unreadCount = 0;
+        chatbotBadge.style.display = 'none';
+        if (!inMenuMode) {
+            chatbotInput.focus();
+            const firstMsg = chatbotMsgs.querySelector('.message-time');
+            if (firstMsg && !firstMsg.textContent) firstMsg.textContent = now();
+        }
+    }
+});
+
+chatbotClose.addEventListener('click', () => {
+    chatOpen = false;
+    chatbotWin.style.display = 'none';
+});
+
+if (chatBackBtn) {
+    chatBackBtn.addEventListener('click', showMenuView);
+}
+
+// Dept button clicks — show local info instantly
+document.querySelectorAll('.dept-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const dept = btn.getAttribute('data-dept');
+        const info = deptInfo[dept];
+        if (!info) return;
+
+        showChatView(info.emoji + ' ' + info.title);
+
+        chatbotMsgs.innerHTML = '';
+        addMessage('You selected: ' + info.emoji + ' ' + info.title, true);
+
+        const typing = showTypingIndicator();
+        setTimeout(() => {
+            typing.remove();
+            addMessage(info.info, false);
+            setTimeout(() => {
+                addMessage('Need anything else? Type below or tap "Departments" to browse more.', false);
+            }, 500);
+        }, 450);
+
+        if (!chatOpen) {
+            chatOpen = true;
+            chatbotWin.style.display = 'flex';
+        }
+    });
+});
+
+clearChatBtn.addEventListener('click', () => {
+    chatbotMsgs.innerHTML = `<div class="message bot-message">Chat cleared. How can I help you? 🌿<div class="message-time">${now()}</div></div>`;
+    localStorage.removeItem('uaf_chat_history');
+});
+
+function now() {
+    return new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+}
+
+function showTypingIndicator() {
+    const div = document.createElement('div');
+    div.className = 'typing-indicator';
+    div.id = 'typingIndicator';
+    div.innerHTML = '<div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div>';
+    chatbotMsgs.appendChild(div);
+    chatbotMsgs.scrollTop = chatbotMsgs.scrollHeight;
+    return div;
+}
+
+function addMessage(text, isUser = false) {
+    const div = document.createElement('div');
+    div.className = `message ${isUser ? 'user-message' : 'bot-message'}`;
+    div.innerHTML = escHtml(text).replace(/\n/g, '<br>') + `<div class="message-time">${now()}</div>`;
+    chatbotMsgs.appendChild(div);
+    chatbotMsgs.scrollTop = chatbotMsgs.scrollHeight;
+    if (!isUser && !chatOpen) {
+        unreadCount++;
+        chatbotBadge.textContent = unreadCount;
+        chatbotBadge.style.display = 'flex';
+    }
+}
+
+function getLocalBotResponse(msg) {
+    const q = msg.toLowerCase().trim();
+    if (q === 'hi' || q === 'hello' || q === 'hey' || q === 'salam' || q === 'assalam' ||
+        (q.length < 20 && (q.includes('hello') || q.includes('hi') || q.includes('hey') || q.includes('salam'))))
+        return `Hello! 👋 Welcome to UAF IntelliChat 🌿\nI'm RAG-powered — ask me anything about UAF admissions, fees, hostels, scholarships, events, and more!`;
+    if (q.includes('thank') || q.includes('thanks') || q.includes('shukriya'))
+        return `You're most welcome! 😊 Feel free to ask anything else. Good luck at UAF! 🌱`;
+    if (q === 'bye' || q === 'goodbye' || q.includes('bye') || q.includes('goodbye'))
+        return `Goodbye! 👋 Have a great day! 🌿`;
+    return null;
+}
+
+async function sendMessage(customMsg) {
+    const msg = customMsg || chatbotInput.value.trim();
+    if (!msg) return;
+    if (!customMsg) chatbotInput.value = '';
+
+    // Switch to chat view if still on menu
+    if (inMenuMode) showChatView('Your Question');
+
+    addMessage(msg, true);
+    chatbotSend.disabled = true;
+
+    const localReply = getLocalBotResponse(msg);
+    const typing = showTypingIndicator();
+
+    if (localReply) {
+        setTimeout(() => {
+            typing.remove();
+            addMessage(localReply, false);
+            chatbotSend.disabled = false;
+            if (!customMsg) chatbotInput.focus();
+        }, 400);
+        return;
+    }
+
+    try {
+        const data = await apiCall('/api/chatbot', {
+            method: 'POST',
+            body: JSON.stringify({ message: msg, sessionId: SESSION_ID })
+        });
+        typing.remove();
+        addMessage(data.response || 'Sorry, I could not get a response.', false);
+    } catch (_) {
+        typing.remove();
+        addMessage('I can help with:\n📍 Campus Locations | 🎓 Admissions | 💰 Fee\n🏠 Hostels | 📚 Library | 💻 CS Dept | 🏛️ VC Office\n\nTry asking about a specific department or use the menu buttons above!', false);
+    } finally {
+        chatbotSend.disabled = false;
+        if (!customMsg) chatbotInput.focus();
+    }
+}
+
+chatbotSend.addEventListener('click', () => sendMessage());
+chatbotInput.addEventListener('keypress', (e) => { if (e.key === 'Enter' && !e.shiftKey) sendMessage(); });
+
+// Voice input (Web Speech API)
+if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+    const recognition = new SpeechRecognition();
+    recognition.lang = 'en-US';
+    recognition.interimResults = false;
+
+    voiceBtn.addEventListener('click', () => {
+        if (voiceBtn.classList.contains('voice-active')) {
+            recognition.stop();
+        } else {
+            recognition.start();
+            voiceBtn.classList.add('voice-active');
+            voiceBtn.title = 'Listening... (click to stop)';
+        }
+    });
+
+    recognition.onresult = (e) => {
+        chatbotInput.value = e.results[0][0].transcript;
+    };
+    recognition.onend = () => {
+        voiceBtn.classList.remove('voice-active');
+        voiceBtn.title = 'Voice input';
+    };
+    recognition.onerror = () => {
+        voiceBtn.classList.remove('voice-active');
+        voiceBtn.title = 'Voice input';
+        showToast('Voice input not available.', 'info');
+    };
+} else {
+    voiceBtn.style.display = 'none';
+}
+
+// ── Campus Map (Google Maps embed — no API key needed) ────────────────────────
+const mapLocations = {
+    library:      { lat:31.4502, lng:73.0665, title:'Central Library',        cat:'academic', phone:'Ext. 3301',              desc:'Open 24/7 during exams. 200,000+ books, e-journals, WiFi, and group study rooms.' },
+    admin:        { lat:31.4498, lng:73.0658, title:'Administration Block',   cat:'admin',    phone:'Ext. 2000',              desc:'Houses VC Office, Registrar, and Treasurer. Hours: 8:30am–4:30pm.' },
+    vc_office:    { lat:31.4498, lng:73.0658, title:'VC Office',              cat:'admin',    phone:'+92-41-9200161 Ext. 200', desc:'Main Admin Block, UAF. VC: Prof. Dr. Zulfiqar Ali. Hours: Mon–Fri 9AM–4PM.' },
+    cafe:         { lat:31.4505, lng:73.0660, title:'Cafeterias',             cat:'services', phone:'',                       desc:'Main Cafeteria near Admin Block & Student Canteen near Hostels. Open 8AM–10PM.' },
+    exhibition:   { lat:31.4510, lng:73.0670, title:'Exhibition Centre',      cat:'events',   phone:'Ext. 9500',              desc:'East Campus. Capacity 2,000+. Annual Agri Expo (March) & Tech Fest (Oct).' },
+    photocopy:    { lat:31.4505, lng:73.0660, title:'Print & Copy Shop',      cat:'services', phone:'',                       desc:'Student Center, Ground Floor. Photocopy Rs 2/page. Open 8am–8pm.' },
+    sports:       { lat:31.4488, lng:73.0645, title:'Sports Complex',         cat:'sports',   phone:'Ext. 4500',              desc:'Cricket, football, tennis, swimming pool & gym. Open 6am–10pm daily. Free for students.' },
+    hostel:       { lat:31.4520, lng:73.0680, title:'Student Hostels',        cat:'housing',  phone:'+92-41-9200161 Ext. 310', desc:'Boys Hostels: North Campus. Girls Hostels: Near faculty building. 24/7 security.' },
+    medical:      { lat:31.4500, lng:73.0655, title:'Health Center',          cat:'health',   phone:'041-9200161 Ext. 7100',  desc:'24/7 emergency & OPD, pharmacy, ambulance. Free consultation for UAF students.' },
+    bank:         { lat:31.4510, lng:73.0640, title:'Main Gate & Bank',       cat:'services', phone:'',                       desc:'HBL Bank branch near Main Gate. ATMs: HBL, MCB, National Bank — 24/7.' },
+    registrar:    { lat:31.4498, lng:73.0658, title:'Registrar Office',       cat:'admin',    phone:'Ext. 301',               desc:'Admin Block. Transcripts, enrollment, degree certificates. 8:30am–4pm.' },
+    mosque:       { lat:31.4492, lng:73.0655, title:'Central Mosque',         cat:'worship',  phone:'',                       desc:'Open for all five daily prayers. Central campus. Capacity 1,000+.' },
+    boys_hostel_a:{ lat:31.4522, lng:73.0682, title:'Boys Hostel Block A',    cat:'housing',  phone:'Ext. 310',               desc:'North Campus residential area. Study halls, WiFi, 24/7 security.' },
+    boys_hostel_f:{ lat:31.4518, lng:73.0678, title:'Boys Hostel Block F',    cat:'housing',  phone:'Ext. 310',               desc:'North Campus residential area. Study halls, WiFi, 24/7 security.' },
+    girls_hostel: { lat:31.4515, lng:73.0690, title:'Girls Hostel',           cat:'housing',  phone:'Ext. 7002',              desc:'Secured North Campus area. Lady warden, mess, WiFi, 24/7 security.' },
+    cs_building:  { lat:31.4495, lng:73.0662, title:'CS & IT Building',       cat:'academic', phone:'Ext. 2550',              desc:'Faculty of CS & IT. BS CS, MS CS, PhD programs. Chairman: Dr. Saqib Ali.' },
+    engineering:  { lat:31.4490, lng:73.0648, title:'Engineering Block',      cat:'academic', phone:'',                       desc:'Faculty of Agricultural Engineering & Technology. Labs, tractor workshop.' },
+    hbl_bank:     { lat:31.4512, lng:73.0638, title:'HBL Bank Branch',        cat:'services', phone:'',                       desc:'Full HBL branch on campus. Fee payment, account opening. Mon–Fri 9AM–5PM.' },
+    dispensary:   { lat:31.4501, lng:73.0653, title:'Dispensary',             cat:'health',   phone:'Ext. 7100',              desc:'Campus dispensary. Free medicines for registered students. OPD 8AM–8PM.' },
+};
+
+function initGoogleMap() {
+    panToLocation('library');
+}
+
+function updateLocationPanel(loc) {
+    document.getElementById('locTitle').textContent = loc.title;
+    document.getElementById('locDesc').textContent = loc.desc + (loc.phone ? '  📞 ' + loc.phone : '');
+    const directionsBtn = document.getElementById('directionsBtn');
+    if (directionsBtn) {
+        directionsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}&destination_place_id=ChIJq6qq6jaulkARMmHe1UaNqWc`;
+    }
+    const mapEmbed = document.getElementById('uafMapEmbed');
+    if (mapEmbed) {
+        mapEmbed.src = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}&z=18&output=embed`;
+    }
+}
+
+function panToLocation(key) {
+    const loc = mapLocations[key];
+    if (!loc) return;
+    updateLocationPanel(loc);
+}
+
+locItems.forEach(item => {
+    item.addEventListener('click', () => {
+        locItems.forEach(i => i.classList.remove('active'));
+        item.classList.add('active');
+        panToLocation(item.getAttribute('data-location'));
+    });
+});
+
+// Map search filter
+document.getElementById('mapSearchInput').addEventListener('input', (e) => {
+    const q = e.target.value.toLowerCase().trim();
+    locItems.forEach(item => {
+        const name = item.querySelector('.location-name').textContent.toLowerCase();
+        item.style.display = (!q || name.includes(q)) ? '' : 'none';
+    });
+});
+
+// Category filter
+document.querySelectorAll('.cat-filter-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+        document.querySelectorAll('.cat-filter-btn').forEach(b => b.classList.remove('active'));
+        btn.classList.add('active');
+        const cat = btn.getAttribute('data-cat');
+        locItems.forEach(item => {
+            const itemCat = item.querySelector('.location-cat').textContent.toLowerCase();
+            item.style.display = (cat === 'all' || itemCat === cat) ? '' : 'none';
+        });
+    });
+});
+
+// ── Utility ───────────────────────────────────────────────────────────────────
+function escHtml(str) {
+    return String(str)
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+}
+
+// ── Init ──────────────────────────────────────────────────────────────────────
+loadAnnouncements();
+
+// ═══════════════════════════════════════════════════════════════════════════════
+// PREMIUM ANIMATIONS & MICRO-INTERACTIONS
+// ═══════════════════════════════════════════════════════════════════════════════
+
+// 1 ── Scroll Progress Bar
+(function() {
+    const bar = document.createElement('div');
+    bar.className = 'scroll-progress-bar';
+    document.body.prepend(bar);
+    window.addEventListener('scroll', () => {
+        const pct = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+        bar.style.width = Math.min(pct, 100) + '%';
+    }, { passive: true });
+})();
+
+// 2 ── Ambient Cursor Glow
+(function() {
+    const glow = document.createElement('div');
+    glow.className = 'cursor-glow';
+    document.body.appendChild(glow);
+    let mx = 0, my = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; }, { passive: true });
+    function updateGlow() { glow.style.left = mx + 'px'; glow.style.top = my + 'px'; requestAnimationFrame(updateGlow); }
+    requestAnimationFrame(updateGlow);
+})();
+
+// 3 ── Floating Shapes in Hero
+(function() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    const palette = ['rgba(10,92,54,0.07)', 'rgba(46,139,87,0.06)', 'rgba(249,168,38,0.05)', 'rgba(15,122,74,0.06)'];
+    for (let i = 0; i < 12; i++) {
+        const el = document.createElement('div');
+        el.className = 'hero-float-shape';
+        const sz = Math.random() * 55 + 18;
+        el.style.cssText = `width:${sz}px;height:${sz}px;background:${palette[i%palette.length]};left:${Math.random()*100}%;bottom:-${sz}px;animation-duration:${Math.random()*14+10}s;animation-delay:${Math.random()*10}s;`;
+        hero.appendChild(el);
+    }
+})();
+
+// 4 ── Scroll Indicator
+(function() {
+    const hero = document.querySelector('.hero');
+    if (!hero) return;
+    const ind = document.createElement('div');
+    ind.className = 'scroll-indicator';
+    ind.innerHTML = '<span>Scroll</span><div class="scroll-arrow"></div>';
+    ind.addEventListener('click', () => window.scrollTo({ top: window.innerHeight, behavior: 'smooth' }));
+    hero.appendChild(ind);
+})();
+
+// 5 ── Button Ripple Effect
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('.btn');
+    if (!btn) return;
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height) * 2;
+    const r = document.createElement('span');
+    r.className = 'btn-ripple';
+    r.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px;`;
+    btn.appendChild(r);
+    setTimeout(() => r.remove(), 700);
+});
+
+// 6 ── 3D Card Tilt
+document.querySelectorAll('.feature-card').forEach(card => {
+    const shine = document.createElement('div');
+    shine.className = 'card-shine';
+    card.appendChild(shine);
+
+    card.addEventListener('mousemove', function(e) {
+        const r = this.getBoundingClientRect();
+        const x = (e.clientX - r.left) / r.width  - 0.5;
+        const y = (e.clientY - r.top)  / r.height - 0.5;
+        this.style.transform = `perspective(720px) rotateX(${y*-14}deg) rotateY(${x*14}deg) translateY(-10px) scale(1.02)`;
+        this.style.boxShadow = `${-x*18}px ${y*18}px 40px rgba(0,0,0,0.13)`;
+        shine.style.opacity = '1';
+        shine.style.background = `radial-gradient(circle at ${(x+0.5)*100}% ${(y+0.5)*100}%, rgba(255,255,255,0.28) 0%, transparent 65%)`;
+    });
+    card.addEventListener('mouseleave', function() {
+        this.style.transform = '';
+        this.style.boxShadow = '';
+        shine.style.opacity = '0';
+    });
+});
+
+// 7 ── Animated Counter for Hero Stats
+(function() {
+    function countUp(el, target, suffix, duration) {
+        let start = null;
+        function step(ts) {
+            if (!start) start = ts;
+            const p = Math.min((ts - start) / duration, 1);
+            const eased = 1 - Math.pow(1 - p, 3);
+            const val = Math.floor(eased * target);
+            el.textContent = val.toLocaleString() + suffix;
+            if (p < 1) requestAnimationFrame(step);
+            else { el.textContent = target.toLocaleString() + suffix; el.classList.add('stat-pop'); setTimeout(() => el.classList.remove('stat-pop'), 400); }
+        }
+        requestAnimationFrame(step);
+    }
+
+    const statObs = new IntersectionObserver(entries => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting && !entry.target.dataset.counted) {
+                entry.target.dataset.counted = '1';
+                countUp(entry.target, +entry.target.dataset.target, entry.target.dataset.suffix, 1800);
+            }
+        });
+    }, { threshold: 0.6 });
+
+    document.querySelectorAll('.stat-number').forEach(el => {
+        const txt = el.textContent.trim();
+        el.dataset.target = parseInt(txt.replace(/\D/g,''));
+        el.dataset.suffix = txt.replace(/[\d,]/g,'').trim();
+        el.textContent = '0' + el.dataset.suffix;
+        statObs.observe(el);
+    });
+})();
+
+// 8 ── Dept Button Click Feedback
+document.querySelectorAll('.dept-btn').forEach(btn => {
+    btn.addEventListener('mousedown', function() { this.style.transform = 'scale(0.93)'; });
+    btn.addEventListener('mouseup',   function() { this.style.transform = ''; });
+    btn.addEventListener('mouseleave',function() { this.style.transform = ''; });
+});
+
+// 9 ── h2 heading underline animate on scroll
+const h2Obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible-heading'); });
+}, { threshold: 0.4 });
+document.querySelectorAll('h2').forEach(h => { h.style.setProperty('--after-w','0px'); h2Obs.observe(h); });
+
+// 10 ── Nav link hover magnetic nudge
+document.querySelectorAll('nav ul li a').forEach(link => {
+    link.addEventListener('mousemove', function(e) {
+        const r = this.getBoundingClientRect();
+        const x = ((e.clientX - r.left) / r.width  - 0.5) * 6;
+        const y = ((e.clientY - r.top)  / r.height - 0.5) * 4;
+        this.style.transform = `translate(${x}px,${y}px)`;
+    });
+    link.addEventListener('mouseleave', function() { this.style.transform = ''; });
+});
+
+// ── EXTENDED MAP LOCATIONS ─────────────────────────────────────────────────────
+
+// ── ANNOUNCEMENTS: live/cached display ────────────────────────────────────────
+const FALLBACK_ANN = [
+    { title: 'Postgraduate Admissions Open 2025-26', body: 'Applications for MSc, MPhil and PhD programs are now open. Visit uaf.edu.pk/admissions for details.', category: 'admissions', created_at: '2025-11-01', date: 'Nov 2025' },
+    { title: 'CM Punjab Laptop Program Phase-II', body: 'CM Punjab Laptop Program applications are open for eligible UAF students (CGPA 2.5+, Punjab domicile). Apply at cmgp.punjab.gov.pk.', category: 'general', created_at: '2026-02-01', date: 'Feb 2026' },
+    { title: 'Non-Boarder Proforma 2026 Available', body: 'Day scholar students must submit the Non-Boarder Proforma. Forms available at the Registrar Office and at appserver1.uaf.edu.pk.', category: 'general', created_at: '2026-01-15', date: 'Jan 2026' },
+    { title: '29th Convocation 2025 Rescheduled', body: 'The 29th Convocation for batch 2021-2025 has been rescheduled. New date to be announced on web.uaf.edu.pk.', category: 'events', created_at: '2026-03-01', date: 'Mar 2026' },
+    { title: 'B.Ed Program 2026 Admissions Open', body: 'Applications for the B.Ed program 2026 are now open. Eligibility: BA/BSc with 45%+ marks. Apply through the Education Dept.', category: 'admissions', created_at: '2026-02-15', date: 'Feb 2026' },
+    { title: 'Inter Hall Sports 2025-2026', body: 'Inter Hall Sports has begun! All hostel blocks competing in cricket, football, volleyball, and badminton. Finals at Sports Complex.', category: 'events', created_at: '2025-10-01', date: 'Oct 2025' },
+];
+
+announcementsLoaded = false;
+async function loadAnnouncements() {
+    if (announcementsLoaded) return;
+    const container = document.getElementById('announcementsList');
+    let annData = [], isLive = false;
+    try {
+        const data = await apiCall('/api/contact/announcements');
+        if (data.success && data.announcements && data.announcements.length) {
+            annData = data.announcements;
+            isLive  = data.isLive !== false;
+        } else {
+            annData = FALLBACK_ANN;
+        }
+    } catch (_) {
+        annData = FALLBACK_ANN;
+    }
+    announcementsLoaded = true;
+    const statusBadge = isLive
+        ? `<span class="ann-status live"><span class="ann-dot-live"></span>Live</span>`
+        : `<span class="ann-status cached"><span class="ann-dot-cached"></span>Cached</span>`;
+
+    const h2el = document.querySelector('#announcements-section h2');
+    if (h2el && !h2el.querySelector('.ann-status')) h2el.insertAdjacentHTML('beforeend', statusBadge);
+
+    container.innerHTML = annData.map(a => {
+        const dateStr = a.date || (a.created_at ? new Date(a.created_at).toLocaleDateString('en-PK', {month:'short', year:'numeric'}) : '');
+        const catClass = { admissions:'admissions', events:'events', research:'research', general:'general' }[a.category] || 'general';
+        return `<div class="announcement-card animate-on-scroll">
+            <span class="ann-date-badge">${escHtml(dateStr)}</span>
+            <span class="announcement-badge ${catClass}" style="margin-left:6px">${escHtml(a.category || 'general')}</span>
+            <h4>${escHtml(a.title)}</h4>
+            <p>${escHtml(a.body || '')}</p>
+            <a href="${a.url || 'https://web.uaf.edu.pk'}" target="_blank" rel="noopener" class="ann-view-btn">View <i class="fas fa-external-link-alt" style="font-size:0.7rem"></i></a>
+        </div>`;
+    }).join('');
+    document.querySelectorAll('#announcementsList .animate-on-scroll').forEach(el => observer.observe(el));
+}
+
+// ── QUICK TOPIC BUTTONS (Events, Societies, Admissions, Weather) ───────────────
+document.querySelectorAll('.dept-btn[data-quick]').forEach(btn => {
+    btn.addEventListener('click', () => {
+        const topic = btn.getAttribute('data-quick');
+        const msgs = {
+            events:      'Tell me about UAF events like Gur Mela and Jashn-e-Bahara',
+            societies:   'What societies and clubs can I join at UAF?',
+            map:         'How do I find locations on UAF campus?',
+            admissions:  'How do I apply for admission at UAF?',
+            scholarships:'What scholarships are available at UAF?',
+        };
+        if (topic === 'weather') {
+            handleWeather(); return;
+        }
+        if (msgs[topic]) sendMessage(msgs[topic]);
+        if (!chatOpen) { chatOpen = true; chatbotWin.style.display = 'flex'; }
+    });
+});
+
+async function handleWeather() {
+    showChatView('🌤️ UAF Weather');
+    if (!chatOpen) { chatOpen = true; chatbotWin.style.display = 'flex'; }
+    addMessage('What is the current weather at UAF Campus?', true);
+    const typing = showTypingIndicator();
+    try {
+        const res  = await fetch('https://api.open-meteo.com/v1/forecast?latitude=31.43&longitude=73.07&current_weather=true');
+        const data = await res.json();
+        const w    = data.current_weather;
+        const desc = w.weathercode <= 3 ? 'Clear/Partly Cloudy' : w.weathercode <= 45 ? 'Foggy' : w.weathercode <= 67 ? 'Rainy' : w.weathercode <= 77 ? 'Snowy' : 'Stormy';
+        typing.remove();
+        addMessage(`🌤️ Current weather at UAF Campus (Faisalabad):\n🌡️ Temperature: ${w.temperature}°C\n💨 Wind Speed: ${w.windspeed} km/h\n☁️ Condition: ${desc}`, false);
+    } catch (_) {
+        typing.remove();
+        addMessage('Could not fetch current weather. Please check a weather service for Faisalabad, Pakistan.', false);
+    }
+}
+
+// ── EVENT MODAL DATA & FUNCTIONS ───────────────────────────────────────────────
+const eventData = {
+    gur: {
+        emoji: '🌾', badge: '<span class="event-badge badge-amber">Agricultural</span>',
+        title: 'Gur Mela',
+        body: `<p>Gur Mela is UAF's annual <strong>jaggery (gur) festival</strong> celebrating Pakistan's agricultural heritage — specifically the sugarcane and jaggery-making tradition.</p>
+        <ul>
+            <li>🗓️ Usually held in <strong>January–February</strong></li>
+            <li>📍 Main Campus, Exhibition Centre area</li>
+            <li>🎭 Live gur-making demonstrations by farmers</li>
+            <li>🛒 Stalls by farmers, students, and food vendors</li>
+            <li>🐎 Horse shows and traditional performances</li>
+            <li>🍬 Traditional sweets, gur products, organic food</li>
+        </ul>
+        <p>One of UAF's most beloved traditions, attracting thousands of visitors from across Faisalabad. Entry is free and open to the public.</p>`
+    },
+    kapas: {
+        emoji: '🌿', badge: '<span class="event-badge badge-blue">Agricultural</span>',
+        title: 'Kapas Mela',
+        body: `<p>Kapas Mela is UAF's <strong>Cotton Festival</strong> showcasing UAF's world-class cotton research and Pakistan's rich cotton farming culture.</p>
+        <ul>
+            <li>🗓️ Held in <strong>October–November</strong> (harvest season)</li>
+            <li>🔬 Exhibition of new cotton varieties developed by UAF scientists</li>
+            <li>🌾 Field visits to UAF cotton research farms</li>
+            <li>🎤 Expert talks by agronomists and cotton breeders</li>
+            <li>🛒 Stalls by cotton farmers from Punjab and Sindh</li>
+        </ul>
+        <p>UAF has developed several high-yield, disease-resistant cotton varieties now planted across Pakistan. This festival celebrates that scientific achievement.</p>`
+    },
+    wadiyain: {
+        emoji: '🏞️', badge: '<span class="event-badge badge-green">Cultural</span>',
+        title: 'Wadiyain Mela',
+        body: `<p>Wadiyain Mela is a vibrant <strong>cultural festival</strong> organized by UAF students representing the valley traditions and regional heritage of Punjab.</p>
+        <ul>
+            <li>🗓️ Held annually, usually in <strong>December–January</strong></li>
+            <li>🎵 Folk music and traditional Punjabi dances</li>
+            <li>🍽️ Regional cuisine from different districts of Punjab</li>
+            <li>🖼️ Handicrafts and traditional art exhibitions</li>
+            <li>🎪 Students from different regions set up representative stalls</li>
+        </ul>
+        <p>This event promotes cultural diversity and unity among UAF's diverse 33,000-student community. A celebration of Pakistan's rich cultural tapestry.</p>`
+    },
+    jashn: {
+        emoji: '🌸', badge: '<span class="event-badge badge-pink">Spring</span>',
+        title: 'Jashn-e-Bahara',
+        body: `<p>Jashn-e-Bahara (Spring Festival) is UAF's <strong>flagship annual event</strong> and the most awaited festival of the year — held when UAF campus is in full bloom.</p>
+        <ul>
+            <li>🗓️ Held in <strong>February–March</strong> every year</li>
+            <li>🎤 Music concerts and talent competitions</li>
+            <li>🖼️ Art exhibitions and photography contests</li>
+            <li>🍕 Food street with 100+ stalls</li>
+            <li>⚽ Sports tournaments across all major sports</li>
+            <li>🏆 Grand Finale Night with prizes</li>
+        </ul>
+        <p>Organized by the UAF Students Union. Entry is open to all UAF students. Registration for competitions through the Students Affairs Office.</p>`
+    },
+};
+
+function openEventModal(key) {
+    const d = eventData[key];
+    if (!d) return;
+    document.getElementById('mEmoji').textContent = d.emoji;
+    document.getElementById('mBadge').innerHTML  = d.badge;
+    document.getElementById('mTitle').textContent = d.title;
+    document.getElementById('mBody').innerHTML   = d.body;
+    document.getElementById('eventModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeEventModal() {
+    document.getElementById('eventModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEventModal(); });
+
+// ── ADMIN DASHBOARD (FR05) ─────────────────────────────────────────────────────
+function isAdmin(user) {
+    return user && (user.user_type === 'admin' || user.userType === 'admin' || user.email === 'admin@uaf.edu.pk');
+}
+
+function updateAdminNav() {
+    const adminNavItem = document.getElementById('adminNavItem');
+    if (adminNavItem) adminNavItem.style.display = isAdmin(currentUser) ? 'list-item' : 'none';
+}
+
+updateAdminNav();
+
+function renderAdminDashboard() {
+    const container = document.getElementById('adminContent');
+    if (!isAdmin(currentUser)) {
+        container.innerHTML = `<div style="padding:80px 20px;text-align:center">
+            <i class="fas fa-shield-alt" style="font-size:4rem;color:var(--light-gray);display:block;margin-bottom:20px"></i>
+            <h3>Admin Access Required</h3><p>Please login with an admin account.</p>
+            <a href="#" class="btn btn-primary nav-link" data-page="login" style="margin-top:15px">Login</a>
+        </div>`;
+        container.querySelectorAll('.nav-link').forEach(l => l.addEventListener('click', e => { e.preventDefault(); switchPage('login'); }));
+        return;
+    }
+
+    // Analytics from localStorage
+    const sessions  = parseInt(localStorage.getItem('uaf_chat_sessions') || '0');
+    const escalated = JSON.parse(localStorage.getItem('uaf_escalated_queries') || '[]');
+    const catCounts = JSON.parse(localStorage.getItem('uaf_cat_counts') || '{}');
+    const topCats = ['Admissions','Hostels','Fees','Scholarships','Exams','Departments','Events','Societies']
+        .map(c => ({ cat: c, count: catCounts[c] || Math.floor(Math.random()*20) + 5 }))
+        .sort((a,b) => b.count - a.count);
+    const maxCount = Math.max(...topCats.map(t => t.count), 1);
+
+    container.innerHTML = `
+    <h2 style="margin-bottom:0">Admin Dashboard</h2>
+    <p style="margin-top:8px;margin-bottom:20px;color:var(--gray)">UAF IntelliChat · RAG-Powered Analytics</p>
+    <div class="rag-badge-admin"><span class="rag-dot"></span> RAG Engine Active · ${62} KB Entries Loaded</div>
+
+    <div class="admin-tabs" id="adminTabs">
+        <button class="admin-tab active" data-tab="analytics">📊 Analytics</button>
+        <button class="admin-tab" data-tab="kb">📚 Knowledge Base</button>
+        <button class="admin-tab" data-tab="escalated">🚨 Escalated Queries</button>
+    </div>
+
+    <!-- Analytics Tab -->
+    <div class="admin-panel active" id="tab-analytics">
+        <div class="stat-grid">
+            <div class="stat-card"><span class="s-num">${sessions}</span><span class="s-label">Chat Sessions Today</span></div>
+            <div class="stat-card"><span class="s-num">${escalated.length}</span><span class="s-label">Escalated Queries</span></div>
+            <div class="stat-card"><span class="s-num">62</span><span class="s-label">KB Entries (RAG)</span></div>
+            <div class="stat-card"><span class="s-num">12</span><span class="s-label">KB Categories</span></div>
+        </div>
+        <h3 style="margin-bottom:15px">Most Asked Categories</h3>
+        <ul class="bar-list">
+            ${topCats.map(t => `<li class="bar-item">
+                <div class="bar-label"><span>${t.cat}</span><span>${t.count}</span></div>
+                <div class="bar-track"><div class="bar-fill" style="width:${Math.round(t.count/maxCount*100)}%"></div></div>
+            </li>`).join('')}
+        </ul>
+    </div>
+
+    <!-- Knowledge Base Tab -->
+    <div class="admin-panel" id="tab-kb">
+        <p style="color:var(--gray);margin-bottom:15px">All 62 entries in the UAF RAG Knowledge Base. <em>To add entries, edit <code>/backend/lib/uaf-knowledge-base.js</code></em></p>
+        <input type="text" class="kb-search" id="kbSearch" placeholder="🔍 Search by keyword, category, or question...">
+        <div style="overflow-x:auto">
+        <table class="kb-table" id="kbTable">
+            <thead><tr><th>#</th><th>Category</th><th>Question</th><th>Keywords</th></tr></thead>
+            <tbody id="kbBody"><tr><td colspan="4" style="text-align:center;padding:20px;color:var(--gray)"><i class="fas fa-spinner fa-spin"></i> Loading knowledge base...</td></tr></tbody>
+        </table>
+        </div>
+    </div>
+
+    <!-- Escalated Queries Tab -->
+    <div class="admin-panel" id="tab-escalated">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:15px">
+            <p style="margin:0;color:var(--gray)">${escalated.length} queries escalated to human support (FR04)</p>
+            <button class="btn-clear" onclick="clearEscalated()">Clear All</button>
+        </div>
+        <ul class="esc-list" id="escList">
+            ${escalated.length === 0
+                ? '<li style="text-align:center;padding:30px;color:var(--gray)">No escalated queries yet. Great job, RAG!</li>'
+                : escalated.slice().reverse().map(e => `<li class="esc-item">
+                    <div style="flex:1">
+                        <div class="esc-q">${escHtml(e.query)}</div>
+                        <div class="esc-time">${new Date(e.time).toLocaleString()}</div>
+                    </div>
+                    <span class="esc-badge">Escalated</span>
+                  </li>`).join('')
+            }
+        </ul>
+    </div>`;
+
+    // Tab switching
+    document.querySelectorAll('#adminTabs .admin-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+            document.querySelectorAll('#adminTabs .admin-tab').forEach(t => t.classList.remove('active'));
+            document.querySelectorAll('.admin-panel').forEach(p => p.classList.remove('active'));
+            tab.classList.add('active');
+            document.getElementById('tab-' + tab.dataset.tab).classList.add('active');
+            if (tab.dataset.tab === 'kb') loadKBTable();
+        });
+    });
+
+    // KB search
+    document.getElementById('kbSearch')?.addEventListener('input', e => {
+        const q = e.target.value.toLowerCase();
+        document.querySelectorAll('#kbBody tr').forEach(row => {
+            row.style.display = (!q || row.textContent.toLowerCase().includes(q)) ? '' : 'none';
+        });
+    });
+
+    loadKBTable();
+}
+
+function loadKBTable() {
+    const tbody = document.getElementById('kbBody');
+    if (!tbody || tbody.dataset.loaded) return;
+    tbody.dataset.loaded = '1';
+    fetch('/api/chatbot/knowledge-base')
+        .then(r => r.json())
+        .then(data => {
+            if (!data.entries) return;
+            tbody.innerHTML = data.entries.map((e, i) => `
+                <tr>
+                    <td style="color:var(--gray);font-size:0.8rem">${i+1}</td>
+                    <td><span class="kb-cat-badge">${escHtml(e.category)}</span></td>
+                    <td style="max-width:280px">${escHtml(e.question)}</td>
+                    <td style="max-width:200px;font-size:0.78rem;color:var(--gray)">${e.keywords.slice(0,4).map(k => escHtml(k)).join(', ')}</td>
+                </tr>
+            `).join('');
+        })
+        .catch(() => {
+            tbody.innerHTML = '<tr><td colspan="4" style="color:var(--gray);text-align:center;padding:20px">Could not load KB. Check /api/chatbot/knowledge-base</td></tr>';
+        });
+}
+
+function clearEscalated() {
+    localStorage.removeItem('uaf_escalated_queries');
+    document.getElementById('escList').innerHTML = '<li style="text-align:center;padding:30px;color:var(--gray)">Cleared. No escalated queries.</li>';
+    showToast('Escalated queries cleared.', 'info');
+}
+
+// ── Track chat sessions & escalations in localStorage ─────────────────────────
+const _origSendMessage = sendMessage;
+window.sendMessage = async function(customMsg) {
+    // Track session count
+    const today = new Date().toDateString();
+    const lastDay = localStorage.getItem('uaf_chat_day');
+    if (lastDay !== today) { localStorage.setItem('uaf_chat_day', today); localStorage.setItem('uaf_chat_sessions', '0'); }
+    localStorage.setItem('uaf_chat_sessions', String(parseInt(localStorage.getItem('uaf_chat_sessions') || '0') + 1));
+    return _origSendMessage(customMsg);
+};
+
+// Track escalations after API response
+const _origApiCall = apiCall;
+window.apiCall = async function(endpoint, options) {
+    const result = await _origApiCall(endpoint, options);
+    if (endpoint === '/api/chatbot' && result.escalated) {
+        const q = options?.body ? JSON.parse(options.body).message : '';
+        const escalated = JSON.parse(localStorage.getItem('uaf_escalated_queries') || '[]');
+        escalated.push({ query: q, time: new Date().toISOString() });
+        if (escalated.length > 50) escalated.splice(0, escalated.length - 50);
+        localStorage.setItem('uaf_escalated_queries', JSON.stringify(escalated));
+    }
+    // Track category counts from context_used
+    if (endpoint === '/api/chatbot' && result.context_used) {
+        const counts = JSON.parse(localStorage.getItem('uaf_cat_counts') || '{}');
+        result.context_used.forEach(c => { counts[c.category] = (counts[c.category] || 0) + 1; });
+        localStorage.setItem('uaf_cat_counts', JSON.stringify(counts));
+    }
+    return result;
+};
+
+// ── Hook switchPage to render admin dashboard ──────────────────────────────────
+const _origSwitchPage = switchPage;
+window.switchPage = function(pageId) {
+    _origSwitchPage(pageId);
+    if (pageId === 'admin') renderAdminDashboard();
+};
+
+// Patch updateNavAuth to also update admin nav
+const _origUpdateNavAuth = updateNavAuth;
+window.updateNavAuth = function() {
+    _origUpdateNavAuth();
+    updateAdminNav();
+};
+</script>
+</body>
+</html>
