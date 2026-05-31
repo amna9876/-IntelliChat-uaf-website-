@@ -351,7 +351,14 @@ const UAF_KNOWLEDGE_BASE = [
     answer: 'UAF Sports Complex (East Campus) offers: Cricket ground (international standard), Football & hockey fields, Tennis courts (6), Badminton hall, Basketball courts, Swimming pool (Olympic-size), Gymnasium (weight training + cardio), Athletics track (400m). Open 6 AM–10 PM daily. All facilities are FREE for registered UAF students. Contact Sports Department: Ext. 4500.'
   },
 
-  // ── EVENTS (5) ───────────────────────────────────────────────────────────────
+  // ── EVENTS (6) ───────────────────────────────────────────────────────────────
+  {
+    id: 'evt-000',
+    category: 'Events',
+    keywords: ['events','festivals','annual events','uaf events','melas','celebrations','cultural events','student events','what events'],
+    question: 'What events and festivals are held at UAF?',
+    answer: 'UAF hosts several major annual events and festivals: (1) Jashn-e-Bahara (Spring Festival) — Feb/Mar, the flagship event with music, food, and performances; (2) Gur Mela — Jan/Feb, celebrating jaggery heritage; (3) Kapas Mela — Oct/Nov, cotton research showcase; (4) Wadiyain Mela — cultural heritage festival; (5) Inter Hall Sports Gala — Nov/Dec, inter-hostel sports competition; (6) TechFest UAF — Oct, computing & tech festival. Plus: Annual Agriculture Exhibition (March), Research Symposium, and Convocation (July). All events are open to UAF students.'
+  },
   {
     id: 'evt-001',
     category: 'Events',
@@ -388,7 +395,14 @@ const UAF_KNOWLEDGE_BASE = [
     answer: 'Inter Hall Sports is UAF\'s annual inter-hostel sports competition. All hostel blocks (Boys Blocks A–F and Girls Hostels 1–2) compete in sports including cricket, football, volleyball, badminton, table tennis, tug-of-war, and athletics. Organized by the Sports Department (Ext. 4500). Usually held in November–December. Winning hostel gets the UAF Sports Trophy. Open to all hostel residents.'
   },
 
-  // ── SOCIETIES (4) ────────────────────────────────────────────────────────────
+  // ── SOCIETIES (5) ────────────────────────────────────────────────────────────
+  {
+    id: 'soc-000',
+    category: 'Societies',
+    keywords: ['clubs','societies','student clubs','student organizations','extracurricular','activities','join club','student society','what clubs','what societies'],
+    question: 'What clubs and societies are available at UAF?',
+    answer: 'UAF has 7 active student clubs and societies: (1) UAF Debating Club — public speaking, national competitions; (2) Rotaract Club — community service, leadership; (3) Naat Club — Naat recitation, Hamd, Mehfil-e-Naat events; (4) UAF Computing Society — hackathons, coding, TechFest; (5) Drama & Arts Society — theatre, exhibitions; (6) Environmental Society — conservation, plantation drives; (7) More societies coming soon. To join, visit the Students Affairs Office or contact the club directly. Membership is generally open to all registered UAF students.'
+  },
   {
     id: 'soc-001',
     category: 'Societies',
@@ -406,9 +420,9 @@ const UAF_KNOWLEDGE_BASE = [
   {
     id: 'soc-003',
     category: 'Societies',
-    keywords: ['Baat aur Qiraat','Urdu speech','Quran recitation','Islamic','literary'],
-    question: 'What is the Baat aur Qiraat Club at UAF?',
-    answer: 'Baat aur Qiraat Club organizes Urdu speech competitions, Quran recitation (Tarteel) competitions, and na\'at competitions. The club promotes Urdu oratory skills and Islamic literary traditions. Weekly sessions focus on proper Urdu pronunciation and memorization techniques. They participate in inter-university competitions across Punjab. Open to all students. Contact the Students Affairs Office.'
+    keywords: ['Naat','naat club','hamd','Islamic poetry','Quran recitation','mehfil','naat recitation'],
+    question: 'What is the Naat Club at UAF?',
+    answer: 'The UAF Naat Club organizes Naat recitation competitions, Hamd programmes, and Mehfil-e-Naat events at UAF. The club celebrates Islamic poetry and love of the Prophet ﷺ. Major events are held during Ramadan and Eid Milad-un-Nabi. The club represents UAF at provincial and national Naat competitions. Open to all UAF students — no prior experience needed. Visit the Students Affairs Office to join.'
   },
   {
     id: 'soc-004',

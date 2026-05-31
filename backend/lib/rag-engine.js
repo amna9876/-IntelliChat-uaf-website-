@@ -8,7 +8,8 @@ const STOP_WORDS = new Set([
     'these','those','i','we','you','they','he','she','on','by','with','from','or',
     'not','but','if','so','as','up','all','any','get','did','had','him','her','his',
     'us','into','than','then','also','no','yes','want','need','please','give','some',
-    'more','like','just','very','much','too','also','only','even','such','each','per'
+    'more','like','just','very','much','too','also','only','even','such','each','per',
+    'available','provide','provided','offers','offered','there'
 ]);
 
 /**

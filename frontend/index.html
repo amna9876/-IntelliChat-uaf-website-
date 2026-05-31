@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+v<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -74,7 +74,7 @@
         .header-actions { display: flex; align-items: center; gap: 10px; }
 
         /* Hero */
-        .hero { height: 100vh; min-height: 750px; display: flex; align-items: center; background: linear-gradient(135deg, rgba(248,249,250,0.95) 0%, rgba(248,249,250,0.8) 100%), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=2070&q=80') center/cover no-repeat; position: relative; overflow: hidden; }
+        .hero { height: 100vh; min-height: 750px; display: flex; align-items: center; background: linear-gradient(to right, rgba(255,255,255,0.97) 0%, rgba(255,255,255,0.97) 48%, rgba(10,92,54,0.22) 100%), url('/uaf-campus.jpg') right center/cover no-repeat; position: relative; overflow: hidden; }
         .hero::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: radial-gradient(circle at 20% 40%, rgba(15,122,74,0.08) 0%, transparent 50%); pointer-events: none; }
         .hero-content { max-width: 800px; position: relative; z-index: 2; }
         .hero h1 { font-size: 4rem; margin-bottom: 1.5rem; animation: fadeInUp 1s ease-out; }
@@ -290,13 +290,17 @@
         .chat-back-bar button:hover { color: var(--primary-dark); }
         .chat-dept-title { font-size: 0.82rem; font-weight: 700; color: var(--primary-dark); }
 
-        /* Responsive */
+        /* ── Responsive ────────────────────────────────────────────── */
+
+        /* Tablet (≤992px) */
         @media (max-width: 992px) {
-            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+            nav ul { display: none; flex-direction: column; position: absolute; top: 100%; left: 0; width: 100%; background: white; padding: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.1); z-index: 999; }
             nav ul.show { display: flex; }
             nav ul li { margin: 10px 0; text-align: center; }
             .mobile-menu-btn { display: block; }
             .about-content { grid-template-columns: 1fr; }
+            .about-image-section { height: 300px; }
+            .mission-vision { grid-template-columns: 1fr; }
             .map-content { grid-template-columns: 1fr; }
             .map-sidebar { max-height: 220px; }
             .contact-grid { grid-template-columns: 1fr; }
@@ -304,11 +308,73 @@
             .hero h1 { font-size: 2.8rem; }
             h2 { font-size: 2rem; }
             .chatbot-window { width: 340px; }
+            .admin-tabs { overflow-x: auto; -webkit-overflow-scrolling: touch; padding-bottom: 4px; }
+            .admin-tab { white-space: nowrap; padding: 10px 16px; font-size: 0.82rem; }
+            .hero-stats { gap: 24px; }
         }
-        @media (max-width: 576px) {
-            .hero h1 { font-size: 2.2rem; }
+
+        /* Large mobile (≤768px) */
+        @media (max-width: 768px) {
+            /* Hero: switch to fully opaque overlay so text stays readable on small screens */
+            .hero {
+                background: linear-gradient(rgba(255,255,255,0.97), rgba(255,255,255,0.97)), url('/uaf-campus.jpg') center/cover no-repeat;
+                min-height: 100vh;
+            }
+            .hero h1 { font-size: 2.4rem; }
+            .hero p { font-size: 1.1rem; }
+            .hero-buttons { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; }
+            .hero-buttons .btn { width: 100%; max-width: 280px; margin-left: 0 !important; justify-content: center; }
             .hero-stats { flex-wrap: wrap; gap: 20px; }
-            .chatbot-window { width: 310px; left: 0; }
+            .stat-number { font-size: 1.8rem; }
+            .features-grid { grid-template-columns: 1fr; gap: 20px; }
+            .events-grid, .societies-grid { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+            .section-title { margin-bottom: 20px; }
+            h2 { font-size: 1.8rem; }
+            section { padding: 60px 0; }
+            .campus-gallery-strip { padding: 36px 0; }
+        }
+
+        /* Small mobile (≤576px) */
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 2rem; }
+            .hero p { font-size: 1rem; }
+            .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+            .stat-number { font-size: 1.6rem; }
+            .chatbot-window { width: calc(100vw - 30px); left: 0; bottom: 80px; }
+            .chatbot-container { left: 15px; right: 15px; }
+            h2 { font-size: 1.6rem; }
+            h2:after { width: 50px; height: 4px; }
+            .auth-card { padding: 28px 20px; border-radius: 12px; }
+            .modal-box { padding: 24px 18px; border-radius: 14px; margin: 12px; max-height: 85vh; }
+            .modal-close { top: 12px; right: 12px; }
+            .modal-emoji { font-size: 2.2rem; }
+            .events-grid, .societies-grid { grid-template-columns: 1fr; }
+            .event-card, .society-card { padding: 22px 18px; }
+            .campus-gallery-grid { gap: 10px; }
+            .features-grid { grid-template-columns: 1fr; gap: 16px; }
+            .feature-card { padding: 24px 20px; }
+            .contact-info-card { padding: 24px 20px; }
+            .announcements-grid { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: 1fr 1fr; gap: 24px; }
+            .map-search-box { width: 140px; font-size: 0.8rem; }
+            .hero-buttons .btn { max-width: 100%; }
+            .profile-card { padding: 20px; }
+            .admin-tabs { gap: 0; }
+            .admin-tab { padding: 8px 12px; font-size: 0.78rem; }
+            section { padding: 50px 0; }
+        }
+
+        /* Very small (≤400px) */
+        @media (max-width: 400px) {
+            .hero h1 { font-size: 1.75rem; }
+            .hero-stats { grid-template-columns: 1fr 1fr; }
+            .footer-content { grid-template-columns: 1fr; }
+            .chatbot-window { width: calc(100vw - 20px); }
+            .chatbot-container { left: 10px; }
+            .container { padding: 0 14px; }
+            .chat-dept-grid { grid-template-columns: repeat(3, 1fr); gap: 6px; }
+            .dept-btn { padding: 10px 2px 8px; font-size: 1.2rem; }
+            .dept-btn span { font-size: 0.6rem; }
         }
 
         /* ═══════════════════════════════════════════════════
@@ -456,9 +522,21 @@
         /* h2 underline animate on scroll */
         h2.visible-heading::after { width: 70px; transition: width 0.6s 0.2s cubic-bezier(0.4,0,0.2,1); }
 
+        /* ── Campus Gallery ── */
+        .campus-gallery-strip { background: var(--primary-dark); padding: 50px 0; margin-top: 0; }
+        .campus-gallery-strip .section-label { text-align: center; color: rgba(255,255,255,0.6); font-size: 0.78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 8px; }
+        .campus-gallery-strip h3 { text-align: center; color: white; font-size: 1.5rem; margin-bottom: 28px; font-family: 'Poppins', sans-serif; }
+        .campus-gallery-strip h3 span { color: var(--secondary); }
+        .campus-gallery-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+        .campus-img-wrap { position: relative; border-radius: 14px; overflow: hidden; height: 210px; box-shadow: 0 8px 24px rgba(0,0,0,0.35); }
+        .campus-img-wrap img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.5s ease; display: block; }
+        .campus-img-wrap:hover img { transform: scale(1.07); }
+        .campus-img-label { position: absolute; bottom: 0; left: 0; right: 0; background: linear-gradient(transparent, rgba(0,0,0,0.72)); color: white; padding: 28px 14px 12px; font-size: 0.82rem; font-weight: 600; }
+        @media (max-width: 768px) { .campus-gallery-grid { grid-template-columns: 1fr; } .campus-img-wrap { height: 180px; } }
+
         /* ── Events & Societies ── */
         .events-grid, .societies-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(270px, 1fr)); gap: 30px; margin-top: 50px; }
-        .event-card, .society-card { background: white; border-radius: var(--border-radius); padding: 30px; box-shadow: var(--card-shadow); transition: var(--transition); position: relative; overflow: hidden; }
+        .event-card, .society-card { background: white; border-radius: var(--border-radius); padding: 30px; box-shadow: var(--card-shadow); transition: var(--transition); position: relative; overflow: hidden; cursor: pointer; }
         .event-card:hover, .society-card:hover { transform: translateY(-10px); box-shadow: var(--hover-shadow); }
         .event-emoji { font-size: 2.8rem; margin-bottom: 12px; display: block; }
         .event-badge, .society-badge { display: inline-block; padding: 4px 12px; border-radius: 20px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 12px; }
@@ -527,6 +605,54 @@
         .bar-track { height: 8px; background: var(--light-gray); border-radius: 4px; overflow: hidden; }
         .bar-fill { height: 100%; background: linear-gradient(90deg, var(--primary), var(--primary-light)); border-radius: 4px; transition: width 1s ease; }
 
+        /* ── IntelliChat Showcase Section ── */
+        .ic-section { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 55%, var(--accent) 100%); padding: 90px 0; position: relative; overflow: hidden; }
+        .ic-section::before { content: ''; position: absolute; top: -80px; right: -80px; width: 420px; height: 420px; border-radius: 50%; background: rgba(255,255,255,0.05); pointer-events: none; }
+        .ic-section::after  { content: ''; position: absolute; bottom: -60px; left: -60px; width: 300px; height: 300px; border-radius: 50%; background: rgba(255,255,255,0.04); pointer-events: none; }
+        .ic-layout { display: grid; grid-template-columns: 1fr 1fr; gap: 64px; align-items: center; position: relative; z-index: 1; }
+        .ic-label { display: inline-flex; align-items: center; gap: 8px; background: rgba(255,255,255,0.14); color: rgba(255,255,255,0.92); padding: 6px 16px; border-radius: 30px; font-size: 0.72rem; font-weight: 700; letter-spacing: 1.2px; text-transform: uppercase; margin-bottom: 18px; border: 1px solid rgba(255,255,255,0.2); }
+        .ic-label .ic-live-dot { width: 7px; height: 7px; background: #4caf50; border-radius: 50%; animation: pulseGlow 2s infinite; flex-shrink: 0; }
+        .ic-title { font-size: 2.4rem; font-weight: 800; color: white; margin-bottom: 14px; line-height: 1.2; font-family: 'Poppins', sans-serif; }
+        .ic-title span { color: var(--secondary); }
+        .ic-desc { color: rgba(255,255,255,0.78); font-size: 1rem; line-height: 1.75; margin-bottom: 28px; }
+        .ic-features { list-style: none; margin-bottom: 38px; }
+        .ic-features li { display: flex; align-items: flex-start; gap: 12px; color: rgba(255,255,255,0.9); font-size: 0.93rem; margin-bottom: 13px; }
+        .ic-check { width: 22px; height: 22px; background: var(--secondary); border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 1px; }
+        .ic-check i { font-size: 0.62rem; color: #333; font-weight: 900; }
+        .ic-cta { display: inline-flex; align-items: center; gap: 10px; background: var(--secondary); color: #1a1a1a; padding: 15px 34px; border-radius: 50px; font-size: 1rem; font-weight: 700; cursor: pointer; border: none; transition: all 0.3s; box-shadow: 0 8px 24px rgba(249,168,38,0.45); font-family: 'Poppins', sans-serif; }
+        .ic-cta:hover { transform: translateY(-4px); box-shadow: 0 16px 36px rgba(249,168,38,0.55); background: #fdb92e; }
+        /* Chat preview */
+        .ic-preview { background: white; border-radius: 22px; overflow: hidden; box-shadow: 0 28px 64px rgba(0,0,0,0.35); max-width: 370px; margin: 0 auto; }
+        .ic-preview-hdr { background: linear-gradient(90deg, var(--primary), var(--primary-light)); padding: 14px 18px; display: flex; align-items: center; gap: 10px; }
+        .ic-preview-avatar { width: 36px; height: 36px; background: rgba(255,255,255,0.22); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 1.05rem; flex-shrink: 0; }
+        .ic-preview-info h5 { color: white; font-size: 0.88rem; margin: 0 0 2px; font-family: 'Poppins',sans-serif; }
+        .ic-preview-info span { color: rgba(255,255,255,0.72); font-size: 0.7rem; display: flex; align-items: center; gap: 4px; }
+        .ic-online-dot { width: 6px; height: 6px; background: #4caf50; border-radius: 50%; display: inline-block; }
+        .ic-preview-body { padding: 18px 14px; background: #f4f6f8; min-height: 240px; display: flex; flex-direction: column; gap: 10px; }
+        .ic-msg { padding: 10px 14px; border-radius: 16px; font-size: 0.82rem; line-height: 1.55; max-width: 86%; opacity: 0; animation-fill-mode: both; animation-name: icMsgIn; animation-duration: 0.45s; animation-timing-function: ease; }
+        .ic-msg.bot  { background: white; color: #1a1a1a; border-bottom-left-radius: 4px; align-self: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,0.07); }
+        .ic-msg.user { background: var(--primary); color: white; border-bottom-right-radius: 4px; align-self: flex-end; }
+        .ic-typing-prev { display: flex; gap: 4px; padding: 10px 14px; background: white; border-radius: 16px; border-bottom-left-radius: 4px; align-self: flex-start; box-shadow: 0 2px 8px rgba(0,0,0,0.07); opacity: 0; animation: icMsgIn 0.3s ease forwards, icFadeOut 0.25s ease forwards; animation-fill-mode: both; }
+        .ic-typing-prev span { width: 7px; height: 7px; border-radius: 50%; background: var(--primary); animation: typingBounce 1.2s infinite ease-in-out; }
+        .ic-typing-prev span:nth-child(2) { animation-delay: 0.15s; }
+        .ic-typing-prev span:nth-child(3) { animation-delay: 0.3s; }
+        @keyframes icMsgIn    { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+        @keyframes icFadeOut  { from { opacity:1; } to { opacity:0; height:0; padding:0; margin:0; overflow:hidden; } }
+        .ic-preview-footer { padding: 10px 14px; border-top: 1px solid #eee; display: flex; align-items: center; gap: 8px; background: white; }
+        .ic-preview-inp { flex:1; background: #f4f6f8; border: none; border-radius: 20px; padding: 8px 14px; font-size: 0.78rem; color: #aaa; outline: none; }
+        .ic-preview-send { width: 30px; height: 30px; background: var(--primary); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 0.7rem; border: none; }
+        /* Sample cards */
+        .ic-cards { margin-top: 60px; position: relative; z-index: 1; }
+        .ic-cards-label { text-align: center; color: rgba(255,255,255,0.6); font-size: 0.75rem; font-weight: 700; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 20px; }
+        .ic-cards-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 16px; }
+        .ic-card { background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.18); border-radius: 16px; padding: 24px 18px; cursor: pointer; transition: all 0.28s; backdrop-filter: blur(6px); text-align: center; }
+        .ic-card:hover { background: rgba(255,255,255,0.2); transform: translateY(-6px); box-shadow: 0 12px 30px rgba(0,0,0,0.2); border-color: rgba(255,255,255,0.35); }
+        .ic-card-icon { font-size: 2rem; display: block; margin-bottom: 10px; }
+        .ic-card h4 { color: white; font-size: 0.92rem; margin-bottom: 6px; font-family: 'Poppins',sans-serif; }
+        .ic-card p { color: rgba(255,255,255,0.65); font-size: 0.76rem; line-height: 1.5; margin: 0; }
+        @media (max-width: 992px) { .ic-layout { grid-template-columns: 1fr; gap: 40px; } .ic-preview { max-width: 420px; } .ic-cards-grid { grid-template-columns: repeat(2, 1fr); } }
+        @media (max-width: 576px) { .ic-section { padding: 60px 0; } .ic-title { font-size: 1.8rem; } .ic-cards-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; } .ic-card { padding: 18px 12px; } }
+
         /* ── RAG badge in chatbot header ── */
         .rag-chip { background: rgba(255,255,255,0.25); color: white; padding: 2px 8px; border-radius: 10px; font-size: 0.6rem; font-weight: 700; letter-spacing: 0.5px; margin-left: 6px; vertical-align: middle; border: 1px solid rgba(255,255,255,0.4); }
 
@@ -594,6 +720,7 @@
                 <a href="#" class="btn btn-primary nav-link" data-page="about">Discover UAF</a>
                 <a href="#" class="btn btn-outline nav-link" data-page="signup" style="margin-left:15px">Apply Now</a>
             </div>
+
             <div class="hero-stats">
                 <div class="stat-item"><span class="stat-number">33,000+</span><span class="stat-label">Students</span></div>
                 <div class="stat-item"><span class="stat-number">600+</span><span class="stat-label">Faculty</span></div>
@@ -631,6 +758,114 @@
                 </div>
             </div>
         </div>
+        <!-- ── Meet IntelliChat Section ── -->
+        <div class="ic-section">
+            <div class="container">
+                <div class="ic-layout">
+
+                    <!-- Left: Text + features + CTA -->
+                    <div class="ic-text">
+                        <div class="ic-label">
+                            <span class="ic-live-dot"></span>
+                            Powered by RAG Technology
+                        </div>
+                        <h2 class="ic-title">Meet <span>UAF IntelliChat</span> —<br>Your 24/7 Campus AI</h2>
+                        <p class="ic-desc">Ask anything about UAF — admissions, fees, hostels, campus maps, events, scholarships — and get instant, accurate answers sourced directly from UAF's official knowledge base.</p>
+                        <ul class="ic-features">
+                            <li><span class="ic-check"><i class="fas fa-check"></i></span> Instant answers from 67-entry UAF knowledge base</li>
+                            <li><span class="ic-check"><i class="fas fa-check"></i></span> Admissions, fees, hostels, exams &amp; scholarships</li>
+                            <li><span class="ic-check"><i class="fas fa-check"></i></span> Campus map, events, clubs &amp; department contacts</li>
+                            <li><span class="ic-check"><i class="fas fa-check"></i></span> Escalates to human support if it can't answer</li>
+                        </ul>
+                        <button class="ic-cta" onclick="openIcChat()">
+                            <i class="fas fa-comments"></i> Start Chatting
+                        </button>
+                    </div>
+
+                    <!-- Right: Animated chat preview -->
+                    <div>
+                        <div class="ic-preview">
+                            <div class="ic-preview-hdr">
+                                <div class="ic-preview-avatar"><i class="fas fa-robot"></i></div>
+                                <div class="ic-preview-info">
+                                    <h5>UAF IntelliChat <span style="background:rgba(255,255,255,0.25);padding:1px 7px;border-radius:8px;font-size:0.6rem;margin-left:4px;font-weight:700">RAG</span></h5>
+                                    <span><span class="ic-online-dot"></span> Online · Instant replies</span>
+                                </div>
+                            </div>
+                            <div class="ic-preview-body">
+                                <div class="ic-msg bot" style="animation-delay:0.4s">
+                                    Hello! I'm UAF IntelliChat 🌿<br>How can I help you today?
+                                </div>
+                                <div class="ic-msg user" style="animation-delay:1.3s">
+                                    What are the admission requirements?
+                                </div>
+                                <div class="ic-typing-prev" style="animation-delay:1.9s;animation-duration:0.3s, 0.25s;animation-delay:1.9s, 3.0s">
+                                    <span></span><span></span><span></span>
+                                </div>
+                                <div class="ic-msg bot" style="animation-delay:3.2s">
+                                    Apply at <strong>admissions.uaf.edu.pk</strong>. Submit Matric + FSc certificates, entry test score, and CNIC. Applications open <strong>July–August</strong> every year. 🎓
+                                </div>
+                            </div>
+                            <div class="ic-preview-footer">
+                                <input class="ic-preview-inp" placeholder="Type your question..." readonly>
+                                <div class="ic-preview-send"><i class="fas fa-paper-plane"></i></div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Sample question cards -->
+                <div class="ic-cards">
+                    <p class="ic-cards-label">Try asking about</p>
+                    <div class="ic-cards-grid">
+                        <div class="ic-card" onclick="openIcChat('How do I apply for admission at UAF?')">
+                            <span class="ic-card-icon">🎓</span>
+                            <h4>Admissions</h4>
+                            <p>Eligibility, deadlines &amp; required documents</p>
+                        </div>
+                        <div class="ic-card" onclick="openIcChat('What is the semester fee structure at UAF?')">
+                            <span class="ic-card-icon">💰</span>
+                            <h4>Fees &amp; Payments</h4>
+                            <p>Semester fees, fee voucher &amp; waivers</p>
+                        </div>
+                        <div class="ic-card" onclick="openIcChat('How do I get hostel accommodation at UAF?')">
+                            <span class="ic-card-icon">🏠</span>
+                            <h4>Hostels</h4>
+                            <p>Allotment, facilities, boys &amp; girls blocks</p>
+                        </div>
+                        <div class="ic-card" onclick="openIcChat('What scholarships are available at UAF?')">
+                            <span class="ic-card-icon">🏆</span>
+                            <h4>Scholarships</h4>
+                            <p>Merit, need-based &amp; HEC scholarships</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- UAF Campus Gallery -->
+        <div class="campus-gallery-strip">
+            <div class="container">
+                <p class="section-label">University of Agriculture Faisalabad</p>
+                <h3>A Glimpse of Our <span>1,200-Acre Campus</span></h3>
+                <div class="campus-gallery-grid">
+                    <div class="campus-img-wrap">
+                        <img src="/uaf-campus.jpg" alt="UAF Main Campus Building" loading="lazy">
+                        <div class="campus-img-label">🏛️ Main Building — Est. 1906</div>
+                    </div>
+                    <div class="campus-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1500382017468-9049fed747ef?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="UAF Agriculture Research Fields" loading="lazy">
+                        <div class="campus-img-label">🌾 Research Fields — Agricultural Sciences</div>
+                    </div>
+                    <div class="campus-img-wrap">
+                        <img src="https://images.unsplash.com/photo-1481627834876-b7833e8f5570?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="UAF Central Library" loading="lazy">
+                        <div class="campus-img-label">📚 Central Library — Est. 1906</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
         <!-- Announcements -->
         <div id="announcements-section">
             <div class="container">
@@ -665,7 +900,7 @@
                     </div>
                 </div>
                 <div class="about-image-section">
-                    <img src="images.jpg" alt="UAF Campus" onerror="this.src='https://images.unsplash.com/photo-1562774053-701939374585?w=800&q=80'">
+                    <img src="/uaf-campus.jpg" alt="UAF Main Campus Building — Est. 1906">
                 </div>
             </div>
         </div>
@@ -933,33 +1168,47 @@
                 <p>Celebrate culture, agriculture, and innovation at UAF's iconic annual festivals.</p>
             </div>
             <div class="events-grid stagger-children">
-                <div class="event-card">
+                <div class="event-card" onclick="openEventModal('gur')">
                     <span class="event-emoji">🌾</span>
                     <span class="event-badge badge-amber">Agricultural</span>
                     <h3>Gur Mela</h3>
                     <p>UAF's annual jaggery festival celebrating agricultural heritage since decades. Features live demonstrations, stalls, and cultural performances.</p>
-                    <button class="btn btn-outline btn-sm" onclick="openEventModal('gur')">Learn More</button>
+                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEventModal('gur')">Learn More</button>
                 </div>
-                <div class="event-card">
+                <div class="event-card" onclick="openEventModal('kapas')">
                     <span class="event-emoji">🌿</span>
                     <span class="event-badge badge-blue">Agricultural</span>
                     <h3>Kapas Mela</h3>
                     <p>The Cotton Festival showcases UAF's cutting-edge cotton research and farming culture with expert talks and field exhibitions.</p>
-                    <button class="btn btn-outline btn-sm" onclick="openEventModal('kapas')">Learn More</button>
+                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEventModal('kapas')">Learn More</button>
                 </div>
-                <div class="event-card">
+                <div class="event-card" onclick="openEventModal('wadiyain')">
                     <span class="event-emoji">🏞️</span>
                     <span class="event-badge badge-green">Cultural</span>
                     <h3>Wadiyain Mela</h3>
                     <p>A vibrant cultural mela representing the valley traditions and regional heritage of Punjab, organized by UAF students.</p>
-                    <button class="btn btn-outline btn-sm" onclick="openEventModal('wadiyain')">Learn More</button>
+                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEventModal('wadiyain')">Learn More</button>
                 </div>
-                <div class="event-card">
+                <div class="event-card" onclick="openEventModal('jashn')">
                     <span class="event-emoji">🌸</span>
                     <span class="event-badge badge-pink">Spring</span>
                     <h3>Jashn-e-Bahara</h3>
                     <p>UAF's flagship Spring Festival — the most awaited annual event featuring music, art, food stalls, and student competitions.</p>
-                    <button class="btn btn-outline btn-sm" onclick="openEventModal('jashn')">Learn More</button>
+                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEventModal('jashn')">Learn More</button>
+                </div>
+                <div class="event-card" onclick="openEventModal('sports')">
+                    <span class="event-emoji">⚽</span>
+                    <span class="event-badge badge-teal">Sports</span>
+                    <h3>UAF Sports Gala</h3>
+                    <p>Annual inter-department sports competition — cricket, football, tennis, swimming, and athletics across UAF's world-class Sports Complex.</p>
+                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEventModal('sports')">Learn More</button>
+                </div>
+                <div class="event-card" onclick="openEventModal('techfest')">
+                    <span class="event-emoji">💻</span>
+                    <span class="event-badge badge-teal">Technology</span>
+                    <h3>TechFest UAF</h3>
+                    <p>Annual technology festival by UAF Computing Society. Hackathons, AI/ML demos, robotics, drone shows, and a career expo every October.</p>
+                    <button class="btn btn-outline btn-sm" onclick="event.stopPropagation();openEventModal('techfest')">Learn More</button>
                 </div>
             </div>
         </div>
@@ -973,47 +1222,65 @@
                 <p>Join a community, build skills, and make lasting memories at UAF.</p>
             </div>
             <div class="societies-grid stagger-children">
-                <div class="society-card">
+                <div class="society-card" onclick="openSocietyModal('debating')">
                     <span class="society-icon">🎤</span>
                     <span class="society-badge badge-blue">Debating</span>
                     <h3>Debating Club</h3>
                     <p>Competitive debating &amp; public speaking. Weekly sessions every Tuesday. Participates in national competitions including LUMS, NUML and NUST tournaments.</p>
-                    <a href="mailto:info@uaf.edu.pk?subject=Join Debating Club" class="join-btn">Join Now</a>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button class="join-btn" onclick="event.stopPropagation();openSocietyModal('debating')">More Info</button>
+                        <a href="mailto:debate@uaf.edu.pk?subject=Join Debating Club" class="join-btn" style="background:transparent;color:var(--primary);border:2px solid var(--primary)" onclick="event.stopPropagation()">Join Now</a>
+                    </div>
                 </div>
-                <div class="society-card">
+                <div class="society-card" onclick="openSocietyModal('rotaract')">
                     <span class="society-icon">🌍</span>
                     <span class="society-badge badge-purple">Service</span>
                     <h3>Rotaract Club</h3>
                     <p>Community service &amp; youth leadership, affiliated with Rotary International. Organizes blood donation drives, health camps, and career counseling sessions.</p>
-                    <a href="mailto:info@uaf.edu.pk?subject=Join Rotaract Club" class="join-btn">Join Now</a>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button class="join-btn" onclick="event.stopPropagation();openSocietyModal('rotaract')">More Info</button>
+                        <a href="mailto:rotaract.uaf@gmail.com?subject=Join Rotaract Club" class="join-btn" style="background:transparent;color:var(--primary);border:2px solid var(--primary)" onclick="event.stopPropagation()">Join Now</a>
+                    </div>
                 </div>
-                <div class="society-card">
-                    <span class="society-icon">📖</span>
-                    <span class="society-badge badge-green">Literary</span>
-                    <h3>Baat aur Qiraat Club</h3>
-                    <p>Urdu speech and Holy Quran recitation competitions. Promotes Urdu oratory skills and Islamic literary traditions with inter-university participation.</p>
-                    <a href="mailto:info@uaf.edu.pk?subject=Join Baat aur Qiraat Club" class="join-btn">Join Now</a>
+                <div class="society-card" onclick="openSocietyModal('naat')">
+                    <span class="society-icon">🎵</span>
+                    <span class="society-badge badge-green">Islamic</span>
+                    <h3>Naat Club</h3>
+                    <p>Naat recitation and Islamic poetry. Organizes Naat competitions, Hamd programmes, and Mehfil-e-Naat events across UAF with inter-university participation.</p>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button class="join-btn" onclick="event.stopPropagation();openSocietyModal('naat')">More Info</button>
+                        <a href="mailto:info@uaf.edu.pk?subject=Join Naat Club" class="join-btn" style="background:transparent;color:var(--primary);border:2px solid var(--primary)" onclick="event.stopPropagation()">Join Now</a>
+                    </div>
                 </div>
-                <div class="society-card">
+                <div class="society-card" onclick="openSocietyModal('computing')">
                     <span class="society-icon">💻</span>
                     <span class="society-badge badge-teal">Technology</span>
                     <h3>Computing Society</h3>
                     <p>Hackathons, coding competitions, and tech workshops. Annual TechFest UAF every October. Open to all students with a passion for technology.</p>
-                    <a href="mailto:info@uaf.edu.pk?subject=Join Computing Society" class="join-btn">Join Now</a>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button class="join-btn" onclick="event.stopPropagation();openSocietyModal('computing')">More Info</button>
+                        <a href="mailto:computing.uaf@gmail.com?subject=Join Computing Society" class="join-btn" style="background:transparent;color:var(--primary);border:2px solid var(--primary)" onclick="event.stopPropagation()">Join Now</a>
+                    </div>
                 </div>
-                <div class="society-card">
+                <div class="society-card" onclick="openSocietyModal('drama')">
                     <span class="society-icon">🎭</span>
                     <span class="society-badge badge-amber">Arts</span>
                     <h3>Drama &amp; Arts Society</h3>
                     <p>Theatre, performing arts, and creative expression. Stages plays, organizes art exhibitions, and represents UAF at provincial cultural festivals.</p>
-                    <a href="mailto:info@uaf.edu.pk?subject=Join Drama and Arts Society" class="join-btn">Join Now</a>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button class="join-btn" onclick="event.stopPropagation();openSocietyModal('drama')">More Info</button>
+                        <a href="mailto:info@uaf.edu.pk?subject=Join Drama and Arts Society" class="join-btn" style="background:transparent;color:var(--primary);border:2px solid var(--primary)" onclick="event.stopPropagation()">Join Now</a>
+                    </div>
                 </div>
-                <div class="society-card">
+                <div class="society-card" onclick="openSocietyModal('environment')">
                     <span class="society-icon">🌱</span>
                     <span class="society-badge badge-green">Environment</span>
                     <h3>Environmental Society</h3>
                     <p>Sustainability and green campus initiatives. Organizes tree plantation drives, awareness campaigns, and eco-friendly projects across UAF campus.</p>
-                    <a href="mailto:info@uaf.edu.pk?subject=Join Environmental Society" class="join-btn">Join Now</a>
+                    <div style="display:flex;gap:8px;flex-wrap:wrap">
+                        <button class="join-btn" onclick="event.stopPropagation();openSocietyModal('environment')">More Info</button>
+                        <a href="mailto:info@uaf.edu.pk?subject=Join Environmental Society" class="join-btn" style="background:transparent;color:var(--primary);border:2px solid var(--primary)" onclick="event.stopPropagation()">Join Now</a>
+                    </div>
                 </div>
                 <div class="society-card coming-soon" style="text-align:center">
                     <span class="society-icon">➕</span>
@@ -1050,6 +1317,17 @@
         <div class="modal-badge" id="mBadge"></div>
         <h2 class="modal-title" id="mTitle"></h2>
         <div class="modal-body" id="mBody"></div>
+    </div>
+</div>
+
+<!-- ── SOCIETY MODAL ── -->
+<div id="societyModal" class="modal-overlay" onclick="if(event.target===this)closeSocietyModal()">
+    <div class="modal-box">
+        <button class="modal-close" onclick="closeSocietyModal()">✕</button>
+        <span class="modal-emoji" id="smEmoji"></span>
+        <div class="modal-badge" id="smBadge"></div>
+        <h2 class="modal-title" id="smTitle"></h2>
+        <div class="modal-body" id="smBody"></div>
     </div>
 </div>
 
@@ -2132,7 +2410,142 @@ const eventData = {
         </ul>
         <p>Organized by the UAF Students Union. Entry is open to all UAF students. Registration for competitions through the Students Affairs Office.</p>`
     },
+    sports: {
+        emoji: '⚽', badge: '<span class="event-badge badge-teal">Sports</span>',
+        title: 'UAF Sports Gala',
+        body: `<p>The UAF Sports Gala is the annual <strong>inter-department sports competition</strong> where all UAF faculties and departments compete for the Sports Trophy.</p>
+        <ul>
+            <li>🗓️ Held in <strong>April</strong> every year</li>
+            <li>📍 UAF Sports Complex, East Campus</li>
+            <li>🏏 Cricket, Football, Volleyball, Badminton</li>
+            <li>🏊 Swimming, Athletics, Table Tennis, Tug-of-War</li>
+            <li>🏆 Best Sportsman / Sportswoman awards</li>
+            <li>🎖️ Department Championship Trophy for overall winner</li>
+        </ul>
+        <p>Open to all registered UAF students. Registration through the Sports Department (Ext. 4500). The Sports Complex has Olympic-size swimming pool, cricket ground, and gymnasium — all free for students.</p>`
+    },
+    techfest: {
+        emoji: '💻', badge: '<span class="event-badge badge-teal">Technology</span>',
+        title: 'TechFest UAF',
+        body: `<p>TechFest UAF is the annual <strong>technology and innovation festival</strong> organized by the UAF Computing Society, held every October.</p>
+        <ul>
+            <li>🗓️ Held in <strong>October</strong> every year</li>
+            <li>📍 CS&IT Building + Exhibition Centre</li>
+            <li>💡 Hackathon (24-hour coding competition)</li>
+            <li>🤖 AI/ML project showcase and robotics demos</li>
+            <li>🚁 Drone racing and smart agriculture demos</li>
+            <li>🔒 Cybersecurity CTF competition</li>
+            <li>🏢 Career Expo with IT companies from Lahore & Faisalabad</li>
+        </ul>
+        <p>Open to all UAF students. Cash prizes for hackathon winners. Industry certificates for participants. Contact: computing.uaf@gmail.com or visit CS Dept. Seminar Hall every Thursday 4 PM.</p>`
+    },
 };
+
+// ── SOCIETY MODAL DATA & FUNCTIONS ────────────────────────────────────────────
+const societyData = {
+    debating: {
+        emoji: '🎤', badge: '<span class="society-badge badge-blue">Debating</span>',
+        title: 'UAF Debating Club',
+        body: `<p>The UAF Debating Club is one of UAF's most prestigious student societies, nurturing <strong>public speaking and critical thinking</strong> since the university's early years.</p>
+        <ul>
+            <li>📅 Weekly practice: <strong>Every Tuesday, 4 PM</strong></li>
+            <li>📍 CS Building Seminar Hall</li>
+            <li>🏆 Participates in LUMS, NUML, NUST national tournaments</li>
+            <li>🎭 Mock debates, parliamentary procedure training, elocution contests</li>
+            <li>💰 Annual membership fee: <strong>Rs 200</strong></li>
+            <li>✅ Open to all UAF students (any department)</li>
+        </ul>
+        <p><strong>How to join:</strong> Fill the membership form at the Students Affairs Office or email <a href="mailto:debate@uaf.edu.pk">debate@uaf.edu.pk</a></p>`
+    },
+    rotaract: {
+        emoji: '🌍', badge: '<span class="society-badge badge-purple">Service</span>',
+        title: 'UAF Rotaract Club',
+        body: `<p>UAF Rotaract Club is affiliated with <strong>Rotary International</strong> and focuses on youth leadership and community service projects across Punjab.</p>
+        <ul>
+            <li>🩸 Blood donation drives (every semester)</li>
+            <li>🌳 Tree plantation campaigns on campus and surrounding areas</li>
+            <li>🏥 Free health camps in rural villages near Faisalabad</li>
+            <li>🎓 Career counseling sessions with industry professionals</li>
+            <li>🌐 District-level Rotaract conferences</li>
+            <li>📜 Community service hours can be added to your CV</li>
+        </ul>
+        <p><strong>How to join:</strong> Monthly meetings open to all. Contact: <a href="mailto:rotaract.uaf@gmail.com">rotaract.uaf@gmail.com</a></p>`
+    },
+    naat: {
+        emoji: '🎵', badge: '<span class="society-badge badge-green">Islamic</span>',
+        title: 'UAF Naat Club',
+        body: `<p>The UAF Naat Club celebrates <strong>the love of the Prophet ﷺ</strong> through Naat recitation, Hamd, and Islamic poetry — nurturing spiritual and artistic excellence at UAF.</p>
+        <ul>
+            <li>🎤 Naat recitation competitions (intra &amp; inter-university)</li>
+            <li>📿 Hamd and Qiraat-ul-Quran programmes</li>
+            <li>🌙 Mehfil-e-Naat events during Ramadan &amp; Eid Milad-un-Nabi</li>
+            <li>🏆 Represents UAF at provincial and national Naat competitions</li>
+            <li>📖 Urdu Islamic poetry workshops and nasheed sessions</li>
+            <li>✅ Open to all UAF students — no prior experience needed</li>
+        </ul>
+        <p><strong>How to join:</strong> Visit the Students Affairs Office or contact through your department's student representative. Auditions held at semester start.</p>`
+    },
+    computing: {
+        emoji: '💻', badge: '<span class="society-badge badge-teal">Technology</span>',
+        title: 'UAF Computing Society',
+        body: `<p>The UAF Computing Society is the hub for <strong>tech enthusiasts, coders, and innovators</strong> at UAF, organizing annual TechFest every October.</p>
+        <ul>
+            <li>💡 Annual TechFest UAF — hackathon, robotics, AI/ML showcase</li>
+            <li>🔒 Cybersecurity workshops and CTF competitions</li>
+            <li>📱 App development and web dev competitions</li>
+            <li>🤝 Industrial visits to tech companies in Lahore &amp; Islamabad</li>
+            <li>🎮 Gaming tournaments (PUBG, FIFA)</li>
+            <li>📅 Weekly meetups: <strong>Every Thursday, 4 PM</strong> — CS Dept. Seminar Hall</li>
+        </ul>
+        <p><strong>How to join:</strong> Email <a href="mailto:computing.uaf@gmail.com">computing.uaf@gmail.com</a> — membership open to all UAF students, not just CS/IT.</p>`
+    },
+    drama: {
+        emoji: '🎭', badge: '<span class="society-badge badge-amber">Arts</span>',
+        title: 'Drama &amp; Arts Society',
+        body: `<p>The UAF Drama &amp; Arts Society is the creative heart of UAF, staging theatrical productions and representing UAF at <strong>provincial cultural festivals</strong>.</p>
+        <ul>
+            <li>🎬 Annual theatrical play (Urdu and English)</li>
+            <li>🖼️ Art exhibitions during Jashn-e-Bahara</li>
+            <li>🎨 Photography, painting, and digital art competitions</li>
+            <li>🎪 Street theatre and flash mob performances</li>
+            <li>🏅 Represents UAF at Punjab University Cultural Fest</li>
+            <li>✅ Open to all UAF students — no prior experience needed</li>
+        </ul>
+        <p><strong>How to join:</strong> Auditions are held at the start of each semester. Watch for announcements on the UAF notice boards and Students Affairs Office.</p>`
+    },
+    environment: {
+        emoji: '🌱', badge: '<span class="society-badge badge-green">Environment</span>',
+        title: 'UAF Environmental Society',
+        body: `<p>The UAF Environmental Society leads <strong>sustainability and green campus initiatives</strong>, working towards a cleaner and greener UAF and beyond.</p>
+        <ul>
+            <li>🌳 Tree plantation drives — 1,000+ trees planted annually</li>
+            <li>♻️ Campus waste segregation and recycling programs</li>
+            <li>💧 Water conservation awareness campaigns</li>
+            <li>🌍 World Environment Day events and seminars</li>
+            <li>🐾 Wildlife conservation and bird watching on campus</li>
+            <li>🤝 Partners with WWF-Pakistan and IUCN for projects</li>
+        </ul>
+        <p><strong>How to join:</strong> Open enrollment every semester. Contact the Students Affairs Office or email <a href="mailto:info@uaf.edu.pk?subject=Join Environmental Society">info@uaf.edu.pk</a></p>`
+    },
+};
+
+function openSocietyModal(key) {
+    const d = societyData[key];
+    if (!d) return;
+    document.getElementById('smEmoji').textContent = d.emoji;
+    document.getElementById('smBadge').innerHTML  = d.badge;
+    document.getElementById('smTitle').innerHTML  = d.title;
+    document.getElementById('smBody').innerHTML   = d.body;
+    document.getElementById('societyModal').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeSocietyModal() {
+    document.getElementById('societyModal').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+document.addEventListener('keydown', e => { if (e.key === 'Escape') { closeEventModal(); closeSocietyModal(); } });
 
 function openEventModal(key) {
     const d = eventData[key];
@@ -2150,7 +2563,15 @@ function closeEventModal() {
     document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown', e => { if (e.key === 'Escape') closeEventModal(); });
+
+// ── INTELLICHAT OPEN HELPERS ───────────────────────────────────────────────────
+function openIcChat(question) {
+    chatOpen = true;
+    chatbotWin.style.display = 'flex';
+    if (inMenuMode) showChatView('UAF IntelliChat');
+    if (question) sendMessage(question);
+    chatbotWin.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+}
 
 // ── ADMIN DASHBOARD (FR05) ─────────────────────────────────────────────────────
 function isAdmin(user) {
