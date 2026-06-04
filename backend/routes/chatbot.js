@@ -2,7 +2,7 @@ const express = require('express');
 const router  = express.Router();
 const jwt     = require('jsonwebtoken');
 const { getDB } = require('../database/db');
-const { retrieveContext, buildRAGPrompt, isLowConfidence, buildDirectAnswer } = require('../lib/rag-engine');
+const { retrieveContext, buildRAGPrompt, isLowConfidence, buildDirectAnswer, isGreeting, GREETING_RESPONSE } = require('../lib/rag-engine');
 const { UAF_KNOWLEDGE_BASE } = require('../lib/uaf-knowledge-base');
 
 // In-memory session conversation history (last 10 messages per session)
@@ -47,6 +47,13 @@ router.post('/', async (req, res) => {
         const session = user ? `user_${user.id}` : (sessionId || 'anonymous');
         const history = getHistory(session);
 
+        // ── Greeting shortcut: skip RAG for hi/hello/help queries ───────────
+        if (isGreeting(message.trim())) {
+            addToHistory(session, 'user', message.trim());
+            addToHistory(session, 'assistant', GREETING_RESPONSE);
+            return res.json({ success: true, response: GREETING_RESPONSE, escalated: false, context_used: [] });
+        }
+
         // ── RAG: Retrieve relevant context ──────────────────────────────────
         const context = retrieveContext(message.trim());
 
@@ -68,10 +75,10 @@ router.post('/', async (req, res) => {
                         'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`
                     },
                     body: JSON.stringify({
-                        model: process.env.OPENAI_MODEL || 'gpt-3.5-turbo',
+                        model: process.env.OPENAI_MODEL || 'gpt-4o',
                         messages,
-                        max_tokens: 500,
-                        temperature: 0.4
+                        max_tokens: 1500,
+                        temperature: 0.2
                     })
                 });
                 const oaiData = await oaiRes.json();

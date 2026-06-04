@@ -314,7 +314,16 @@ const UAF_KNOWLEDGE_BASE = [
     answer: 'The UAF Benevolent Fund provides educational grants to children of UAF employees, orphans, and students facing extreme financial hardship. Monthly stipend: Rs 1,500–3,000. Grants are also available for examination fees and educational supplies. Apply with a formal application, death/disability certificate (if applicable), and income statement to the Benevolent Fund Office in the Admin Block.'
   },
 
-  // ── FACILITIES (5) ───────────────────────────────────────────────────────────
+  // ── GENERAL (1) ──────────────────────────────────────────────────────────────
+  {
+    id: 'gen-001',
+    category: 'General',
+    keywords: ['uaf','university','established','history','about uaf','ranking','location','faisalabad','founded','overview','what is uaf'],
+    question: 'What is the University of Agriculture Faisalabad (UAF)?',
+    answer: 'The University of Agriculture Faisalabad (UAF) is Pakistan\'s premier agricultural university, established in 1906 as Punjab Agricultural College. Located in Faisalabad, Punjab, UAF is spread over 1,800+ acres and has 6 faculties, 50+ departments, and 60+ undergraduate and graduate programs. UAF is ranked among the top universities in Pakistan and internationally recognized for agriculture research. Main phone: +92-41-9200161 | Website: web.uaf.edu.pk | Coordinates: 31.4502°N, 73.0665°E.'
+  },
+
+  // ── FACILITIES (8) ───────────────────────────────────────────────────────────
   {
     id: 'fac-001',
     category: 'Facilities',
@@ -349,6 +358,28 @@ const UAF_KNOWLEDGE_BASE = [
     keywords: ['sports complex','cricket','football','gym','swimming pool','sports'],
     question: 'What facilities are available at UAF Sports Complex?',
     answer: 'UAF Sports Complex (East Campus) offers: Cricket ground (international standard), Football & hockey fields, Tennis courts (6), Badminton hall, Basketball courts, Swimming pool (Olympic-size), Gymnasium (weight training + cardio), Athletics track (400m). Open 6 AM–10 PM daily. All facilities are FREE for registered UAF students. Contact Sports Department: Ext. 4500.'
+  },
+
+  {
+    id: 'fac-006',
+    category: 'Facilities',
+    keywords: ['cafeteria','canteen','food','dining','eat','meal','restaurant','student center','dhaba','lunch','breakfast','dinner'],
+    question: 'Where are the cafeterias and food options on UAF campus?',
+    answer: 'UAF has several cafeterias and food options: (1) Main Cafeteria — Student Center, ground floor, open 7 AM–10 PM, serves breakfast, lunch, and dinner at subsidized student rates. (2) CS Block Cafeteria — near CS&IT Department. (3) Faculty of Agriculture Cafeteria — near the Agri Block. (4) Multiple tea/snack stalls throughout campus. Hostel residents eat in their block mess (3 meals/day included in boarder fee). All prices are student-friendly.'
+  },
+  {
+    id: 'fac-007',
+    category: 'Facilities',
+    keywords: ['transport','bus','shuttle','conveyance','wagon','route','commute','vehicle','traveling','pick drop','bus service','bus route'],
+    question: 'What is the transport or bus service at UAF for students?',
+    answer: 'UAF operates a student bus service covering major areas of Faisalabad city. Routes cover Ghulam Muhammad Abad, Peoples Colony, Jinnah Colony, Samanabad, and other key areas. Monthly pass: Rs 800–1,500 depending on route distance. Buses depart from the Main Gate at fixed morning and evening timings. Contact the Transport Office (Ext. 5002) for current route schedule and pass registration. Day scholars can also use Suzuki wagons and rickshaws available near the Main Gate.'
+  },
+  {
+    id: 'fac-008',
+    category: 'Facilities',
+    keywords: ['wifi','internet','network','PERN','connection','online','wireless','broadband','wi-fi','connectivity'],
+    question: 'Is there WiFi and internet access on UAF campus?',
+    answer: 'Yes, UAF campus has high-speed WiFi through the PERN (Pakistan Education and Research Network) fiber network. WiFi hotspots are available across academic blocks, the library, hostels, and the student center. Login using your UAF Student ID and password. The library offers the fastest and most stable connection. For IT support or login issues, contact the IT Help Desk: it@uaf.edu.pk or Ext. 250.'
   },
 
   // ── EVENTS (6) ───────────────────────────────────────────────────────────────
@@ -430,6 +461,78 @@ const UAF_KNOWLEDGE_BASE = [
     keywords: ['computing society','hackathon','coding','programming','tech competition','CS society'],
     question: 'What is the UAF Computing Society and its events?',
     answer: 'UAF Computing Society organizes hackathons, coding competitions, tech workshops, and industrial visits for CS/IT students. Annual flagship event: "TechFest UAF" (held in October). Activities: app development competitions, cybersecurity workshops, AI/ML seminars, and gaming tournaments. Membership open to all students. Email: computing.uaf@gmail.com or visit the CS Department Seminar Hall every Thursday 4 PM.'
+  },
+
+  // ── FACULTY MEMBERS (10) ─────────────────────────────────────────────────────
+  {
+    id: 'fac-mem-001',
+    category: 'Faculty Members',
+    keywords: ['vice chancellor','VC','prof zulfiqar','zulfiqar ali','rector','head of university','UAF leadership'],
+    question: 'Who is the Vice Chancellor of UAF?',
+    answer: 'Vice Chancellor of UAF: Prof. Dr. Zulfiqar Ali\n• Qualification: PhD (Plant Breeding)\n• Research areas: Crop Genetics, Plant Biotechnology, Sustainable Agriculture\n• Contact: vc@uaf.edu.pk | Phone: +92-41-9200161 Ext. 200\n• Appointment: Mon–Thu 10 AM–12 PM and 2 PM–4 PM (by prior booking)\n• Book appointment at: outlook.office.com/book/ViceChancellorUAF\n• Personal Secretary: Ext. 201'
+  },
+  {
+    id: 'fac-mem-002',
+    category: 'Faculty Members',
+    keywords: ['CS department faculty','computer science faculty','CS professors','CS teachers','Dr Saqib','CS chairman','computer science staff'],
+    question: 'Who are the faculty members of the CS Department at UAF?',
+    answer: 'Faculty of the CS & IT Department, UAF:\n\n**Chairman:** Dr. Saqib Ali\n• Email: cs@uaf.edu.pk | Phone: Ext. 2550\n\n**Senior Faculty:**\n• Dr. Muhammad Arshad — AI & Machine Learning\n• Dr. Saira Gillani — Software Engineering, HCI\n• Dr. Aun Irtaza — Computer Vision, Image Processing\n• Dr. Kashif Zafar — Cybersecurity, Networks\n• Dr. Haroon Ur Rashid — Data Science, Big Data\n\n**Lecturers & Assistant Professors:**\n• Mr. Usman Ali — Web Technologies, Programming\n• Ms. Zara Baig — Database Systems, OOP\n• Mr. Bilal Ahmed — Cloud Computing, DevOps\n\n**Location:** CS & IT Building, near Engineering Block, Main Campus\n**Office hours:** 8:30 AM – 4:30 PM (Mon–Fri)\n**Email:** cs@uaf.edu.pk | **Phone:** +92-41-9200161 Ext. 2550'
+  },
+  {
+    id: 'fac-mem-003',
+    category: 'Faculty Members',
+    keywords: ['agriculture faculty','agri professors','agri department staff','dean agriculture','Faculty of Agriculture teachers'],
+    question: 'Who are the faculty members of the Faculty of Agriculture at UAF?',
+    answer: 'Faculty of Agriculture — Key Faculty Members:\n\n**Dean:** Prof. Dr. Hafiz Muhammad Rashid (agri.dean@uaf.edu.pk)\n\n**Agronomy Department:**\n• Prof. Dr. Ejaz Ahmad Khan — Crop Physiology, Wheat Research\n• Dr. Shakeel Ahmad — Sustainable Farming, Soil Management\n\n**Plant Pathology:**\n• Prof. Dr. Muhammad Javed Iqbal — Fungal Diseases, Plant Virology\n\n**Soil Science:**\n• Prof. Dr. Muhammad Arif — Soil Fertility, Nutrient Management\n\n**Horticulture:**\n• Dr. Aftab Ahmad Anjum — Fruit Production, Post-Harvest Technology\n\n**Plant Breeding & Genetics:**\n• Prof. Dr. Muhammad Aslam — Wheat & Cotton Breeding\n\n**Entomology:**\n• Dr. Asim Gulzar — Integrated Pest Management\n\n**Location:** Agriculture Block, Main Campus\n**Email:** agri.dean@uaf.edu.pk | **Phone:** +92-41-9200161'
+  },
+  {
+    id: 'fac-mem-004',
+    category: 'Faculty Members',
+    keywords: ['vet faculty','veterinary professors','DVM faculty','vet science staff','Faculty of Veterinary teachers','animal science faculty'],
+    question: 'Who are the faculty members of the Faculty of Veterinary Sciences at UAF?',
+    answer: 'Faculty of Veterinary Sciences — Key Faculty Members:\n\n**Dean:** Prof. Dr. Masood Rabbani\n• Email: vet@uaf.edu.pk | Phone: +92-41-9200161\n\n**Key Professors:**\n• Prof. Dr. Rana Muhammad Ayyub — Veterinary Anatomy\n• Prof. Dr. Tahir Yaqoob — Animal Physiology & Biochemistry\n• Prof. Dr. Muhammad Ashraf — Veterinary Pathology\n• Dr. Muhammad Uzair — Veterinary Pharmacology\n• Prof. Dr. Aqeel Ahmad — Veterinary Surgery & Clinical Practice\n• Dr. Mian Muhammad Awais — Veterinary Microbiology & Parasitology\n• Dr. Syed Ehtisham-ul-Haque — Animal Reproduction\n\n**Teaching Hospital:** Located on East side of main campus, open Mon–Sat for clinical training.\n**Email:** vet@uaf.edu.pk | **Phone:** +92-41-9200161'
+  },
+  {
+    id: 'fac-mem-005',
+    category: 'Faculty Members',
+    keywords: ['FAET faculty','engineering faculty','agri engineering professors','engineering department staff','faculty of engineering teachers'],
+    question: 'Who are the faculty members of the Faculty of Agricultural Engineering (FAET) at UAF?',
+    answer: 'Faculty of Agricultural Engineering & Technology (FAET) — Key Faculty:\n\n**Dean:** Prof. Dr. Muhammad Adil Munir\n• Email: faet@uaf.edu.pk\n\n**Key Faculty Members:**\n• Prof. Dr. Muhammad Azam Khan — Farm Machinery & Power\n• Dr. Anjum Munir — Irrigation & Drainage Engineering\n• Dr. Muhammad Tahir Amin — Food Process Engineering\n• Dr. Rashid Mateen — Renewable Energy & Solar Systems\n• Dr. Adnan Khalid — Precision Agriculture, Sensors\n• Mr. Shahbaz Latif — Structural Engineering, Construction\n\n**Location:** FAET Complex near Workshop & Lab, Main Campus\n**Email:** faet@uaf.edu.pk | **Phone:** +92-41-9200161'
+  },
+  {
+    id: 'fac-mem-006',
+    category: 'Faculty Members',
+    keywords: ['food science faculty','nutrition faculty','home economics faculty','FFNHS professors','food department staff'],
+    question: 'Who are the faculty members of the Faculty of Food, Nutrition & Home Sciences at UAF?',
+    answer: 'Faculty of Food, Nutrition & Home Sciences (FFNHS) — Key Faculty:\n\n**Dean:** Prof. Dr. Masood Sadiq Butt\n• Specialization: Functional Foods, Nutraceuticals\n• Email: foods@uaf.edu.pk\n\n**Key Faculty:**\n• Prof. Dr. Zarina Mushtaq — Human Nutrition & Dietetics\n• Dr. Faqir Muhammad Anjum — Food Chemistry & Technology\n• Dr. Amna Sahar — Food Quality & Safety\n• Dr. Rabia Shabir Ahmad — Nutritional Biochemistry\n• Ms. Ambreen Naz — Home Economics, Textile Technology\n\n**Location:** Home Economics Building, South Campus\n**Email:** foods@uaf.edu.pk | **Phone:** +92-41-9200161'
+  },
+  {
+    id: 'fac-mem-007',
+    category: 'Faculty Members',
+    keywords: ['social sciences faculty','economics professors','sociology faculty','Faculty of Social Sciences staff','mass communication faculty'],
+    question: 'Who are the faculty members of the Faculty of Social Sciences at UAF?',
+    answer: 'Faculty of Social Sciences — Key Faculty Members:\n\n**Dean:** Prof. Dr. Khalid Mahmood\n• Email: socsci@uaf.edu.pk\n\n**Key Faculty:**\n• Prof. Dr. Abid Niaz — Agricultural Economics, Rural Finance\n• Dr. Hina Fatima — Rural Sociology, Community Development\n• Dr. Adeel Ahmad — Mass Communication, Media Studies\n• Dr. Farooq Anwar — Extension Education, Training & Development\n• Dr. Shaukat Ali — Development Economics, Poverty Studies\n• Ms. Iqra Hamid — Sociology, Gender Studies\n\n**Location:** Social Sciences Block, near Girls Hostels\n**Email:** socsci@uaf.edu.pk | **Phone:** +92-41-9200161'
+  },
+  {
+    id: 'fac-mem-008',
+    category: 'Faculty Members',
+    keywords: ['IBMS faculty','business faculty','BBA faculty','management sciences professors','MBA faculty','IBMS staff'],
+    question: 'Who are the faculty members of IBMS (Business School) at UAF?',
+    answer: 'Institute of Business Management Sciences (IBMS) — Key Faculty:\n\n**Director:** Prof. Dr. Sarfraz Hassan\n• Email: ibms@uaf.edu.pk | Phone: Ext. 2700\n\n**Key Faculty:**\n• Prof. Dr. Imran Sharif Chaudhry — Agricultural Finance, Islamic Banking\n• Dr. Faisal Mustafa — Marketing, Consumer Behavior\n• Dr. Asif Javed — Human Resource Management, Organizational Behavior\n• Dr. Farrukh Sarfraz — Strategic Management, Entrepreneurship\n• Dr. Nousheen Tariq — Accounting, Financial Management\n• Mr. Umer Iqbal — Business Analytics, Operations Research\n\n**Location:** IBMS Building, near Main Gate\n**Email:** ibms@uaf.edu.pk | **Phone:** +92-41-9200161 Ext. 2700'
+  },
+  {
+    id: 'fac-mem-009',
+    category: 'Faculty Members',
+    keywords: ['arts faculty','English faculty','Urdu faculty','humanities professors','arts department staff','Faculty of Arts teachers'],
+    question: 'Who are the faculty members of the Faculty of Arts & Humanities at UAF?',
+    answer: 'Faculty of Arts & Humanities — Key Faculty:\n\n**Dean:** Prof. Dr. Sadia Anayat\n• Email: arts@uaf.edu.pk\n\n**Department of English:**\n• Prof. Dr. Muhammad Ajmal Chaudhry — Applied Linguistics, Literature\n• Dr. Arooj Nasim — English Literature, Creative Writing\n• Ms. Rabia Umar — Language Teaching, Communication Skills\n\n**Department of Urdu:**\n• Prof. Dr. Nasreen Ishaq — Urdu Literature & Poetry\n• Dr. Tariq Mehmood — Classical Urdu, Iqbaliat\n\n**Department of Islamic Studies:**\n• Dr. Muhammad Riaz — Islamic Ethics, Comparative Religion\n\n**Location:** Arts & Humanities Block, Main Campus\n**Email:** arts@uaf.edu.pk | **Phone:** +92-41-9200161'
+  },
+  {
+    id: 'fac-mem-010',
+    category: 'Faculty Members',
+    keywords: ['registrar','treasurer','controller exams','admin staff','admin officers','administrative staff','key officials'],
+    question: 'Who are the key administrative officials at UAF?',
+    answer: 'Key Administrative Officials at UAF:\n\n• **Vice Chancellor:** Prof. Dr. Zulfiqar Ali | vc@uaf.edu.pk | Ext. 200\n• **Registrar:** Dr. Muhammad Akhtar | registrar@uaf.edu.pk | Ext. 301\n• **Treasurer:** Mr. Rana Shahbaz | treasurer@uaf.edu.pk | Ext. 2300\n• **Controller of Examinations:** Dr. Zia-ul-Haq | exams@uaf.edu.pk | Ext. 2400\n• **Director Admissions:** Dr. Munsif Ali | admissions@uaf.edu.pk | Ext. 302\n• **Chief Librarian:** Dr. Hamid Iqbal | library@uaf.edu.pk | Ext. 3301\n• **Director IT:** Mr. Imran Zafar | it@uaf.edu.pk | Ext. 250\n• **Chief Security Officer:** Col. (R) Tariq | security@uaf.edu.pk | Ext. 5001\n• **Medical Officer:** Dr. Irfan Bashir | health@uaf.edu.pk | Ext. 7100\n• **Chief Warden (Hostels):** Dr. Nasir Khan | hostelboys@uaf.edu.pk | Ext. 310\n\nAll offices located in the Admin Block, Main Campus. Working hours: Mon–Fri 8:30 AM – 4:00 PM.'
   },
 
   // ── CONTACTS (5) ─────────────────────────────────────────────────────────────

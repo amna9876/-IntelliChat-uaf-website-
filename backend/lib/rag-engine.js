@@ -9,8 +9,53 @@ const STOP_WORDS = new Set([
     'not','but','if','so','as','up','all','any','get','did','had','him','her','his',
     'us','into','than','then','also','no','yes','want','need','please','give','some',
     'more','like','just','very','much','too','also','only','even','such','each','per',
-    'available','provide','provided','offers','offered','there'
+    'available','provide','provided','offers','offered','there','ok','am','pm','go'
 ]);
+
+// Greeting/intro detection
+const GREETING_SET = new Set([
+    'hi','hello','hey','salam','salaam','aoa','assalam','assalamualaikum',
+    'hola','greetings','howdy','yo','sup'
+]);
+
+const HELP_PATTERNS = [
+    /^(what|how) can (you|i)/i,
+    /what do you (know|cover|offer|help)/i,
+    /what (topics|things|questions|info|information)/i,
+    /help me$/i,
+    /^help$/i,
+    /capabilities/i,
+    /^(menu|options)$/i,
+    /how are you/i,
+    /good (morning|afternoon|evening|day)/i,
+];
+
+const GREETING_RESPONSE =
+    "Hello! I'm UAF IntelliChat — your AI assistant for the University of Agriculture Faisalabad. 👋\n\n" +
+    "I can help you with:\n" +
+    "• **Admissions** — programs, entry tests, merit criteria\n" +
+    "• **Fees** — semester fees, vouchers, scholarships\n" +
+    "• **Hostels** — how to apply, facilities, warden contacts\n" +
+    "• **Departments** — faculties, contacts, programs offered\n" +
+    "• **Exams** — date sheets, results, rechecking\n" +
+    "• **Scholarships** — Honhaar, HDF, need-based aid\n" +
+    "• **Facilities** — library, health center, sports, cafeteria, WiFi\n" +
+    "• **Transport** — campus bus routes and passes\n" +
+    "• **Events & Societies** — Jashn-e-Bahara, Gur Mela, clubs\n\n" +
+    "Just ask me anything about UAF! 🌿";
+
+function isGreeting(query) {
+    const q = query.toLowerCase().trim().replace(/[!.,?]+$/, '');
+    if (GREETING_SET.has(q)) return true;
+    // starts with a greeting word
+    for (const g of GREETING_SET) {
+        if (q.startsWith(g + ' ') || q.startsWith(g + ',')) return true;
+    }
+    for (const pat of HELP_PATTERNS) {
+        if (pat.test(q)) return true;
+    }
+    return false;
+}
 
 /**
  * FR02 — Retrieval-Augmented Generation engine
@@ -18,23 +63,34 @@ const STOP_WORDS = new Set([
  */
 function retrieveContext(userQuery) {
     const query = userQuery.toLowerCase().trim();
-    const queryWords = query.split(/\s+/).filter(w => w.length > 2 && !STOP_WORDS.has(w));
+    // Allow 2-char words so abbreviations like "CS", "VC", "BS" are kept
+    const queryWords = query.split(/\s+/).filter(w => w.length > 1 && !STOP_WORDS.has(w));
+
+    if (queryWords.length === 0) return [];
 
     const scored = UAF_KNOWLEDGE_BASE.map(entry => {
         let score = 0;
 
-        // +3 per matching keyword
+        // +3 per matching keyword (query contains the keyword phrase)
+        // +1 if a query word appears inside a keyword (partial / stem match)
         entry.keywords.forEach(kw => {
-            if (query.includes(kw.toLowerCase())) score += 3;
+            const kwLower = kw.toLowerCase();
+            if (query.includes(kwLower)) {
+                score += 3;
+            } else {
+                queryWords.forEach(word => {
+                    if (word.length > 2 && kwLower.includes(word)) score += 1;
+                });
+            }
         });
 
-        // +5 if query words appear in the question
+        // +5 if query words appear in the question text
         const q = entry.question.toLowerCase();
         queryWords.forEach(word => {
             if (q.includes(word)) score += 5;
         });
 
-        // +2 if query words appear in the answer
+        // +2 if query words appear in the answer text
         const a = entry.answer.toLowerCase();
         queryWords.forEach(word => {
             if (a.includes(word)) score += 2;
@@ -46,7 +102,7 @@ function retrieveContext(userQuery) {
     return scored
         .filter(s => s.score > 0)
         .sort((a, b) => b.score - a.score)
-        .slice(0, 3)
+        .slice(0, 5)
         .map(s => s.entry);
 }
 
@@ -69,12 +125,20 @@ function buildRAGPrompt(userQuery, retrievedContext, conversationHistory = []) {
     return [
         {
             role: 'system',
-            content: `You are UAF IntelliChat, the official AI chatbot for University of Agriculture Faisalabad (UAF), Pakistan.
-Answer ONLY using the knowledge provided below. Be concise, friendly, and accurate.
-Do NOT make up information not present in the knowledge base.
-If the user's specific sub-question is not fully covered, say what you know and suggest contacting UAF directly.
+            content: `You are UAF IntelliChat, the official AI assistant for the University of Agriculture Faisalabad (UAF), Pakistan. You have been given specific UAF knowledge below.
 
-KNOWLEDGE BASE:
+STRICT RULES — FOLLOW EVERY ONE:
+1. NEVER give a one-line or vague answer. Every response must be thorough and specific.
+2. ALWAYS extract and present every fact from the knowledge base that is relevant: exact names, phone extensions, email addresses, fee amounts, locations, timings, deadlines, eligibility criteria — state them all explicitly.
+3. USE clear formatting: numbered lists, bullet points, bold section headings. Make the answer easy to scan.
+4. If the student asks about a person (faculty, official), give their full name, title, specialization, email, phone, and office location.
+5. If the student asks about a process (apply, pay, register), give every step in order, with portals/links and deadlines.
+6. If the student asks about fees, give the exact amounts broken down by program/category.
+7. COMBINE all relevant knowledge base entries into one unified answer — never split it across messages.
+8. NEVER say "I don't have details" if the information exists in the knowledge base below.
+9. End every answer with a helpful tip or the relevant UAF contact (email + extension) so the student knows exactly who to reach for follow-up.
+
+UAF KNOWLEDGE BASE (use ALL relevant entries):
 ${contextBlock}
 
 ${historyBlock ? `RECENT CONVERSATION:\n${historyBlock}` : ''}`
@@ -101,12 +165,17 @@ function isLowConfidence(retrievedContext) {
 function buildDirectAnswer(retrievedContext) {
     if (!retrievedContext || retrievedContext.length === 0) return null;
     const best = retrievedContext[0];
-    const extras = retrievedContext.slice(1, 3);
-    let answer = best.answer;
-    if (extras.length > 0) {
-        answer += '\n\n' + extras.map(e => `Also: ${e.answer}`).join('\n\n');
+    let answer = `**${best.question}**\n\n${best.answer}`;
+    const seen = new Set([best.category + best.question]);
+    for (let i = 1; i < retrievedContext.length; i++) {
+        const entry = retrievedContext[i];
+        const key = entry.category + entry.question;
+        if (!seen.has(key)) {
+            seen.add(key);
+            answer += `\n\n---\n**${entry.question}**\n\n${entry.answer}`;
+        }
     }
     return answer;
 }
 
-module.exports = { retrieveContext, buildRAGPrompt, isLowConfidence, buildDirectAnswer };
+module.exports = { retrieveContext, buildRAGPrompt, isLowConfidence, buildDirectAnswer, isGreeting, GREETING_RESPONSE };
