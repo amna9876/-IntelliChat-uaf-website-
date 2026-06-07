@@ -78,7 +78,7 @@ router.post('/', async (req, res) => {
                         model: process.env.OPENAI_MODEL || 'gpt-4o',
                         messages,
                         max_tokens: 1500,
-                        temperature: 0.2
+                        temperature: 0.3
                     })
                 });
                 const oaiData = await oaiRes.json();
