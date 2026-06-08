@@ -5,6 +5,8 @@ v<!DOCTYPE html>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>University of Agriculture Faisalabad | UAF Campus Portal</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -150,13 +152,23 @@ v<!DOCTYPE html>
         .location-name { font-weight: 600; font-size: 0.88rem; color: var(--dark); }
         .location-cat { font-size: 0.75rem; color: var(--gray); }
         .map-display { display: flex; flex-direction: column; }
-        #uafMapEmbed { height: 430px; width: 100%; border: none; display: block; }
-        #mapDetail { padding: 18px 25px; border-top: 1px solid #eee; background: white; }
-        #mapDetail h3 { font-size: 1.1rem; margin-bottom: 8px; color: var(--primary-dark); }
-        #mapDetail p { font-size: 0.9rem; margin-bottom: 6px; }
-        #mapDetail .directions-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 600; text-decoration: none; font-size: 0.9rem; }
-        #mapDetail .directions-btn:hover { text-decoration: underline; }
+        #uafLeafletMap { height: 430px; width: 100%; z-index: 1; }
+        .leaflet-container { font-family: 'Inter', sans-serif !important; }
+        .leaflet-popup-content-wrapper { border-radius: 10px !important; box-shadow: 0 4px 16px rgba(0,0,0,0.18) !important; }
+        .leaflet-popup-content { font-size: 0.88rem; line-height: 1.5; margin: 10px 14px; }
+        #mapDetail { padding: 16px 22px; border-top: 1px solid #eee; background: white; display: flex; align-items: center; justify-content: space-between; gap: 12px; flex-wrap: wrap; }
+        #mapDetail h3 { font-size: 1rem; margin-bottom: 4px; color: var(--primary-dark); }
+        #mapDetail p { font-size: 0.85rem; margin-bottom: 0; color: var(--gray); }
+        #mapDetail .directions-btn { display: inline-flex; align-items: center; gap: 6px; color: var(--primary); font-weight: 600; text-decoration: none; font-size: 0.85rem; white-space: nowrap; background: rgba(10,92,54,0.07); padding: 8px 14px; border-radius: 20px; transition: all 0.2s; }
+        #mapDetail .directions-btn:hover { background: var(--primary); color: white; }
         .location-category-filter { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: 12px; }
+        /* Campus overview strip */
+        .campus-overview-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(210px, 1fr)); gap: 16px; margin-bottom: 28px; }
+        .campus-ov-card { background: white; border-radius: 12px; padding: 18px 20px; box-shadow: var(--card-shadow); display: flex; align-items: flex-start; gap: 14px; }
+        .campus-ov-icon { width: 40px; height: 40px; border-radius: 10px; background: rgba(10,92,54,0.1); display: flex; align-items: center; justify-content: center; color: var(--primary); font-size: 1.1rem; flex-shrink: 0; }
+        .campus-ov-card strong { display: block; font-size: 0.82rem; color: var(--gray); text-transform: uppercase; letter-spacing: 0.5px; margin-bottom: 3px; }
+        .campus-ov-card span, .campus-ov-card a { font-size: 0.92rem; font-weight: 600; color: var(--dark); text-decoration: none; }
+        .campus-ov-card a:hover { color: var(--primary); }
         .cat-filter-btn { padding: 4px 10px; border-radius: 20px; border: 1px solid var(--light-gray); background: white; font-size: 0.75rem; cursor: pointer; transition: all 0.2s; color: var(--gray); }
         .cat-filter-btn.active, .cat-filter-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
@@ -298,6 +310,7 @@ v<!DOCTYPE html>
             nav ul.show { display: flex; }
             nav ul li { margin: 10px 0; text-align: center; }
             .mobile-menu-btn { display: block; }
+            #portalBtn { padding: 8px 16px; font-size: 0.82rem; }
             .about-content { grid-template-columns: 1fr; }
             .about-image-section { height: 300px; }
             .mission-vision { grid-template-columns: 1fr; }
@@ -336,6 +349,7 @@ v<!DOCTYPE html>
 
         /* Small mobile (≤576px) */
         @media (max-width: 576px) {
+            #portalBtn { padding: 6px 12px; font-size: 0.75rem; }
             .hero h1 { font-size: 2rem; }
             .hero p { font-size: 1rem; }
             .hero-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
@@ -973,8 +987,41 @@ v<!DOCTYPE html>
         <div class="container">
             <div class="section-title animate-on-scroll">
                 <h2>Campus Maps &amp; Locations</h2>
-                <p>Explore our 1,200-acre campus — click any location to zoom in on the map.</p>
+                <p>Explore UAF's 1,800-acre campus — click any location in the list to zoom in on the map.</p>
             </div>
+
+            <!-- Campus Overview Strip -->
+            <div class="campus-overview-strip animate-on-scroll">
+                <div class="campus-ov-card">
+                    <div class="campus-ov-icon"><i class="fas fa-map-marker-alt"></i></div>
+                    <div>
+                        <strong>Address</strong>
+                        <span>University of Agriculture, Faisalabad — 38040, Punjab, Pakistan</span>
+                    </div>
+                </div>
+                <div class="campus-ov-card">
+                    <div class="campus-ov-icon"><i class="fas fa-phone-alt"></i></div>
+                    <div>
+                        <strong>Main Switchboard</strong>
+                        <span>+92-41-9200161 to 70</span>
+                    </div>
+                </div>
+                <div class="campus-ov-card">
+                    <div class="campus-ov-icon"><i class="fas fa-globe"></i></div>
+                    <div>
+                        <strong>Official Website</strong>
+                        <a href="https://web.uaf.edu.pk" target="_blank" rel="noopener">web.uaf.edu.pk</a>
+                    </div>
+                </div>
+                <div class="campus-ov-card">
+                    <div class="campus-ov-icon"><i class="fas fa-compass"></i></div>
+                    <div>
+                        <strong>Coordinates</strong>
+                        <span>31.4502°N, 73.0665°E</span>
+                    </div>
+                </div>
+            </div>
+
             <div class="map-container animate-on-scroll">
                 <div class="map-header">
                     <div>
@@ -1075,16 +1122,14 @@ v<!DOCTYPE html>
                         </ul>
                     </div>
                     <div class="map-display">
-                        <iframe id="uafMapEmbed"
-                            src="https://maps.google.com/maps?q=31.4504,73.0651&z=16&output=embed"
-                            allowfullscreen="" loading="lazy"
-                            referrerpolicy="no-referrer-when-downgrade">
-                        </iframe>
+                        <div id="uafLeafletMap"></div>
                         <div id="mapDetail">
-                            <h3 id="locTitle">Central Library</h3>
-                            <p id="locDesc">Open 24/7 during exams. 200,000+ books, e-journals, WiFi, group study rooms. <strong>Ext. 3301</strong></p>
+                            <div>
+                                <h3 id="locTitle">Central Library</h3>
+                                <p id="locDesc">Open 24/7 during exams. 200,000+ books, e-journals, WiFi, group study rooms. 📞 Ext. 3301</p>
+                            </div>
                             <a href="#" id="directionsBtn" class="directions-btn" target="_blank" rel="noopener">
-                                <i class="fas fa-directions"></i> Get Directions on Google Maps
+                                <i class="fas fa-directions"></i> Get Directions
                             </a>
                         </div>
                     </div>
@@ -2035,57 +2080,113 @@ if ('webkitSpeechRecognition' in window || 'SpeechRecognition' in window) {
     voiceBtn.style.display = 'none';
 }
 
-// ── Campus Map (Google Maps embed — no API key needed) ────────────────────────
+// ── Campus Map (Leaflet + OpenStreetMap — no API key required) ───────────────
 const mapLocations = {
-    library:      { lat:31.4502, lng:73.0665, title:'Central Library',        cat:'academic', phone:'Ext. 3301',              desc:'Open 24/7 during exams. 200,000+ books, e-journals, WiFi, and group study rooms.' },
-    admin:        { lat:31.4498, lng:73.0658, title:'Administration Block',   cat:'admin',    phone:'Ext. 2000',              desc:'Houses VC Office, Registrar, and Treasurer. Hours: 8:30am–4:30pm.' },
-    vc_office:    { lat:31.4498, lng:73.0658, title:'VC Office',              cat:'admin',    phone:'+92-41-9200161 Ext. 200', desc:'Main Admin Block, UAF. VC: Prof. Dr. Zulfiqar Ali. Hours: Mon–Fri 9AM–4PM.' },
-    cafe:         { lat:31.4505, lng:73.0660, title:'Cafeterias',             cat:'services', phone:'',                       desc:'Main Cafeteria near Admin Block & Student Canteen near Hostels. Open 8AM–10PM.' },
-    exhibition:   { lat:31.4510, lng:73.0670, title:'Exhibition Centre',      cat:'events',   phone:'Ext. 9500',              desc:'East Campus. Capacity 2,000+. Annual Agri Expo (March) & Tech Fest (Oct).' },
-    photocopy:    { lat:31.4505, lng:73.0660, title:'Print & Copy Shop',      cat:'services', phone:'',                       desc:'Student Center, Ground Floor. Photocopy Rs 2/page. Open 8am–8pm.' },
-    sports:       { lat:31.4488, lng:73.0645, title:'Sports Complex',         cat:'sports',   phone:'Ext. 4500',              desc:'Cricket, football, tennis, swimming pool & gym. Open 6am–10pm daily. Free for students.' },
-    hostel:       { lat:31.4520, lng:73.0680, title:'Student Hostels',        cat:'housing',  phone:'+92-41-9200161 Ext. 310', desc:'Boys Hostels: North Campus. Girls Hostels: Near faculty building. 24/7 security.' },
-    medical:      { lat:31.4500, lng:73.0655, title:'Health Center',          cat:'health',   phone:'041-9200161 Ext. 7100',  desc:'24/7 emergency & OPD, pharmacy, ambulance. Free consultation for UAF students.' },
-    bank:         { lat:31.4510, lng:73.0640, title:'Main Gate & Bank',       cat:'services', phone:'',                       desc:'HBL Bank branch near Main Gate. ATMs: HBL, MCB, National Bank — 24/7.' },
-    registrar:    { lat:31.4498, lng:73.0658, title:'Registrar Office',       cat:'admin',    phone:'Ext. 301',               desc:'Admin Block. Transcripts, enrollment, degree certificates. 8:30am–4pm.' },
-    mosque:       { lat:31.4492, lng:73.0655, title:'Central Mosque',         cat:'worship',  phone:'',                       desc:'Open for all five daily prayers. Central campus. Capacity 1,000+.' },
-    boys_hostel_a:{ lat:31.4522, lng:73.0682, title:'Boys Hostel Block A',    cat:'housing',  phone:'Ext. 310',               desc:'North Campus residential area. Study halls, WiFi, 24/7 security.' },
-    boys_hostel_f:{ lat:31.4518, lng:73.0678, title:'Boys Hostel Block F',    cat:'housing',  phone:'Ext. 310',               desc:'North Campus residential area. Study halls, WiFi, 24/7 security.' },
-    girls_hostel: { lat:31.4515, lng:73.0690, title:'Girls Hostel',           cat:'housing',  phone:'Ext. 7002',              desc:'Secured North Campus area. Lady warden, mess, WiFi, 24/7 security.' },
-    cs_building:  { lat:31.4495, lng:73.0662, title:'CS & IT Building',       cat:'academic', phone:'Ext. 2550',              desc:'Faculty of CS & IT. BS CS, MS CS, PhD programs. Chairman: Dr. Saqib Ali.' },
-    engineering:  { lat:31.4490, lng:73.0648, title:'Engineering Block',      cat:'academic', phone:'',                       desc:'Faculty of Agricultural Engineering & Technology. Labs, tractor workshop.' },
-    hbl_bank:     { lat:31.4512, lng:73.0638, title:'HBL Bank Branch',        cat:'services', phone:'',                       desc:'Full HBL branch on campus. Fee payment, account opening. Mon–Fri 9AM–5PM.' },
-    dispensary:   { lat:31.4501, lng:73.0653, title:'Dispensary',             cat:'health',   phone:'Ext. 7100',              desc:'Campus dispensary. Free medicines for registered students. OPD 8AM–8PM.' },
+    library:       { lat:31.4502, lng:73.0665, title:'Central Library',         cat:'academic', phone:'Ext. 3301',               desc:'Open 24/7 during exams. 200,000+ books, e-journals, WiFi, and group study rooms.' },
+    admin:         { lat:31.4499, lng:73.0658, title:'Administration Block',    cat:'admin',    phone:'Ext. 2000',               desc:'Houses VC Office, Registrar, and Treasurer. Hours: 8:30am-4:30pm, Mon-Fri.' },
+    vc_office:     { lat:31.4498, lng:73.0656, title:'VC Office',               cat:'admin',    phone:'+92-41-9200161 Ext. 200', desc:'Main Admin Block. VC: Prof. Dr. Zulfiqar Ali. Appointments: Mon-Thu 10AM-12PM, 2-4PM.' },
+    cafe:          { lat:31.4506, lng:73.0661, title:'Cafeterias',              cat:'services', phone:'',                        desc:'Main Cafeteria near Admin Block & Student Canteen near Hostels. Open 7AM-10PM.' },
+    exhibition:    { lat:31.4511, lng:73.0671, title:'Exhibition Centre',       cat:'events',   phone:'Ext. 9500',               desc:'East Campus. Capacity 2,000+. Annual Agri Expo (March) & Tech Fest (October).' },
+    photocopy:     { lat:31.4505, lng:73.0660, title:'Print & Copy Shop',       cat:'services', phone:'',                        desc:'Student Center, Ground Floor. B&W copy Rs 2/page, color Rs 15/page. Open 8am-8pm.' },
+    sports:        { lat:31.4488, lng:73.0645, title:'Sports Complex',          cat:'sports',   phone:'Ext. 4500',               desc:'Cricket ground, football field, tennis courts, Olympic-size pool, gym. Open 6am-10pm.' },
+    hostel:        { lat:31.4520, lng:73.0680, title:'Student Hostels',         cat:'housing',  phone:'+92-41-9200161 Ext. 310', desc:'7 Boys Hostel blocks in North Campus. Girls Hostels near Social Sciences Block. 24/7 security.' },
+    medical:       { lat:31.4500, lng:73.0655, title:'Health Center',           cat:'health',   phone:'041-9200161 Ext. 7100',   desc:'OPD 8AM-8PM, 24/7 emergency, pharmacy, ambulance. Free consultation for UAF students.' },
+    bank:          { lat:31.4508, lng:73.0638, title:'Main Gate & HBL Bank',    cat:'services', phone:'',                        desc:'HBL Bank branch & ATMs near Main Gate. Fee payment, account opening. Mon-Fri 9AM-5PM.' },
+    registrar:     { lat:31.4497, lng:73.0657, title:'Registrar Office',        cat:'admin',    phone:'Ext. 301',                desc:'Ground Floor, Admin Block. Transcripts, enrollment, degree & character certificates. 8:30am-4pm.' },
+    mosque:        { lat:31.4492, lng:73.0655, title:'Central Mosque',          cat:'worship',  phone:'',                        desc:'Open for all five daily prayers. Central campus location. Capacity 1,000+ worshippers.' },
+    boys_hostel_a: { lat:31.4522, lng:73.0682, title:'Boys Hostel Block A',     cat:'housing',  phone:'Ext. 310',                desc:'North Campus residential area. WiFi, study halls, mess, 24/7 security & generator backup.' },
+    boys_hostel_f: { lat:31.4518, lng:73.0678, title:'Boys Hostel Block F',     cat:'housing',  phone:'Ext. 310',                desc:'North Campus residential area. WiFi, study halls, mess, 24/7 security & generator backup.' },
+    girls_hostel:  { lat:31.4515, lng:73.0690, title:'Girls Hostel',            cat:'housing',  phone:'Ext. 7002',               desc:'Secured North Campus area. Dedicated lady warden, mess, WiFi, 24/7 security.' },
+    cs_building:   { lat:31.4495, lng:73.0662, title:'CS & IT Building',        cat:'academic', phone:'Ext. 2550',               desc:'Faculty of CS & IT. BS/MS/PhD CS programs. CS Cafeteria & Seminar Hall inside.' },
+    engineering:   { lat:31.4490, lng:73.0648, title:'Engineering Block (FAET)',cat:'academic', phone:'',                        desc:'Faculty of Agricultural Engineering & Technology. Labs, workshops, tractor training area.' },
+    hbl_bank:      { lat:31.4508, lng:73.0638, title:'HBL Bank Branch',         cat:'services', phone:'',                        desc:'Full HBL branch on campus for fee payment, account opening, demand draft. Mon-Fri 9AM-5PM.' },
+    dispensary:    { lat:31.4501, lng:73.0653, title:'Dispensary',              cat:'health',   phone:'Ext. 7100',               desc:'Campus dispensary near Health Center. Free medicines for registered students. OPD 8AM-8PM.' },
 };
 
-function initGoogleMap() {
-    panToLocation('library');
+let uafMap = null;
+let leafletMarkers = {};
+let activeLocKey = 'library';
+
+function createPinIcon(active) {
+    const bg = active ? '#F9A826' : '#0A5C36';
+    const size = active ? 22 : 16;
+    return L.divIcon({
+        className: '',
+        html: '<div style="width:' + size + 'px;height:' + size + 'px;background:' + bg + ';border:3px solid white;border-radius:50%;box-shadow:0 2px 8px rgba(0,0,0,0.35);transition:all 0.3s"></div>',
+        iconSize: [size, size],
+        iconAnchor: [size / 2, size / 2],
+        popupAnchor: [0, -(size / 2 + 4)]
+    });
 }
 
-function updateLocationPanel(loc) {
+function initGoogleMap() {
+    if (uafMap) { uafMap.invalidateSize(); return; }
+
+    uafMap = L.map('uafLeafletMap', {
+        center: [31.4502, 73.0665],
+        zoom: 16,
+        zoomControl: true,
+        scrollWheelZoom: true
+    });
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: '© <a href="https://www.openstreetmap.org/copyright" target="_blank">OpenStreetMap</a> contributors',
+        maxZoom: 19
+    }).addTo(uafMap);
+
+    Object.entries(mapLocations).forEach(function(entry) {
+        var key = entry[0], loc = entry[1];
+        var marker = L.marker([loc.lat, loc.lng], { icon: createPinIcon(false) })
+            .addTo(uafMap)
+            .bindPopup(
+                '<strong style="color:#0A5C36;font-size:0.9rem">' + loc.title + '</strong>' +
+                (loc.phone ? '<br><small style="color:#6C757D">📞 ' + loc.phone + '</small>' : ''),
+                { maxWidth: 220, closeButton: false }
+            );
+        marker.on('click', (function(k) { return function() {
+            selectLocation(k);
+            locItems.forEach(function(i) { i.classList.remove('active'); });
+            var sidebarItem = document.querySelector('[data-location="' + k + '"]');
+            if (sidebarItem) {
+                sidebarItem.classList.add('active');
+                sidebarItem.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+            }
+        }; })(key));
+        leafletMarkers[key] = marker;
+    });
+
+    selectLocation('library');
+}
+
+function selectLocation(key) {
+    var loc = mapLocations[key];
+    if (!loc) return;
+    var prevKey = activeLocKey;
+    activeLocKey = key;
+
     document.getElementById('locTitle').textContent = loc.title;
     document.getElementById('locDesc').textContent = loc.desc + (loc.phone ? '  📞 ' + loc.phone : '');
-    const directionsBtn = document.getElementById('directionsBtn');
+    var directionsBtn = document.getElementById('directionsBtn');
     if (directionsBtn) {
-        directionsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${loc.lat},${loc.lng}&destination_place_id=ChIJq6qq6jaulkARMmHe1UaNqWc`;
+        directionsBtn.href = 'https://www.google.com/maps/dir/?api=1&destination=' + loc.lat + ',' + loc.lng;
     }
-    const mapEmbed = document.getElementById('uafMapEmbed');
-    if (mapEmbed) {
-        mapEmbed.src = `https://maps.google.com/maps?q=${loc.lat},${loc.lng}&z=18&output=embed`;
+
+    if (leafletMarkers[prevKey]) leafletMarkers[prevKey].setIcon(createPinIcon(false));
+    if (leafletMarkers[key])     leafletMarkers[key].setIcon(createPinIcon(true));
+
+    if (uafMap) {
+        uafMap.flyTo([loc.lat, loc.lng], 18, { animate: true, duration: 0.7 });
+        if (leafletMarkers[key]) leafletMarkers[key].openPopup();
     }
 }
 
-function panToLocation(key) {
-    const loc = mapLocations[key];
-    if (!loc) return;
-    updateLocationPanel(loc);
-}
+function panToLocation(key) { selectLocation(key); }
 
 locItems.forEach(item => {
     item.addEventListener('click', () => {
         locItems.forEach(i => i.classList.remove('active'));
         item.classList.add('active');
-        panToLocation(item.getAttribute('data-location'));
+        selectLocation(item.getAttribute('data-location'));
     });
 });
 

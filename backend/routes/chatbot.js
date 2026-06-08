@@ -2,8 +2,30 @@ const express = require('express');
 const router  = express.Router();
 const jwt     = require('jsonwebtoken');
 const { getDB } = require('../database/db');
-const { retrieveContext, buildRAGPrompt, isLowConfidence, buildDirectAnswer, isGreeting, GREETING_RESPONSE } = require('../lib/rag-engine');
+const { retrieveContext, retrieveContextScored, getTopScore, buildRAGPrompt, isLowConfidence, buildDirectAnswer, isGreeting, GREETING_RESPONSE } = require('../lib/rag-engine');
 const { UAF_KNOWLEDGE_BASE } = require('../lib/uaf-knowledge-base');
+
+// ── Tavily Web Search (live web-augmented RAG) ────────────────────────────────
+async function searchWeb(query) {
+    if (!process.env.TAVILY_API_KEY) return [];
+    try {
+        const res = await fetch('https://api.tavily.com/search', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+                api_key: process.env.TAVILY_API_KEY,
+                query: `UAF University of Agriculture Faisalabad ${query}`,
+                search_depth: 'basic',
+                max_results: 3,
+                include_domains: ['uaf.edu.pk', 'nts.org.pk', 'hec.gov.pk', 'pmln.org.pk'],
+                include_answer: true
+            })
+        });
+        if (!res.ok) return [];
+        const data = await res.json();
+        return data.results || [];
+    } catch (_) { return []; }
+}
 
 // In-memory session conversation history (last 10 messages per session)
 const sessionHistory = new Map();
@@ -54,19 +76,26 @@ router.post('/', async (req, res) => {
             return res.json({ success: true, response: GREETING_RESPONSE, escalated: false, context_used: [] });
         }
 
-        // ── RAG: Retrieve relevant context ──────────────────────────────────
-        const context = retrieveContext(message.trim());
+        // ── RAG: Retrieve relevant context with confidence score ─────────────
+        const scored  = retrieveContextScored(message.trim());
+        const context = scored.map(s => s.entry);
+        const topScore = getTopScore(scored);
+
+        // ── Web Search: trigger when KB match is weak or missing ─────────────
+        // topScore < 6 means the KB didn't find a confident match
+        const needsWeb = topScore < 6;
+        const webContext = needsWeb ? await searchWeb(message.trim()) : [];
 
         let response;
         let escalated = false;
 
-        if (isLowConfidence(context)) {
-            // FR04 — no match → escalate to human support
+        if (isLowConfidence(context) && webContext.length === 0) {
+            // FR04 — nothing in KB and no web results → escalate
             response  = ESCALATION_RESPONSE;
             escalated = true;
         } else if (process.env.OPENAI_API_KEY) {
-            // FR01 / FR02 — RAG + OpenAI
-            const messages = buildRAGPrompt(message.trim(), context, history);
+            // FR01 — Hybrid RAG: KB + optional web results → GPT-4o
+            const messages = buildRAGPrompt(message.trim(), context, history, webContext);
             try {
                 const oaiRes = await fetch('https://api.openai.com/v1/chat/completions', {
                     method: 'POST',
@@ -87,7 +116,7 @@ router.post('/', async (req, res) => {
                 response = buildDirectAnswer(context);
             }
         } else {
-            // FR02 — knowledge-base direct answer (no OpenAI key)
+            // FR02 — no OpenAI key: direct KB answer only
             response = buildDirectAnswer(context);
         }
 
@@ -115,7 +144,9 @@ router.post('/', async (req, res) => {
             success: true,
             response,
             escalated,
-            context_used: context.map(c => ({ id: c.id, category: c.category }))
+            context_used: context.map(c => ({ id: c.id, category: c.category })),
+            web_used: webContext.length > 0,
+            kb_confidence: topScore
         });
     } catch (err) {
         console.error('[Chatbot RAG]:', err);

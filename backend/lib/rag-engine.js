@@ -60,19 +60,16 @@ function isGreeting(query) {
 /**
  * FR02 — Retrieval-Augmented Generation engine
  * Retrieves the most relevant knowledge base entries for a user query.
+ * Returns entries with scores so callers can judge confidence.
  */
-function retrieveContext(userQuery) {
+function retrieveContextScored(userQuery) {
     const query = userQuery.toLowerCase().trim();
-    // Allow 2-char words so abbreviations like "CS", "VC", "BS" are kept
     const queryWords = query.split(/\s+/).filter(w => w.length > 1 && !STOP_WORDS.has(w));
-
     if (queryWords.length === 0) return [];
 
-    const scored = UAF_KNOWLEDGE_BASE.map(entry => {
+    return UAF_KNOWLEDGE_BASE.map(entry => {
         let score = 0;
 
-        // +3 per matching keyword (query contains the keyword phrase)
-        // +1 if a query word appears inside a keyword (partial / stem match)
         entry.keywords.forEach(kw => {
             const kwLower = kw.toLowerCase();
             if (query.includes(kwLower)) {
@@ -84,38 +81,45 @@ function retrieveContext(userQuery) {
             }
         });
 
-        // +5 if query words appear in the question text
         const q = entry.question.toLowerCase();
-        queryWords.forEach(word => {
-            if (q.includes(word)) score += 5;
-        });
+        queryWords.forEach(word => { if (q.includes(word)) score += 5; });
 
-        // +2 if query words appear in the answer text
         const a = entry.answer.toLowerCase();
-        queryWords.forEach(word => {
-            if (a.includes(word)) score += 2;
-        });
+        queryWords.forEach(word => { if (a.includes(word)) score += 2; });
 
         return { entry, score };
-    });
+    })
+    .filter(s => s.score > 0)
+    .sort((a, b) => b.score - a.score)
+    .slice(0, 5);
+}
 
-    return scored
-        .filter(s => s.score > 0)
-        .sort((a, b) => b.score - a.score)
-        .slice(0, 5)
-        .map(s => s.entry);
+function retrieveContext(userQuery) {
+    return retrieveContextScored(userQuery).map(s => s.entry);
+}
+
+function getTopScore(scoredResults) {
+    return scoredResults.length > 0 ? scoredResults[0].score : 0;
 }
 
 /**
  * FR03 — Build a RAG-enhanced prompt for the LLM (OpenAI).
- * Returns null when no context is found (triggers FR04 escalation).
+ * Accepts optional webContext (array of Tavily result objects) for hybrid RAG.
  */
-function buildRAGPrompt(userQuery, retrievedContext, conversationHistory = []) {
-    if (!retrievedContext || retrievedContext.length === 0) return null;
+function buildRAGPrompt(userQuery, retrievedContext, conversationHistory = [], webContext = []) {
+    const hasKB  = retrievedContext && retrievedContext.length > 0;
+    const hasWeb = webContext && webContext.length > 0;
+    if (!hasKB && !hasWeb) return null;
 
-    const contextBlock = retrievedContext
-        .map(e => `[${e.category}] Q: ${e.question}\nA: ${e.answer}`)
-        .join('\n\n');
+    const kbBlock = hasKB
+        ? `UAF KNOWLEDGE BASE (curated, always trust this first):\n` +
+          retrievedContext.map(e => `[${e.category}] Q: ${e.question}\nA: ${e.answer}`).join('\n\n')
+        : '';
+
+    const webBlock = hasWeb
+        ? `\nLIVE WEB RESULTS (use only to supplement KB, or when KB has no answer):\n` +
+          webContext.map(r => `[Source: ${r.url}]\n${(r.content || r.snippet || '').slice(0, 600)}`).join('\n\n')
+        : '';
 
     const historyBlock = conversationHistory
         .slice(-4)
@@ -127,20 +131,23 @@ function buildRAGPrompt(userQuery, retrievedContext, conversationHistory = []) {
             role: 'system',
             content: `You are IntelliChat — the official AI assistant for the University of Agriculture Faisalabad (UAF), Pakistan.
 
-Your ONLY knowledge source is the UAF knowledge base context provided below. You must NEVER give generic answers. You must NEVER answer from general internet knowledge.
+You answer questions about UAF using the context provided below. You have two context sources:
+1. UAF Knowledge Base — curated, highly accurate UAF-specific data. Always prefer this.
+2. Live Web Results — real-time search results. Use only when KB doesn't have the answer.
 
 STRICT RULES:
-1. Answer ONLY from the retrieved context chunks provided. If context contains the answer, give it precisely.
-2. If context does NOT contain the answer, say exactly: 'I don't have specific information about that in my UAF knowledge base. Please contact the relevant UAF department or visit uaf.edu.pk'
-3. NEVER say 'Generally universities offer...' or 'Most universities have...' — you are ONLY about UAF.
-4. Always use UAF-specific names, departments, offices, and contacts from the context.
-5. Keep answers concise but complete. Use bullet points for multiple items.
+1. Answer ONLY about UAF. Never give generic university answers.
+2. Prefer KB context over web results. Use web results only to fill gaps.
+3. If both KB and web have no relevant info, say: "I don't have that information. Please contact UAF directly at +92-41-9200161 or visit uaf.edu.pk"
+4. NEVER say "Generally universities offer..." — you are ONLY about UAF.
+5. Always cite UAF-specific names, departments, contacts from the context.
+6. Keep answers concise. Use bullet points for multiple items.
+7. If using a web source, briefly mention it (e.g. "According to uaf.edu.pk...").
 
-Retrieved UAF Context:
-${contextBlock}
+${kbBlock}${webBlock}
 ${historyBlock ? `\nRECENT CONVERSATION:\n${historyBlock}` : ''}
 
-User Question: ${userQuery}`
+Student Question: ${userQuery}`
         },
         {
             role: 'user',
@@ -177,4 +184,4 @@ function buildDirectAnswer(retrievedContext) {
     return answer;
 }
 
-module.exports = { retrieveContext, buildRAGPrompt, isLowConfidence, buildDirectAnswer, isGreeting, GREETING_RESPONSE };
+module.exports = { retrieveContext, retrieveContextScored, getTopScore, buildRAGPrompt, isLowConfidence, buildDirectAnswer, isGreeting, GREETING_RESPONSE };
